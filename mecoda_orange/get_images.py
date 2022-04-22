@@ -6,7 +6,7 @@ import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from mecoda_nat import get_obs, get_dfs
 
-class ObservationsWidget(OWBaseWidget):
+class ImagesWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
     name = "Get Images"
     # Short widget description
@@ -81,5 +81,5 @@ class ObservationsWidget(OWBaseWidget):
             #self.Outputs.sample.send("Sampled Data")
 
 if __name__ == "__main__":
-    WidgetPreview(ObservationsWidget).run()
+    WidgetPreview(ImagesWidget).run()
 
