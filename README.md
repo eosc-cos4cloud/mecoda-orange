@@ -5,7 +5,7 @@ Orange Data Mining Widgets to analyse data from science citizen observatories.
 
 This repository includes different Orange Data Mining widgets to access data from Natusfera and Odour Collect APIs. 
 
-## <img src="mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="100"/> Natusfera widget 
+## <img src="mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
 
 The widget collect observations from Natusfera API and allows filter them by:
 
@@ -42,7 +42,7 @@ The output is a Table with an image type feature that can be accessed using `Ima
 This widget takes a `Table` with observations (and a column with ids from Natusfera) and get extra information from Natusfera observations.
 
 
-## <img src="mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="100"/> OdourCollect widget 
+## <img src="mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 
 The Odour Collect widget allows to get observations from Odour Collect API. The widget looks like this:
 
