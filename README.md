@@ -48,9 +48,33 @@ The Odour Collect widget allows to get observations from Odour Collect API. The 
 
 <img src="mecoda_orange/icons/odour-collect-widget-2.png" alt="odour-collect-widget" width="250"/>
 
-The widget has different search fields: by date, by annoy level, by intensity level, by category and type. 
-And also the observations can be complemented with the distance from a Point of Interest, if this is set.
+The widget has different search fields: date, annoy level, intensity level, category and type. 
+Besides the observations can be complemented with the distance from a Point of Interest, if this is set.
 
-The output is a `Table` of observations.
+The output is a `Table` of observations, with this information:
+
+
+| field           	| description 	|
+|----------------	|------	|
+| user              | OdourCollect's user ID of the citizen that registered the observation.      |
+| date           	| Observation date in yyyy-mm-dd format.     	|
+| time           	| Observation time in HH:mm (24h) format, UTC timezone.     	|
+| week_day       	| Observation day of week. This field is extra data calculated by PyOdourCollect to help the analyst in finding patterns. Please bear in mind that this calculation is based on UTC, not local time, so it could be misleading in some edge cases.|
+| category       	| First tier of odour classification. In OdourCollect webapp, this is called "type". It provides complementary classification nuances that can be safely ignored for basic analysis. See the full table below for better understanding.  	|
+| type           	| Second tier of odour classification. In OdourCollect webapp, this is called "subtype". It provides the richest odour classification criteria. See the full table below for better understanding.     	|
+| hedonic_tone_n 	| Hedonic tone of odour observation (numeric representation). Hedonic tone is the subjective measurement of how annoyant an odour is, from -4 (`Extremely unpleasant`) to +4 (`Extremely pleasant`). Zero is used to report nor annoyance nor pleasure. This scale is based on the `VDI 3940:2006` standard for odour impact assessement.       	|
+| hedonic_tone_t 	| Text description version of the former metric.     	|
+| intensity_n    	| Intensity of odour observation (numeric representation). Intensity is the measurement of how intense and noticeable an odour is, from 1 (`Very weak`) to 6 (`Extremely strong`). Zero (`Not perceptible`) is also used, but only to report absence of odour in observations. This scale is based on the `VDI 3940:2006` standard for odour impact assessement.    	|
+| intensity_t    	| Text description version of the former metric.     	|
+| duration       	| Metric informing for how much time an odour has been perceived by reporter. Categorical text data with following self-explanatory options: `(No odour)`,`Punctual`,`Continuous in the last hour` and `Continuous throughout the day`       	|
+| latitude       	| GPS coordinates of observation. Latitude.      	|
+| longitude      	| GPS coordinates of observation. Longitude.     	|
+| distance       	| Distance in Kms (with an accuracy of 0.01 Kms.) between the point of observation and a configurable Point of Interest (POI). This extra data is calculated by PyOdourCollect when the data analyst provides a set of coordinates for a given suspicious activity that motivates his/her analysis. In case that no POI coordinates are provided, this field is missing.      	|
+| time_hour           	| Observation time in HH (24h) format, UTC timezone.     	|
+| time_mins           	| Observation time in mm (0-60') format, UTC timezone.     	|
+| time_secs           	| Observation time in ss (0-60'') format, UTC timezone.     	|
+
+
+
 
 
