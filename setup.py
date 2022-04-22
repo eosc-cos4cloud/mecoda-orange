@@ -37,7 +37,8 @@ setup(name="mecoda_orange",
       "flat_table >= 1.1.1",
       "mecoda-nat >= 0.5.8",
       "pandas >= 1.4.1",
-      "Orange3 >= 3.31.1"
+      "Orange3 >= 3.31.1",
+      "pyodourcollect >= 1.0.0"
       ],
       keywords=KEYWORDS,
       )
