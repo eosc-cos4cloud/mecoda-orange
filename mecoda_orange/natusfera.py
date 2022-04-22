@@ -8,10 +8,10 @@ from mecoda_nat import get_obs, get_dfs
 from typing import Optional, List
 import pandas as pd
 
-class ObservationsWidget(OWBaseWidget):
+class NatusferaWidget(OWBaseWidget):
     
     # Widget's name as displayed in the canvas
-    name = "MECODA-Nat"
+    name = "Natusfera"
     # Short widget description
     description = "Get observations from the Natusfera API"
 
@@ -248,5 +248,5 @@ class ObservationsWidget(OWBaseWidget):
         progress.finish()    
         
 if __name__ == "__main__":
-    WidgetPreview(ObservationsWidget).run()
+    WidgetPreview(NatusferaWidget).run()
 

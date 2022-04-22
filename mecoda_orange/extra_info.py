@@ -9,7 +9,7 @@ import requests
 import numpy as np
 
 
-class ObservationsWidget(OWBaseWidget):
+class ExtraInfoWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
     name = "Extra Info"
     # Short widget description
@@ -97,5 +97,5 @@ class ObservationsWidget(OWBaseWidget):
             #self.Outputs.sample.send("Sampled Data")
 
 if __name__ == "__main__":
-    WidgetPreview(ObservationsWidget).run()
+    WidgetPreview(ExtraInfoWidget).run()
 

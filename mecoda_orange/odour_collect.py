@@ -37,10 +37,10 @@ def get_type_from_category(choice):
     return set_items
 
 
-class ObservationsWidget(OWBaseWidget):
+class OdourCollectWidget(OWBaseWidget):
     
     # Widget's name as displayed in the canvas
-    name = "MECODA-OC"
+    name = "Odour Collect"
 
     # Short widget description
     description = "Get observations from Odour Collect API"
@@ -299,4 +299,4 @@ class ObservationsWidget(OWBaseWidget):
 
 # For developer purpose, allow running the widget directly with python
 if __name__ == "__main__":
-    WidgetPreview(ObservationsWidget).run()
+    WidgetPreview(OdourCollectWidget).run()
