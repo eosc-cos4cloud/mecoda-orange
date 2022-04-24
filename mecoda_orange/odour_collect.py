@@ -1,4 +1,5 @@
 
+from gc import callbacks
 from orangewidget.widget import OWBaseWidget, Output
 from orangewidget.settings import Setting
 from orangewidget import gui
@@ -9,7 +10,7 @@ import pandas as pd
 import pyodourcollect.ocmodels as ocmodels
 import pyodourcollect.occore as occore
 import datetime
-from pyodourcollect.ochelpers import TYPE_LIST
+from pyodourcollect.ochelpers import TYPE_LIST, CATEGORY_LIST
 from pyodourcollect.ocmodels import GPScoords
 
 
@@ -36,6 +37,21 @@ def get_type_from_category(choice):
     
     return set_items
 
+def get_subtype_from_correspondences(odour_type, odour_subtype):
+    correspondences = {
+        0: [i for i in range(1,90)],
+        1: [i for i in range(1,10)],
+        2: [i for i in range(10,16)],
+        3: [i for i in range(16,26)],
+        4: [i for i in range(26,44)],
+        5: [i for i in range(44,58)],
+        6: [i for i in range(58,74)],
+        7: [i for i in range(74,88)],
+        8: [89],
+        9: [88],
+    }
+    subtype = correspondences[odour_type][odour_subtype]
+    return subtype
 
 class OdourCollectWidget(OWBaseWidget):
     
@@ -182,7 +198,7 @@ class OdourCollectWidget(OWBaseWidget):
             contentsLength=None, 
             searchable=True, 
             orientation=1,
-            #callback=self.type_edit 
+            callback=self.type_edit 
             )
 
         self.subtype_line = gui.comboBox(
@@ -227,12 +243,15 @@ class OdourCollectWidget(OWBaseWidget):
     def info_searching(self):
         self.infoa.setText('Searching...')
     
-    # Not working: function to change subtype items due to type choice
-    """def type_edit(self):
+    # ffunction to change subtype items due to type choice
+    def type_edit(self):
         if self.type in range(1,10):
-            self.prueba = self.type
-            #self.odour_types = get_type_from_category(self.type)"""
+            self.subtype_line.clear()
+            self.subtype_line.addItems(get_type_from_category(self.type))
 
+        elif (self.type == "") or (self.type == 0):
+            self.subtype_line.clear()
+            self.subtype_line.addItems(get_type_from_category(0))
 
     def commit(self):
         self.infoa.setText(f'Searching...')
@@ -249,6 +268,13 @@ class OdourCollectWidget(OWBaseWidget):
             else:
                 end = self.date_end
 
+            # convert subtype to number 0-89
+            if (self.subtype != "") or (self.subtype != 0):
+                subtype = get_subtype_from_correspondences(self.type, self.subtype)
+            else:
+                subtype = 0
+
+
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
@@ -261,7 +287,7 @@ class OdourCollectWidget(OWBaseWidget):
                 minIntensity=self.minIntensity,
                 maxIntensity=self.maxIntensity,
                 type=self.type,
-                subtype=self.subtype
+                subtype=subtype
             )
 
             # construct GPScoords
