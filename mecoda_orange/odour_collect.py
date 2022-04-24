@@ -1,5 +1,4 @@
 
-from gc import callbacks
 from orangewidget.widget import OWBaseWidget, Output
 from orangewidget.settings import Setting
 from orangewidget import gui
