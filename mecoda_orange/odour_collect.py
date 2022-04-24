@@ -244,12 +244,11 @@ class OdourCollectWidget(OWBaseWidget):
     
     # ffunction to change subtype items due to type choice
     def type_edit(self):
+        self.subtype_line.clear()
         if self.type in range(1,10):
-            self.subtype_line.clear()
             self.subtype_line.addItems(get_type_from_category(self.type))
 
         elif (self.type == "") or (self.type == 0):
-            self.subtype_line.clear()
             self.subtype_line.addItems(get_type_from_category(0))
 
     def commit(self):
