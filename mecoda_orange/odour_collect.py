@@ -267,11 +267,11 @@ class OdourCollectWidget(OWBaseWidget):
                 end = self.date_end
 
             # convert subtype to number 0-89
-            if (self.subtype != "") or (self.subtype != 0):
+            if self.subtype != 0:
                 subtype = get_subtype_from_correspondences(self.type, self.subtype)
             else:
                 subtype = 0
-
+            
 
             # show progress bar
             progress = gui.ProgressBar(self, 2)
