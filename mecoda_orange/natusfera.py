@@ -11,7 +11,7 @@ import pandas as pd
 class NatusferaWidget(OWBaseWidget):
     
     # Widget's name as displayed in the canvas
-    name = "Natusfera"
+    name = "Natusfera Obs."
     # Short widget description
     description = "Get observations from the Natusfera API"
 
