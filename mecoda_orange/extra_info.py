@@ -11,13 +11,13 @@ import numpy as np
 
 class ExtraInfoWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
-    name = "Extra Info"
+    name = "Natusfera Extra Info"
     # Short widget description
     description = "Get extra information from Natusfera observations"
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    icon = "icons/circle-info-solid.svg"
+    icon = "icons/circle-info-solid-verde.png"
     priority = 4
 
     # Basic (convenience) GUI definition:
