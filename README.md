@@ -75,6 +75,66 @@ The output is a `Table` of observations, with this information:
 | time_secs           	| Observation time in ss (0-60'') format, UTC timezone.     	|
 
 
+## <img src="mecoda_orange/icons/canairio_logo_gris.png" alt="canairio_logo.png" width="75"/> CanAIRio Fixed Stations
+The widget allows to get observations from fixed stations through CanAIRio API. The widget looks like this:
 
+<img src="mecoda_orange/icons/canairio_fixed_widget.png" alt="canairio_fixed_widget" width="300">
+
+The widget filters between the different measurements and gets a dataframe with all data from fixed stations at the request moment.
+
+When selecting data from one of the stations, it can be combined with another widget (Last Hour Fixed Station) to get data from the last recorded data of this station.
+
+<img src="mecoda_orange/icons/canairio_fixed_last_hour.png" alt="canairio_fixed_widget" width="800">
+
+The output of Last Hour Fixed Station widget is a dataframe with last registered measurements from this station.
+
+## <img src="mecoda_orange/icons/canairio_logo_rosa.png" alt="canairio_logo.png" width="75"/> CanAIRio Mobile Stations
+
+The widget gets observations from all the mobile stations registered by CanAIRio API.
+
+<img src="mecoda_orange/icons/canairio_mobile_widget.png" alt="canairio_fixed_widget" width="300">
+
+The output is a dataframe with these variables:
+
+| Field           	| Description 	|
+|----------------	|------	|
+| `date` |
+| `timestamp` |
+| `index` |
+| `devideID` | Identification from the mobile device |
+| `lastLat` | Latitude from the last point of the registered track |
+| `lastLon` | Longitude from the last point of the registered track |
+| `name` | 
+| `size` |
+| `distance` |
+| `tmp` |
+| `pre` |
+| `hum` |
+| `P4` |
+| `P1` |
+| `CO2T` |
+| `CO2H` |
+| `CO2` |
+| `spd` |
+| `lon` |
+| `lat` |
+| `alt` |
+| `P25` |
+| `P10` |
+
+The output can be placed in a map and colored by any parameter:
+
+<img src="mecoda_orange/icons/canairio_mobile_total.png" alt="canairio_fixed_widget" width="800">
+
+
+We can select one device and get the complete track of the route using `Track - Mobile Station`. This is the result placed in a map:
+
+<img src="mecoda_orange/icons/canairio_mobile_track.png" alt="canairio_fixed_widget" width="800">
+
+The point can be coloured by any measurement.
+
+This example can be loaded as a workflow (.ows format) directly in Orange Canvas:
+
+<img src="mecoda_orange/icons/canairio_workflow.png" alt="canairio_fixed_widget" width="800">
 
 
