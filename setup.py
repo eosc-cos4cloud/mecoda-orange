@@ -3,7 +3,7 @@ from setuptools import setup
 # incluir documentación de https://github.com/biolab/orange3-example-addon/blob/master/setup.py
 
 NAME = "Orange3 MECODA Add-on"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
