@@ -55,7 +55,7 @@ def get_subtype_from_correspondences(odour_type, odour_subtype):
 class OdourCollectWidget(OWBaseWidget):
     
     # Widget's name as displayed in the canvas
-    name = "Odour Collect"
+    name = "OdourCollect Obs."
 
     # Short widget description
     description = "Get observations from Odour Collect API"

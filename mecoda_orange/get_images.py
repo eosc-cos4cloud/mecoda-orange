@@ -8,13 +8,13 @@ from mecoda_nat import get_obs, get_dfs
 
 class ImagesWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
-    name = "Get Images"
+    name = "Natusfera Images"
     # Short widget description
     description = "Get photos from column of observation ids. Works with data from Natusfera API."
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    icon = "icons/camera.png"
+    icon = "icons/camera-verde.png"
     priority = 2
 
     # Basic (convenience) GUI definition:
