@@ -14,7 +14,7 @@ AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
 URL = 'https://github.com/eosc-cos4cloud/mecoda-orange'
 
 DESCRIPTION = "Add-on containing MECODA widgets to analyse data from citizen science observatories"
-LONG_DESCRIPTION  = open(os.path.join(os.path.dirname(__file__), 'README_orange.md')).read()
+LONG_DESCRIPTION  = open(os.path.join(os.path.dirname(__file__), 'README_pypi.md')).read()
 LICENSE = "BSD"
 
 KEYWORDS = [
@@ -28,7 +28,7 @@ DATA_FILES = [
 ]
 
 setup(
-    name="mecoda_orange",
+    name="Mecoda Orange",
     version=VERSION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,

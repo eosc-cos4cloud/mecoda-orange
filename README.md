@@ -1,4 +1,3 @@
-
 # <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/share.png" alt="mecoda-logo" width="100"/> Mecoda-Orange 
 
 Orange Data Mining Widgets to analyse data from science citizen observatories.
