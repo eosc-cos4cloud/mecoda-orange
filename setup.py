@@ -6,7 +6,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.0.2"
+VERSION = "1.0.3"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -14,7 +14,7 @@ AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
 URL = 'https://github.com/eosc-cos4cloud/mecoda-orange'
 
 DESCRIPTION = "Add-on containing MECODA widgets to analyse data from citizen science observatories"
-LONG_DESCRIPTION  = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
+LONG_DESCRIPTION  = open(os.path.join(os.path.dirname(__file__), 'README_orange.md')).read()
 LICENSE = "BSD"
 
 KEYWORDS = [
