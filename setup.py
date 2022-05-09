@@ -14,9 +14,9 @@ DESCRIPTION = "Add-on containing MECODA widgets to analyse data from citizen sci
 
 LICENSE = "BSD"
 
-KEYWORDS = (
+KEYWORDS = [
     'orange3 add-on',
-)
+    ]
 
 DATA_FILES = [
     # Data files that will be installed outside site-packages folder
