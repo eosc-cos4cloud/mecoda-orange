@@ -108,4 +108,44 @@ This example can be loaded as a workflow (.ows format) directly in Orange Canvas
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/canairio_workflow.png" alt="canairio_fixed_widget" width="800">
 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/ictio-circular.png" alt="ictio_logo.png" width="75"/> Ictio widget
+
+The widget analyse data from [Ictio's citizen observatory](https://ictio.org/) for Amazon basin fish observation. The data from this Citizen Observatory is not freely available via public API nor public download, but it can be downloaded as a zip file after registration in web page.
+
+This widget takes an Ictio_Basic zip file from ictio.org and process it using [IctioPy](https://github.com/ScienceForChange/IctioPy) library, created by Science For Change:
+
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/ictio_widget.png" alt="ictio_widget" width="300">
+
+The output of this widget is a `Table` with this structure:
+
+* `obs_id`: Unique observation ID.
+* `weight`: Total weight in Kg reported for the given taxon.
+* `price_local_currency`: Price per Kg in the local currency for the taxon.
+* `obs_comments`: Comments made by the Citizen Scientist at the time of registering the observation.
+* `upload_date_yyyymmdd`: Date of observation upload. It does not necessarily match observation date. The relevant data for analysis purposes is the observation date.
+num_photos: Number of photos taken with the observation. The photos are not available in the basic version of the ictio.org's database, so this field is only included as a reference.
+* `user_id`: Anonymous, numeric ID of the user that made the observation.
+checklist_id: Unique checklist identifier
+* `protocol_name`: Name of the observation protocol used. Possible values: During fishing event , After the fishing event, Market Survey and Port Survey.
+complete_checklist: Indicates if the checklist was completed. A complete checklist is when all taxa caught during the fishing effort are reported. In a market survey it would be all taxa observed at the market. If observation was made via app, it is assumed that user reported a complete checklist.
+* `fishing_duration`: The duration of the fishing effort in hours.
+submission_method: How was data submitted? EFISH_android for mobile app or EFISH_upload for upload tool.
+* `app_version`: Version of the mobile app or upload tool used.
+* `taxon_code`: Species taxon code.
+* `scientific_name`: Scientific name of the species observed.
+* `num_of_fishers`: Number of fishers participating in fishing effort.
+* `number_of_fish`: Number of individual fish reported for the given taxon.
+* `obs_year`: Year of observation.
+* `obs_month`: Month of observation.
+* `obs_day`: Day of month of observation.
+* `port`: This is the name of the port where data was collected and is only reported with the Port Protocol. This is not the location where fish were caught.
+* `location_type`: Ictio has three location types: Watersheds, Ictio Hotspots, and Personal Locations. This field will identify watersheds and Ictio Hotspots. This field will be null for personal locations. A personal location is any new location added with the upload tool or based on raw GPS coordinates.
+* `country_code`: Country Code, automatically assigned by latitude and longitude. If you assign a checklist to a watershed it will be assigned to the country where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different country from where it is being submitted.
+* `country_name`: Country in which the observation was made.
+* `state_province_code`: State/Province Code, automatically assigned by latitude and longitude. If you assign a checklist to a watershed it will be assigned to the State/Province where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different State/Province.
+* `state_province_name`: State/Province name, automatically assigned by latitude and longitude. If there is a checklist assigned to a watershed, observation will be assigned to the State/Province where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different State/Province.
+watershed_code: Unique identifier for watershed. For Ictio hotspots and personal locations, the watershed code and watershed name are inferred based on geographic position of Citizen Scientist at the time of observation.
+* `watershed_name`: Name of the watersed in which the osbervation was made.
+
+
 
