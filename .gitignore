@@ -1,3 +1,7 @@
 __pycache__
 mecoda_orange/pruebas
 mecoda_orange.egg-info
+.vscode
+build
+dist
+
