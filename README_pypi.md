@@ -10,5 +10,5 @@ MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/), a European Horizon 20
 * **Natusfera**: collect observations from Natusfera API, using [mecoda-nat]() library.
 * **OdourCollect**: collect observations from OdourCollect API, using [PyOdourCollect](https://pypi.org/project/pyodourcollect/) library.
 * **canAIRio**: composed for two widgets, one for [CanAIRio Fixed Stations data](https://canair.io/docs/fixed_stations_api_en.html) and other for [CanAIRio Mobile Stations data](https://canair.io/docs/mobile_api_en.html).
-* **Ictio**: collect observations from [ictio.org](https://ictio.org) zip file, using [IctioPy](https://github.com/ScienceForChange/IctioPy) library.
+* **Ictio**: process observations from [ictio.org](https://ictio.org) zip file, using [IctioPy](https://github.com/ScienceForChange/IctioPy) library.
 
