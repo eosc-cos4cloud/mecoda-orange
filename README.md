@@ -1,12 +1,12 @@
 # <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/share.png" alt="mecoda-logo" width="100"/> Mecoda-Orange 
 
-Orange Data Mining Widgets to analyse data from science citizen observatories.
+This repository includes different Orange Data Mining widgets to access data from [Natusfera](https://natusfera.gbif.es/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/) or [Ictio](https://ictio.org/). Mecoda is part of 
 
-This repository includes different Orange Data Mining widgets to access data from Natusfera and Odour Collect APIs. 
+MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/), a European Horizon 2020 project to boost citizen science technologies.
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
 
-The widget collect observations from Natusfera API and allows filter them by:
+This widget collects observations from Natusfera API and allows filter them by:
 
 | Argument | Descrition | Example |
 | --------- | ----------- | ------- |
