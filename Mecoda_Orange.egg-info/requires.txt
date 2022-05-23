@@ -1,7 +1,0 @@
-Orange3>=3.31.1
-flat_table>=1.1.1
-ictiopy>=1.0.0
-mecoda-minka>=0.1.0
-mecoda-nat>=0.5.8
-pandas>=1.4.1
-pyodourcollect>=1.0.0
