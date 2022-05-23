@@ -4,17 +4,17 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
-from mecoda_nat import get_obs, get_dfs
+from mecoda_minka import get_obs, get_dfs
 
 class ImagesWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
-    name = "Natusfera Images"
+    name = "Minka Images"
     # Short widget description
-    description = "Get photos from column of observation ids. Works with data from Natusfera API."
+    description = "Get photos from column of observation ids. Works with data from Minka API."
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    icon = "icons/camera-verde.png"
+    icon = "icons/camera-minka.png"
     priority = 2
 
     # Basic (convenience) GUI definition:

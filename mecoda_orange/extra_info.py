@@ -4,20 +4,20 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
-from mecoda_nat import get_obs, get_dfs
+from mecoda_minka import get_obs, get_dfs
 import requests 
 import numpy as np
 
 
 class ExtraInfoWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
-    name = "Natusfera Extra Info"
+    name = "Minka Extra Info"
     # Short widget description
-    description = "Get extra information from Natusfera observations"
+    description = "Get extra information from Minka observations"
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    icon = "icons/circle-info-solid-verde.png"
+    icon = "icons/circle-info-solid-minka.png"
     priority = 4
 
     # Basic (convenience) GUI definition:
@@ -61,7 +61,7 @@ class ExtraInfoWidget(OWBaseWidget):
             progress = gui.ProgressBar(self, len(df))
             
             for id_num in ids:
-                url = f'https://natusfera.gbif.es/observations/{id_num}.json'
+                url = f'https://minka-sdg.org/observations/{id_num}.json'
                 page = requests.get(url, verify=False)
 
                 idents = page.json()['identifications']
@@ -83,7 +83,6 @@ class ExtraInfoWidget(OWBaseWidget):
 
             df['first_taxon_match'] = np.where(df['first_taxon_name'] == df['last_taxon_name'], 'True', 'False')
             df['first_identification_match'] = np.where(df['first_identification'] == df['user_login'], 'True', 'False')
-            
             
             out = table_from_frame(df)
             

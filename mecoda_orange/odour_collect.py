@@ -242,7 +242,7 @@ class OdourCollectWidget(OWBaseWidget):
     def info_searching(self):
         self.infoa.setText('Searching...')
     
-    # ffunction to change subtype items due to type choice
+    # function to change subtype items due to type choice
     def type_edit(self):
         self.subtype_line.clear()
         if self.type in range(1,10):
