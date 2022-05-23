@@ -29,14 +29,14 @@ The `observations` table allows statistical analysis. The photos table allows im
 
 The widget is complemented with two other widgets that can take input from it:
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/icons/camera-minka.png" alt="get-images" width="50"/> get_images
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/camera-minka.png" alt="get-images" width="50"/> get_images
 
 This widget takes a `Table` with observations (and a column with ids from Minka) and get the photos from all of them. 
-Works with data from Minka API.
+Works with data from Minka API. 
 
 The output is a Table with an image type feature that can be accessed using `Image viewer`.
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/circle-info-minka.png" alt="extra-info" width="50"/> extra_info
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/circle-info-solid-minka.png" alt="extra-info" width="50"/> extra_info
 
 This widget takes a `Table` with observations (and a column with ids from Minka) and get extra information from Minka observations.
 
