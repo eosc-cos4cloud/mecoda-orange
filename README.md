@@ -1,12 +1,12 @@
 # <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/share.png" alt="mecoda-logo" width="100"/> Mecoda-Orange 
 
-This repository includes different Orange Data Mining widgets to access data from [Natusfera](https://natusfera.gbif.es/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/) or [Ictio](https://ictio.org/).
+This repository includes different Orange Data Mining widgets to access data from [Minka](https://minka-sdg.org/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/), [Ictio](https://ictio.org/) or [Natusfera](https://natusfera.gbif.es/).
 
 MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/), a European Horizon 2020 project to boost citizen science technologies.
 
-## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-logo.png" alt="minka-logo" width="75"/> Minka widget 
 
-This widget collects observations from Natusfera API and allows filter them by:
+This widget collects observations from Minka API and allows filter them by:
 
 | Argument | Descrition | Example |
 | --------- | ----------- | ------- |
@@ -19,9 +19,9 @@ This widget collects observations from Natusfera API and allows filter them by:
 | `Id of observation` | Identification number of a specific observation | `id_obs=425` |
 | `Max. number of results` | The max. number should be under 20.000 (API limit) | `num_max=800` |
 
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera-widget-2.png" alt="natusfera-widget" width="250"/>
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-widget.png" alt="minka-widget" width="250"/>
 
-The Natusfera widget integrates the Python library `mecoda-nat` into a visual interface. 
+The Minka widget integrates the Python library `mecoda-minka` into a visual interface. 
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 A single observation can have more than a photo. 
 
@@ -29,16 +29,16 @@ The `observations` table allows statistical analysis. The photos table allows im
 
 The widget is complemented with two other widgets that can take input from it:
 
-### <img src="mecoda_orange/icons/camera.png" alt="get-images" width="50"/> get_images
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/icons/camera-minka.png" alt="get-images" width="50"/> get_images
 
-This widget takes a `Table` with observations (and a column with ids from Natusfera) and get the photos from all of them. 
-Works with data from Natusfera API.
+This widget takes a `Table` with observations (and a column with ids from Minka) and get the photos from all of them. 
+Works with data from Minka API.
 
 The output is a Table with an image type feature that can be accessed using `Image viewer`.
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/circle-info-solid.svg" alt="extra-info" width="50"/> extra_info
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/circle-info-minka.png" alt="extra-info" width="50"/> extra_info
 
-This widget takes a `Table` with observations (and a column with ids from Natusfera) and get extra information from Natusfera observations.
+This widget takes a `Table` with observations (and a column with ids from Minka) and get extra information from Minka observations.
 
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
@@ -147,5 +147,24 @@ submission_method: How was data submitted? EFISH_android for mobile app or EFISH
 watershed_code: Unique identifier for watershed. For Ictio hotspots and personal locations, the watershed code and watershed name are inferred based on geographic position of Citizen Scientist at the time of observation.
 * `watershed_name`: Name of the watersed in which the osbervation was made.
 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
 
+This widget collects observations from Natusfera API and allows filter them by:
+
+| Argument | Descrition | Example |
+| --------- | ----------- | ------- |
+| `Search by words` | Word or phrase found in the data of an observation | `query="quercus quercus"` |
+| `Project name` | Name of a project | `project_name="urbamar"` |
+| `User name` | Name of user who has uploaded the observations | `user="zolople"` |
+| `Place` | Name of a place | `place_name="Barcelona"` |
+| `Taxon` | One of the main taxonomies | `taxon="fungi"` |
+| `Year` | Year of observations | `year=2019` |
+| `Id of observation` | Identification number of a specific observation | `id_obs=425` |
+| `Max. number of results` | The max. number should be under 20.000 (API limit) | `num_max=800` |
+
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera-widget-2.png" alt="natusfera-widget" width="250"/>
+
+The Natusfera widget integrates the Python library `mecoda-nat` into a visual interface. 
+You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
+A single observation can have more than a photo. 
 
