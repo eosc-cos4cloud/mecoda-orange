@@ -1,0 +1,6 @@
+[orange.addons]
+MECODA = mecoda_orange
+
+[orange.widgets]
+MECODA = mecoda_orange
+
