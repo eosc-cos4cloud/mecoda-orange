@@ -71,7 +71,7 @@ class IctioWidget(OWBaseWidget):
     class Outputs:
         observations = Output("Observations", Orange.data.Table, auto_summary=False)
 
-    UserAdviceMessages = [
+    """UserAdviceMessages = [
         widget.Message(
             "This module takes an "
             "Ictio_Basic zip file from ictio.org",
@@ -81,7 +81,7 @@ class IctioWidget(OWBaseWidget):
             "Ictio_Basic zip file from ictio.org",
             ""
         )
-    ]
+    ]"""
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
@@ -93,8 +93,11 @@ class IctioWidget(OWBaseWidget):
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
-        self.infoa = gui.widgetLabel(info, 'No observations fetched yet.')
-        self.infob = gui.widgetLabel(info, '')
+        self.infoa = gui.widgetLabel(
+            info, 
+            'Please specify the path to a <b>Ictio_Basic_xxxxxxxx.zip</b> file <br>that has been downloaded from the "Download" section<br> of <a href="https://ictio.org/">ictio.org</a> website.'
+)
+        self.infob = gui.widgetLabel(info, 'NOTE: Downloading the file requires user registration.')
 
         gui.separator(self.controlArea)
 
@@ -110,10 +113,10 @@ class IctioWidget(OWBaseWidget):
         file_button = gui.button(
             self.searchBox, 
             self, 
-            'Browse folder', 
+            'Choose .zip', 
             callback=self.browse_file, 
             autoDefault=False,
-            width=250,
+            width=325,
             )
         file_button.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
         file_button.setSizePolicy(

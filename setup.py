@@ -66,6 +66,7 @@ setup(
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 0.1.0",
+        "mooda >= 1.13.1"
         ],
     keywords=KEYWORDS,
     include_package_data=True,

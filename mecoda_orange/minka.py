@@ -36,7 +36,7 @@ class MinkaWidget(OWBaseWidget):
     taxon = Setting("", schema_only=True)
     place_name = Setting("", schema_only=True)
     year = Setting("", schema_only=True)
-    num_max = Setting(20000, schema_only=True)
+    num_max = Setting(10000, schema_only=True)
 
     # Widget's outputs; here, a single output named "Number", of type int
     class Outputs:
@@ -112,6 +112,7 @@ class MinkaWidget(OWBaseWidget):
         
     def info_searching(self):
         self.infoa.setText('Searching...')
+        self.infob.setText('Be patient, this could take a while.')
 
     def id_obs_edit(self):
         if self.id_obs != "":

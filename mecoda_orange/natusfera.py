@@ -19,7 +19,7 @@ class NatusferaWidget(OWBaseWidget):
     # (a path relative to the module where this widget is defined)
     #icon = "icons/N2.png"
     icon = "icons/natusfera_v1.png"
-    priority = 20
+    priority = 4
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
