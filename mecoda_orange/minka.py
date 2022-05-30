@@ -102,8 +102,8 @@ class MinkaWidget(OWBaseWidget):
             self,
             "num_max",
             minv=0, 
-            maxv=20000, 
-            step=200, 
+            maxv=10000, 
+            step=100, 
             label='Max number of results:', 
             orientation=1)
 
