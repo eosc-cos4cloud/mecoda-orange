@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import datetime
 from ictiopy import ictiopy
 
 from orangewidget.widget import OWBaseWidget, Output
@@ -13,35 +14,24 @@ from PyQt5.QtWidgets import QFileDialog
 from AnyQt.QtWidgets import QStyle, QSizePolicy as Policy
 
 def clean_df(observations):
-    observations.obs_id = pd.Categorical(observations.obs_id)
     observations.weight = observations.weight.astype(float)
     observations.price_local_currency = observations.price_local_currency.astype(float)
-    observations.upload_date_yyyymmdd = pd.Categorical(observations.upload_date_yyyymmdd.astype(int))
     observations.num_photos = observations.num_photos.astype(int)
-    observations.checklist_id = pd.Categorical(observations.checklist_id)
-    observations.protocol_name = pd.Categorical(observations.protocol_name)
     observations.fishing_duration = observations.fishing_duration.astype(float)
-    observations.submission_method = pd.Categorical(observations.submission_method)
-    observations.app_version = pd.Categorical(observations.app_version)
-    observations.taxon_code = pd.Categorical(observations.taxon_code)
-    observations.scientific_name = pd.Categorical(observations.scientific_name)
     observations.num_of_fishers = observations.num_of_fishers.astype(float)
     observations.number_of_fish = observations.number_of_fish.astype(float)
     observations.obs_year = observations.obs_year.astype(int)
     observations.obs_month = observations.obs_month.astype(int)
     observations.obs_day = observations.obs_day.astype(int)
-    observations.port = pd.Categorical(observations.port)
-    observations.location_type = pd.Categorical(observations.location_type)
-    observations.country_code = pd.Categorical(observations.country_code)
-    observations.country_name = pd.Categorical(observations.country_name)
-    observations.state_province_code = pd.Categorical(observations.state_province_code)
-    observations.state_province_name = pd.Categorical(observations.state_province_name)
-    observations.watershed_code = pd.Categorical(observations.watershed_code)
-    observations.watershed_name = pd.Categorical(observations.watershed_name)
-    
     return observations
 
-
+def split_date(observations, init, end):
+    observations['obs_date'] = observations['obs_year'].astype(int).astype(str) + observations['obs_month'].astype(int).astype(str).str.zfill(2) + observations['obs_day'].astype(int).astype(str).str.zfill(2)
+    observations['obs_date'] = pd.to_datetime(observations['obs_date'])
+    observations = observations[observations['obs_date'] >= init]
+    observations = observations[observations['obs_date'] <= end]
+    observations = observations.drop(['obs_date'], axis=1)
+    return observations
 
 class IctioWidget(OWBaseWidget):
     
@@ -66,22 +56,13 @@ class IctioWidget(OWBaseWidget):
 
     # Defining settings
     path = Setting("", schema_only=True)
+    date_init = Setting("1860-01-01", schema_only=True)
+    date_end = Setting(str(datetime.date.today()), schema_only=True)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
         observations = Output("Observations", Orange.data.Table, auto_summary=False)
 
-    """UserAdviceMessages = [
-        widget.Message(
-            "This module takes an "
-            "Ictio_Basic zip file from ictio.org",
-            ""),
-        widget.Message(
-            "This module takes an "
-            "Ictio_Basic zip file from ictio.org",
-            ""
-        )
-    ]"""
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
@@ -135,11 +116,30 @@ class IctioWidget(OWBaseWidget):
             disable=True
             )"""
 
-        gui.separator(self.searchBox)
+        #gui.separator(self.searchBox)
+        self.dateBox = gui.widgetBox(self.controlArea, "Filter by date")
 
-        # commit area, not included
-        #self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
-        #gui.button(self.commitBox, self, "Load", callback=self.commit)
+        self.date_init_line = gui.lineEdit(
+            self.dateBox, 
+            self, 
+            "date_init", 
+            label="Initial Date:", 
+            orientation=1, 
+            controlWidth=140,
+            )
+
+        self.date_end_line = gui.lineEdit(
+            self.dateBox, 
+            self, 
+            "date_end", 
+            label="End Date:", 
+            orientation=1, 
+            controlWidth=140
+            )
+
+        # commit area
+        self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
+        gui.button(self.commitBox, self, "Load", callback=self.commit)
 
     def info_searching(self):
         self.infoa.setText('Loading...')
@@ -153,7 +153,7 @@ class IctioWidget(OWBaseWidget):
         self.infoa.setText(f'Loading...')
         self.infob.setText(f'(This could take a while, be patient)')
 
-        if "Ictio" in self.path:
+        if self.path is not None:
             try:
                 # show progress bar
                 progress = gui.ProgressBar(self, 2)
@@ -164,14 +164,14 @@ class IctioWidget(OWBaseWidget):
 
                 if len(observations) > 0:
                     
-                    table_ictio = table_from_frame(observations)
-
-                    self.infoa.setText(f'{len(observations)} observations gathered')
-                    self.infob.setText("")
+                    #table_ictio = table_from_frame(observations)
+                    file_selected = path_string.split("data")[-1]
+                    self.infoa.setText(f"<b>File selected:</b><br>{file_selected}")
+                    #self.infob.setText("")
 
                     self.info.set_output_summary(len(observations))
 
-                    self.Outputs.observations.send(table_ictio)
+                    #self.Outputs.observations.send(table_ictio)
 
                 else:
                     self.infoa.setText(f'Nothing found.')
@@ -187,17 +187,26 @@ class IctioWidget(OWBaseWidget):
                 
             progress.finish()
 
-        elif self.path == "":
-            self.infoa.setText(f'Choose some zip file to load data.')
         else:
+            self.infoa.setText(f'Choose some zip file to load data.')
+        """else:
              self.infoa.setText(f'ERROR: \nNot suitable zip file') 
-             self.infob.setText("File name should be Ictio_Basic_YYYYMMDD.zip")
+             self.infob.setText("File name should be Ictio_Basic_YYYYMMDD.zip")"""
 
     def commit(self):
         self.infoa.setText(f'Loading...')
         self.infob.setText(f'(This could take a while, be patient)')
         try:
             # convert date_init and date_end to datetime format
+            if type(self.date_init) == str:
+                init = datetime.datetime.strptime(self.date_init, '%Y-%m-%d')
+            else:
+                init = self.date_init
+
+            if type(self.date_end) == str:
+                end = datetime.datetime.strptime(self.date_end, '%Y-%m-%d')
+            else:
+                end = self.date_end
 
             # show progress bar
             progress = gui.ProgressBar(self, 2)
@@ -205,6 +214,7 @@ class IctioWidget(OWBaseWidget):
             
             observations = ictiopy.load_zipdb(self.path) 
             observations = clean_df(observations)
+            observations = split_date(observations, init, end)
 
             if len(observations) > 0:
                 
