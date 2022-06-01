@@ -189,7 +189,7 @@ class IctioWidget(OWBaseWidget):
                 
                 table_ictio = table_from_frame(observations)
 
-                self.infoa.setText(f'{len(observations)} observations gathered')
+                self.infoa.setText(f'{len(observations):,} observations gathered')
                 self.infob.setText("")
 
                 self.info.set_output_summary(len(observations))
