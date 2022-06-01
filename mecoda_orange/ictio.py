@@ -58,6 +58,7 @@ class IctioWidget(OWBaseWidget):
     path = Setting("", schema_only=True)
     date_init = Setting("1860-01-01", schema_only=True)
     date_end = Setting(str(datetime.date.today()), schema_only=True)
+    #observations = Setting("", schema_only=True)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
@@ -67,9 +68,6 @@ class IctioWidget(OWBaseWidget):
     def __init__(self):
         # use the init method from the class OWBaseWidget
         super().__init__()
-
-        #layout = QGridLayout()
-        #layout.setSpacing(4)
 
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
@@ -84,12 +82,6 @@ class IctioWidget(OWBaseWidget):
 
         # searchBox area
         self.searchBox = gui.widgetBox(self.controlArea, "Source")
-
-
-        #dialog = QFileDialog()
-        #path, __ = dialog.getOpenFileName(self, 'Select a zip file')
-        
-        #print(path)
 
         file_button = gui.button(
             self.searchBox, 
@@ -150,32 +142,11 @@ class IctioWidget(OWBaseWidget):
         path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "Zip files (*.zip)")
         self.path = path_string
 
-        self.infoa.setText(f'Loading...')
-        self.infob.setText(f'(This could take a while, be patient)')
-
         if self.path is not None:
             try:
-                # show progress bar
-                progress = gui.ProgressBar(self, 2)
-                progress.advance()
-                
-                observations = ictiopy.load_zipdb(self.path) 
-                observations = clean_df(observations)
-
-                if len(observations) > 0:
-                    
-                    #table_ictio = table_from_frame(observations)
-                    file_selected = path_string.split("data")[-1]
-                    self.infoa.setText(f"<b>File selected:</b><br>{file_selected}")
-                    #self.infob.setText("")
-
-                    self.info.set_output_summary(len(observations))
-
-                    #self.Outputs.observations.send(table_ictio)
-
-                else:
-                    self.infoa.setText(f'Nothing found.')
-                    self.info.set_output_summary(self.info.NoOutput)
+                file_selected = path_string.split("data")[-1]
+                self.infoa.setText(f"<b>File selected:</b><br>{file_selected}")
+                self.infob.setText("")
 
             except ValueError:
                 self.infoa.setText(f'Nothing found.')
@@ -184,8 +155,6 @@ class IctioWidget(OWBaseWidget):
                 self.infoa.setText(f'ERROR: \n{error}')
                 self.infob.setText("")
                 print(error)
-                
-            progress.finish()
 
         else:
             self.infoa.setText(f'Choose some zip file to load data.')
