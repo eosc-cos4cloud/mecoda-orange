@@ -65,7 +65,7 @@ setup(
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
-        "mecoda-minka >= 0.1.0",
+        "mecoda-minka >= 0.2.0",
         "mooda >= 1.13.1"
         ],
     keywords=KEYWORDS,
