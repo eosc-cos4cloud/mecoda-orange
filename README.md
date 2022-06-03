@@ -36,10 +36,9 @@ Works with data from Minka API.
 
 The output is a Table with an image type feature that can be accessed using `Image viewer`.
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/circle-info-solid-minka.png" alt="extra-info" width="50"/> extra_info
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/seedling-solid-minka.png" alt="taxon-filter" width="50"/> minka_taxa
 
-This widget takes a `Table` with observations (and a column with ids from Minka) and get extra information from Minka observations.
-
+This widget allows to filter Minka observations by different taxonomic levels (from kingdom to species). The levels shown are just the ones with registered observations.
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 
