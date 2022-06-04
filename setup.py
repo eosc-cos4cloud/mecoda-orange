@@ -40,7 +40,6 @@ setup(
     packages=["mecoda_orange"],
     package_data={
         "mecoda_orange": ["icons/*"], 
-        "mecoda_orange": ["docs/taxon_tree.csv"]
         },
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
