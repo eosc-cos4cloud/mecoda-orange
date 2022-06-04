@@ -6,7 +6,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.3.1"
+VERSION = "1.3.2"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -38,7 +38,10 @@ setup(
     long_description_content_type='text/markdown',
     license=LICENSE,
     packages=["mecoda_orange"],
-    package_data={"mecoda_orange": ["icons/*", "docs/*"]},
+    package_data={
+        "mecoda_orange": ["icons/*"], 
+        "mecoda_orange": ["docs/taxon_tree.csv"]
+        },
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
         'Environment :: X11 Applications :: Qt',

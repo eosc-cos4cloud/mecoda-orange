@@ -12,7 +12,7 @@ import datetime
 from mecoda_minka import get_obs, get_dfs
 import requests
 
-taxon_tree = pd.read_csv("docs/taxon_tree.csv")
+taxon_tree = pd.read_csv("mecoda_orange/docs/taxon_tree.csv")
 
 def get_descendants(selected_taxon, df):
     id_ = df[df['name'] == selected_taxon]['id'].item()
