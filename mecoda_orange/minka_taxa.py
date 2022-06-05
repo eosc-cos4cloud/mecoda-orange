@@ -39,7 +39,7 @@ class TaxonWidget(OWBaseWidget):
     description = "Get observations from Minka filtered by Taxon."
 
     # An icon resource file path for this widget
-    icon = "icons/seedling-solid-minka.png"
+    icon = "icons/leaf-solid-minka.png"
 
     # Priority in the section MECODA
     priority = 3
