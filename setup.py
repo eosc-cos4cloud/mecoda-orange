@@ -6,7 +6,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.3.3"
+VERSION = "1.3.4"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -23,10 +23,6 @@ KEYWORDS = [
     'data mining',
     ]
 
-DATA_FILES = [
-    # Data files that will be installed outside site-packages folder
-]
-
 setup(
     name="Mecoda Orange",
     version=VERSION,
@@ -39,7 +35,8 @@ setup(
     license=LICENSE,
     packages=["mecoda_orange"],
     package_data={
-        "mecoda_orange": ["icons/*"], 
+        "mecoda_orange": ["icons/*"],
+        "mecoda_orange.minka_taxa": ["data/*"] 
         },
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
