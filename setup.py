@@ -1,12 +1,13 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
+
 
 # incluir documentación de https://github.com/biolab/orange3-example-addon/blob/master/setup.py
 
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.3.5"
+VERSION = "1.3.6"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -22,7 +23,7 @@ KEYWORDS = [
     'orange',
     'data mining',
     ]
-
+#PACKAGES = find_packages(include=("mecoda_orange*",))
 setup(
     name="Mecoda Orange",
     version=VERSION,
@@ -34,8 +35,9 @@ setup(
     long_description_content_type='text/markdown',
     license=LICENSE,
     packages=["mecoda_orange"],
+    #packages=PACKAGES,
     package_data={
-        "mecoda_orange": ["icons/*"],
+        "mecoda_orange": ["icons/*"], 
         },
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",

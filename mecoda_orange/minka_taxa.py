@@ -1,4 +1,3 @@
-from urllib import request
 from orangewidget.widget import OWBaseWidget, Output
 from orangewidget.settings import Setting
 from orangewidget import gui
@@ -6,13 +5,12 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-import pyodourcollect.ocmodels as ocmodels
-import pyodourcollect.occore as occore
-import datetime
 from mecoda_minka import get_obs, get_dfs
 import requests
 
-taxon_tree = pd.read_csv("icons/taxon_tree.csv")
+#taxon_tree = pd.read_csv("taxon_tree.csv")
+url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree.csv"
+taxon_tree = pd.read_csv(url)
 
 def get_descendants(selected_taxon, df):
     id_ = df[df['name'] == selected_taxon]['id'].item()
