@@ -55,7 +55,8 @@ class IctioWidget(OWBaseWidget):
     resizing_enabled = False
 
     # Defining settings
-    path = Setting("", schema_only=True)
+    path_folder = Setting("", schema_only=True)
+    path_file = Setting("", schema_only=True)
     date_init = Setting("1860-01-01", schema_only=True)
     date_end = Setting(str(datetime.date.today()), schema_only=True)
     #observations = Setting("", schema_only=True)
@@ -74,7 +75,12 @@ class IctioWidget(OWBaseWidget):
 
         self.infoa = gui.widgetLabel(
             info, 
-            'Please specify the path to a <b>Ictio_Basic_xxxxxxxx.zip</b> file <br>that has been downloaded from the "Download" section<br> of <a href="https://ictio.org/">ictio.org</a> website.'
+            'Please specify the path to a <b>Ictio_Basic_xxxxxxxx.zip</b> file\
+            <br>that has been downloaded from the "Download" section<br>\
+            of <a href="https://ictio.org/">ictio.org</a> website.<br><br>\
+            You can also specity an XLSX file if you have already extracted\
+            <br> the file BDB_XXXXXXXX.xlsx that can be found inside\
+             <br>ICTIO_BASIC_XXXXXXXX.zip'
 )
         self.infob = gui.widgetLabel(info, 'NOTE: Downloading the file requires user registration.')
 
@@ -82,20 +88,34 @@ class IctioWidget(OWBaseWidget):
 
         # searchBox area
         self.searchBox = gui.widgetBox(self.controlArea, "Source")
-
-        file_button = gui.button(
-            self.searchBox, 
+        self.browsers = gui.widgetBox(self.searchBox, "", orientation=1)
+        zip_button = gui.button(
+            self.browsers, 
             self, 
             'Choose .zip', 
+            callback=self.browse_zip, 
+            autoDefault=False,
+            width=160,
+            )
+        zip_button.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
+        zip_button.setSizePolicy(
+            Policy.Maximum, 
+            Policy.Fixed
+            )
+        file_button = gui.button(
+            self.browsers, 
+            self, 
+            'Choose .xlsx', 
             callback=self.browse_file, 
             autoDefault=False,
-            width=325,
+            width=160,
             )
         file_button.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
         file_button.setSizePolicy(
             Policy.Maximum, 
             Policy.Fixed
             )
+
         #layout.addWidget(file_button, 0, 2)
 
         """self.path_line = gui.lineEdit(
@@ -139,13 +159,36 @@ class IctioWidget(OWBaseWidget):
     def browse_file(self):
         dialog = QFileDialog()
         home = os.path.expanduser("~")
-        path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "Zip files (*.zip)")
-        self.path = path_string
+        path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "xlsx files (*.xlsx)")
+        self.path_file = path_string
 
-        if self.path is not None:
+        if self.path_file is not None:
             try:
-                file_selected = path_string.split("data")[-1]
-                self.infoa.setText(f"<b>File selected:</b><br>{file_selected}")
+                #file_selected = path_string.split("data")[-1]
+                self.infoa.setText(f"<b>File selected:</b><br>{path_string}")
+                self.infob.setText("")
+
+            except ValueError:
+                self.infoa.setText(f'Nothing found.')
+                
+            except Exception as error:
+                self.infoa.setText(f'ERROR: \n{error}')
+                self.infob.setText("")
+                print(error)
+
+        else:
+            self.infoa.setText(f'Choose some xlsx file to load data.')
+
+    def browse_zip(self):
+        dialog = QFileDialog()
+        home = os.path.expanduser("~")
+        path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "Zip files (*.zip)")
+        self.path_folder = path_string
+
+        if self.path_folder is not None:
+            try:
+                #file_selected = path_string.split("data")[-1]
+                self.infoa.setText(f"<b>File selected:</b><br>{path_string}")
                 self.infob.setText("")
 
             except ValueError:
@@ -158,9 +201,7 @@ class IctioWidget(OWBaseWidget):
 
         else:
             self.infoa.setText(f'Choose some zip file to load data.')
-        """else:
-             self.infoa.setText(f'ERROR: \nNot suitable zip file') 
-             self.infob.setText("File name should be Ictio_Basic_YYYYMMDD.zip")"""
+
 
     def commit(self):
         self.infoa.setText(f'Loading...')
@@ -181,7 +222,17 @@ class IctioWidget(OWBaseWidget):
             progress = gui.ProgressBar(self, 2)
             progress.advance()
             
-            observations = ictiopy.load_zipdb(self.path) 
+            if self.path_file != "":
+                directory, file = os.path.split(os.path.abspath(self.path_file))
+                observations = ictiopy.sanitizedb(
+                    ictiopy.load_ictio_bdb_file(
+                        directory, 
+                        file
+                        )
+                    )
+            elif self.path_folder != "":
+                observations = ictiopy.load_zipdb(self.path_folder) 
+            
             observations = clean_df(observations)
             observations = split_date(observations, init, end)
 
