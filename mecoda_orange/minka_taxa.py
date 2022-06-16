@@ -9,8 +9,10 @@ from mecoda_minka import get_obs, get_dfs
 import requests
 
 #taxon_tree = pd.read_csv("taxon_tree.csv")
-taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree.csv"
+taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_clean.csv"
 taxon_tree = pd.read_csv(taxon_url)
+marine_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/marine_filter.csv"
+marines_df = pd.read_csv(marine_url)
 
 def get_descendants(selected_taxon, df):
     id_ = df[df['name'] == selected_taxon]['id'].item()
@@ -25,7 +27,6 @@ def get_descendants(selected_taxon, df):
         if obs_count > 0:
             order = result_df[result_df['name'] == name]['rank'].item().capitalize()
             taxa.append(f"{order} {name}")
-    
     return sorted(taxa)
 
 def get_marine(taxon_name):
@@ -307,29 +308,38 @@ class TaxonWidget(OWBaseWidget):
 
                 # filter obs if marine/terrestrial is selected
                 print(self.marine)
-                if self.marine > 0:
-                    obs_taxa_list = [ob.taxon_name for ob in obs]
-                    taxa_set = set(obs_taxa_list)
-                    taxa_marines = {}
-                    for taxa_name in taxa_set:
-                        taxa_marines[taxa_name] = get_marine(taxa_name)
-                        
+
+                marines = []
+                terrestrials = []
+
+
+                for ob in obs:
+                    try:
+                        result = marines_df[marines_df.taxon_name == ob.taxon_name].marine.item()
+                        print("En tabla")
+                    except:
+                        result = get_marine(ob.taxon_name)
+                        print("En API")
+                    print(result)
+                    if result is True:
+                        marines.append(ob) 
+                    else:
+                        terrestrials.append(ob)
+                
                 if self.marine == 1:
-                    for ob in obs:
-                        if taxa_marines[ob.taxon_name] is False:
-                            obs.remove(ob)
-
+                    selected_obs = marines
                 elif self.marine == 2:
-                    for ob in obs:
-                        if taxa_marines[ob.taxon_name] is True:
-                            obs.remove(ob)
+                    selected_obs = terrestrials
+                else:
+                    selected_obs = obs
 
-                if len(obs) > 0:
-                    self.df_obs, self.df_photos = get_dfs(obs)
+
+                if len(selected_obs) > 0:
+                    self.df_obs, self.df_photos = get_dfs(selected_obs)
                     self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
                     self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower()
 
-                    self.infoa.setText(f'{len(obs)} observations gathered')
+                    self.infoa.setText(f'{len(selected_obs)} observations gathered')
                     self.infob.setText(f'{len(self.df_photos)} photos gathered')
                     
                     self.Outputs.observations.send(table_from_frame(self.df_obs))
@@ -340,7 +350,7 @@ class TaxonWidget(OWBaseWidget):
                             meta.attributes = {"type": "image"}
 
                     self.Outputs.photos.send(table_photos)
-                    self.info.set_output_summary(len(obs))
+                    self.info.set_output_summary(len(selected_obs))
 
                 else:
                     self.infoa.setText(f'Nothing found.')

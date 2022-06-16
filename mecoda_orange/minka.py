@@ -57,10 +57,23 @@ class MinkaWidget(OWBaseWidget):
         
         self.searchBox = gui.widgetBox(self.controlArea, "Search fields")
 
-        #gui.spin(self.searchBox, self, 'id_obs',
-        #         minv=0, maxv=400000, step=1, label='Enter an id of observation:')
-        self.query_line = gui.lineEdit(self.searchBox, self, "query", label="Search by words:", orientation=1, controlWidth=140)
-        self.project_line = gui.lineEdit(self.searchBox, self, 'project_name', label="Project name:", orientation=1, callback=self.project_name_edit, controlWidth=140)
+        self.query_line = gui.lineEdit(
+            self.searchBox, 
+            self, 
+            "query", 
+            label="Search by words:", 
+            orientation=1, 
+            controlWidth=140
+            )
+        self.project_line = gui.lineEdit(
+            self.searchBox, 
+            self, 
+            'project_name', 
+            label="Project name:", 
+            orientation=1, 
+            callback=self.project_name_edit, 
+            controlWidth=140
+            )
         self.user_line = gui.lineEdit(self.searchBox, self, "user", label="User name:", orientation=1, controlWidth=140, callback=self.user_edit)
         self.place_line = gui.lineEdit(self.searchBox, self, "place_name", label="Place:", orientation=1, controlWidth=140)
         self.taxon_line = gui.comboBox(
@@ -89,14 +102,11 @@ class MinkaWidget(OWBaseWidget):
             validator=QIntValidator()
             )
         self.id_obs_line = gui.lineEdit(self.searchBox, self, 'id_obs', label="Id of observation:", callback=self.id_obs_edit, orientation=1, controlWidth=80)
-        
-        #self.project_line.setDisabled(True)
-        
-        #gui.hSlider(self.searchBox, self, "year", box=None, minValue=2000, maxValue=2021, step=1, label="Year", labelFormat=' %d', ticks=False, divideFactor=1.0, vertical=False, createLabel=True)
+               
         gui.separator(self.controlArea)
 
         self.maxBox = gui.widgetBox(self.controlArea, "", spacing=1)
-        #self.max_line = gui.lineEdit(self.maxBox, self, "num_max", label="", orientation=1)
+
         self.max_line = gui.spin(
             self.maxBox, 
             self,
@@ -122,7 +132,6 @@ class MinkaWidget(OWBaseWidget):
             self.taxon_line.setDisabled(True)
             self.place_line.setDisabled(True)
             self.year_line.setDisabled(True)
-            #self.max_line.setDisabled(True)
             self.project_name = ""
             self.query = ""
             self.user = ""
