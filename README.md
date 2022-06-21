@@ -25,9 +25,32 @@ The Minka widget integrates the Python library `mecoda-minka` into a visual inte
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 A single observation can have more than a photo. 
 
+The observations output gets a Table with the following fields:
+* **id**: observation id
+* **captive**: True or False
+* **created_at**: date field.
+* **updated_at**: date field.
+* **observed_on**: date field.
+* **description**: open text field.
+* **latitude / longitude**: geo location fields.
+* **quality_grade**: needs_id / research.
+* **user_login**: user login name.
+* **num_identification_agreements / num_identification_disagreements**
+* **identifications_count**: number of identifications for a observation.
+* **iconic_taxon**: one of the big taxonomic groups available in Minka.
+* **taxon_id**: species taxon id.
+* **taxon_name**: species name of observation.
+* **taxon fields**:
+  * kingdom
+  * class
+  * order
+  * superfamily
+  * family
+  * genus
+
 The `observations` table allows statistical analysis. The photos table allows image analysis.
 
-The widget is complemented with two other widgets that can take input from it:
+The widget is complemented with other widgets that can take input from it or directly from Minka API:
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/camera-minka.png" alt="get-images" width="50"/> get_images
 
