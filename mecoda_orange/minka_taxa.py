@@ -5,38 +5,27 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-from mecoda_minka import get_obs, get_dfs
+from mecoda_minka import get_obs, get_dfs, get_taxon_columns
 import requests
 
 #taxon_tree = pd.read_csv("taxon_tree.csv")
-taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_clean.csv"
+taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
-marine_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/marine_filter.csv"
-marines_df = pd.read_csv(marine_url)
 
 def get_descendants(selected_taxon, df):
-    id_ = df[df['name'] == selected_taxon]['id'].item()
-    ancestry = df[df['name'] == selected_taxon]['ancestry'].item()
+    id_ = df[df['taxon_name'] == selected_taxon]['id'].item()
+    ancestry = df[df['taxon_name'] == selected_taxon]['ancestry'].item()
     result_df = df[df['ancestry'] == f"{ancestry}/{id_}"][['id', 'name', 'rank']]
     names = result_df.name.to_list()
     taxa = ["", ]
     for name in names:
-        id_taxa = result_df[result_df['name'] == name]['id'].item()
+        id_taxa = result_df[result_df['taxon_name'] == name]['taxon_id'].item()
         taxa_url = f"https://minka-sdg.org/taxa/{id_taxa}.json"
         obs_count = requests.get(taxa_url).json()['observations_count']
         if obs_count > 0:
-            order = result_df[result_df['name'] == name]['rank'].item().capitalize()
+            order = result_df[result_df['taxon_name'] == name]['rank'].item().capitalize()
             taxa.append(f"{order} {name}")
     return sorted(taxa)
-
-def get_marine(taxon_name):
-    name_clean = taxon_name.replace(" ", "+")
-    status = requests.get(f"https://www.marinespecies.org/rest/AphiaIDByName/{name_clean}?marine_only=true").status_code
-    if (status == 200) or (status == 206):
-        result = True
-    else:
-        result = False
-    return result
 
 class TaxonWidget(OWBaseWidget):
     
@@ -44,10 +33,10 @@ class TaxonWidget(OWBaseWidget):
     name = "Minka Taxon Filter"
 
     # Short widget description
-    description = "Get observations from Minka filtered by Taxon."
+    description = "Get observations from Minka filtered by taxonomic level."
 
     # An icon resource file path for this widget
-    icon = "icons/leaf-solid-minka.png"
+    icon = "icons/arrow-down-wide-short-solid-minka.png"
 
     # Priority in the section MECODA
     priority = 3
@@ -68,7 +57,6 @@ class TaxonWidget(OWBaseWidget):
     gender = Setting("", schema_only=True)
     species = Setting("", schema_only=True)
     selected = Setting("", schema_only=True)
-    marine = Setting(False, schema_only=True)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
@@ -202,18 +190,6 @@ class TaxonWidget(OWBaseWidget):
             searchable=True,
             )
 
-        self.marine_line = gui.radioButtonsInBox(
-            self.searchBox, 
-            self, 
-            "marine", 
-            btnLabels=("all", "marines", "terrestrials"), 
-            tooltips=None, 
-            box=None, 
-            label=None, 
-            orientation=1, 
-            callback=None
-            )
-
         # commit area
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
         gui.button(self.commitBox, self, "Commit", callback=self.commit)
@@ -298,48 +274,27 @@ class TaxonWidget(OWBaseWidget):
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            id_selected = taxon_tree[taxon_tree['name'] == self.selected].id.item()
+            id_selected = taxon_tree[taxon_tree['taxon_name'] == self.selected].id.item()
 
             taxa_url = f"https://minka-sdg.org/taxa/{id_selected}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
 
             if obs_count > 0:
-                obs = get_obs(taxon_id=id_selected)
+                obs = get_obs(taxon_id=id_selected)             
 
-                # filter obs if marine/terrestrial is selected
-                print(self.marine)
-
-                marines = []
-                terrestrials = []
-
-
-                for ob in obs:
-                    try:
-                        result = marines_df[marines_df.taxon_name == ob.taxon_name].marine.item()
-                        print("En tabla")
-                    except:
-                        result = get_marine(ob.taxon_name)
-                        print("En API")
-                    print(result)
-                    if result is True:
-                        marines.append(ob) 
-                    else:
-                        terrestrials.append(ob)
-                
-                if self.marine == 1:
-                    selected_obs = marines
-                elif self.marine == 2:
-                    selected_obs = terrestrials
-                else:
-                    selected_obs = obs
-
-
-                if len(selected_obs) > 0:
-                    self.df_obs, self.df_photos = get_dfs(selected_obs)
+                if len(obs) > 0:
+                    self.df_obs, self.df_photos = get_dfs(obs)
+                    
+                    self.df_obs = get_taxon_columns(self.df_obs)
+                    self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
+                    self.df_obs.order = pd.Categorical(self.df_obs.order)
+                    self.df_obs.family = pd.Categorical(self.df_obs.family)
+                    self.df_obs.genus = pd.Categorical(self.df_obs.genus)
+                    
                     self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
                     self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower()
 
-                    self.infoa.setText(f'{len(selected_obs)} observations gathered')
+                    self.infoa.setText(f'{len(obs)} observations gathered')
                     self.infob.setText(f'{len(self.df_photos)} photos gathered')
                     
                     self.Outputs.observations.send(table_from_frame(self.df_obs))
@@ -350,7 +305,7 @@ class TaxonWidget(OWBaseWidget):
                             meta.attributes = {"type": "image"}
 
                     self.Outputs.photos.send(table_photos)
-                    self.info.set_output_summary(len(selected_obs))
+                    self.info.set_output_summary(len(obs))
 
                 else:
                     self.infoa.setText(f'Nothing found.')

@@ -36,9 +36,24 @@ Works with data from Minka API.
 
 The output is a Table with an image type feature that can be accessed using `Image viewer`.
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/seedling-solid-minka.png" alt="taxon-filter" width="50"/> minka_taxa
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/arrow-down-wide-short-solid-minka.png" alt="taxon-filter" width="50"/> Minka Taxon Filter
 
 This widget allows to filter Minka observations by different taxonomic levels (from kingdom to species). The levels shown are just the ones with registered observations.
+
+The widget looks like that:
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_taxon_filter_2.png" alt="taxon-filter-widget" width="100"/> 
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/leaf-solid-minka.png" alt="taxon-filter-by-words" width="50"/> Minka Taxon Search
+
+This widget allows to filter Minka observations by scientific or common name.
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_taxon_search_widget.png" alt="taxon-search-widget" width="100"/> 
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/fish-minka.png" alt="fish-minka.png" width="50"/> Marine and Terrestrial Filter
+
+The widget splits Table of observations into two dataframes: one for marine species and other for terrestrial ones. Just gets observations with research degree.
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/marine_filter_widget.png" alt="taxon-search-widget" width="150"/> 
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 

@@ -4,9 +4,11 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
-from mecoda_minka import get_obs, get_dfs
+from mecoda_minka import get_obs, get_dfs, get_taxon_columns
 from typing import Optional, List
 import pandas as pd
+import traceback
+
 
 class MinkaWidget(OWBaseWidget):
     
@@ -229,8 +231,13 @@ class MinkaWidget(OWBaseWidget):
                 self.df_obs, self.df_photos = get_dfs(observations)
                 self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
                 self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower()
-
-                self.infoa.setText(f'{len(observations)} observations gathered')
+                self.df_obs = get_taxon_columns(self.df_obs)
+                self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
+                self.df_obs.order = pd.Categorical(self.df_obs.order)
+                self.df_obs.family = pd.Categorical(self.df_obs.family)
+                self.df_obs.genus = pd.Categorical(self.df_obs.genus)
+                
+                self.infoa.setText(f'{len(self.df_obs)} observations gathered')
                 self.infob.setText(f'{len(self.df_photos)} photos gathered')
                 
                 self.Outputs.observations.send(table_from_frame(self.df_obs))
@@ -252,7 +259,8 @@ class MinkaWidget(OWBaseWidget):
             self.infoa.setText(f'Nothing found.')
             self.infob.setText("")
         except Exception as error:
-            self.infoa.setText(f'ERROR: \n{str(error)}')
+            traceback_str = ''.join(traceback.format_tb(error.__traceback__))
+            self.infoa.setText(f'ERROR: \n{str(error)}\n{traceback_str}')
             self.infob.setText("")
             
         progress.finish()    
