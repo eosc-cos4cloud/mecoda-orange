@@ -53,7 +53,7 @@ This widget allows to filter Minka observations by scientific or common name.
 
 The widget splits Table of observations into two dataframes: one for marine species and other for terrestrial ones. Just gets observations with research degree.
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/marine_filter_widget.png" alt="marine-filter-widget" width="450"/> 
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/marine_filter_widget.png" alt="marine-filter-widget" width="600"/> 
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 
