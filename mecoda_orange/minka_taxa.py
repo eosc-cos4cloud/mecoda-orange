@@ -13,10 +13,10 @@ taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/mast
 taxon_tree = pd.read_csv(taxon_url)
 
 def get_descendants(selected_taxon, df):
-    id_ = df[df['taxon_name'] == selected_taxon]['id'].item()
+    id_ = df[df['taxon_name'] == selected_taxon]['taxon_id'].item()
     ancestry = df[df['taxon_name'] == selected_taxon]['ancestry'].item()
-    result_df = df[df['ancestry'] == f"{ancestry}/{id_}"][['id', 'name', 'rank']]
-    names = result_df.name.to_list()
+    result_df = df[df['ancestry'] == f"{ancestry}/{id_}"][['taxon_id', 'taxon_name', 'rank']]
+    names = result_df.taxon_name.to_list()
     taxa = ["", ]
     for name in names:
         id_taxa = result_df[result_df['taxon_name'] == name]['taxon_id'].item()
@@ -274,7 +274,7 @@ class TaxonWidget(OWBaseWidget):
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            id_selected = taxon_tree[taxon_tree['taxon_name'] == self.selected].id.item()
+            id_selected = taxon_tree[taxon_tree['taxon_name'] == self.selected].taxon_id.item()
 
             taxa_url = f"https://minka-sdg.org/taxa/{id_selected}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']

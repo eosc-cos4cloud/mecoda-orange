@@ -13,7 +13,6 @@ taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/mast
 taxon_tree = pd.read_csv(taxon_url)
 
 
-
 def get_tree_from_ancestry(obs):
     ancestries = []
     for ob in obs:
