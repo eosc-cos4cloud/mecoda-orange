@@ -19,7 +19,7 @@ This widget collects observations from Minka API and allows filter them by:
 | `Id of observation` | Identification number of a specific observation | `id_obs=425` |
 | `Max. number of results` | The max. number should be under 20.000 (API limit) | `num_max=800` |
 
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-widget.png" alt="minka-widget" width="350"/>
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-widget.png" alt="minka-widget" width="350"/><img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/map_filter_workflow2.png" alt="minka-widget2" width="350"/>
 
 The Minka widget integrates the Python library `mecoda-minka` into a visual interface. 
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
@@ -74,6 +74,8 @@ This widget allows the user to filter Minka observations by scientific or common
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/globe-minka.png" alt="globe-minka.png" width="50"/> Map Filter
 
 This widget allows the user to filter Minka observations using a file (.shp or .kml) composed of a geographic polygon.
+
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/map_filter_workflow.png" alt="minka-widget2" width="800"/>
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/fish-minka.png" alt="fish-minka.png" width="50"/> Marine and Terrestrial Filter
 
