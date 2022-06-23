@@ -8,6 +8,44 @@ from mecoda_minka import get_obs, get_dfs, get_taxon_columns
 from typing import Optional, List
 import pandas as pd
 import traceback
+import requests
+
+places = [
+    '',
+    '243: Torrelles de Llobregat',
+    '244: BioMARató Catalunya',
+    '245: BioMARató Girona',
+    '246: BioPrat',
+    '247: Area marina de Barcelona',
+    '248: BioMARató Barcelona',
+    '249: BioMARató Tarragona',
+    '250: Vedat de Pesca de Ses Negres',
+    '251: Area marina de Badalona',
+    '252: Area marina de Sant Adrià del Besòs',
+    '253: Piscinas del Forum FECDAS',
+    '254: Platja Nova Icària',
+    '255: Platja Somorrostro',
+    '256: Platja Sant Sebastià',
+    '257: Platja Banys del Forum',
+    '258: Area Sitges prova',
+    '259: Biodiversitat Sitges',
+    '260: Isola di Tremiti',
+    '261: Platges CEM',
+    '263: Atles barcelonès',
+    '264: Barcelonès',
+    '265: Area marina Sant Feliu',
+    '266: Sant Vicenç de Montalt mar'
+    ]
+
+def get_places(places):
+    for number in range(266, 280):
+        path = f"https://minka-sdg.org/places/{number}.json"
+        try:
+            name = requests.get(path).json()['name']
+            places.append(f"{number}: {name}")
+        except:
+            continue
+    return places
 
 
 class MinkaWidget(OWBaseWidget):
@@ -65,7 +103,7 @@ class MinkaWidget(OWBaseWidget):
             "query", 
             label="Search by words:", 
             orientation=1, 
-            controlWidth=140
+            controlWidth=200
             )
         self.project_line = gui.lineEdit(
             self.searchBox, 
@@ -74,10 +112,28 @@ class MinkaWidget(OWBaseWidget):
             label="Project name:", 
             orientation=1, 
             callback=self.project_name_edit, 
-            controlWidth=140
+            controlWidth=200
             )
-        self.user_line = gui.lineEdit(self.searchBox, self, "user", label="User name:", orientation=1, controlWidth=140, callback=self.user_edit)
-        self.place_line = gui.lineEdit(self.searchBox, self, "place_name", label="Place:", orientation=1, controlWidth=140)
+        self.user_line = gui.lineEdit(
+            self.searchBox, 
+            self, 
+            "user", 
+            label="User name:", 
+            orientation=1, 
+            controlWidth=200, 
+            callback=self.user_edit
+            )
+        self.place_line = gui.comboBox(
+            self.searchBox, 
+            self, 
+            "place_name", 
+            label="Place:", 
+            items=places, 
+            editable=False, 
+            sendSelectedValue=True, 
+            orientation=1, 
+            #controlWidth=140
+            )
         self.taxon_line = gui.comboBox(
             self.searchBox, 
             self, 
@@ -85,7 +141,8 @@ class MinkaWidget(OWBaseWidget):
             box=None, 
             label="Taxon:", 
             labelWidth=None, 
-            items=('', 'Animalia', 'Actinopterygii', 'Aves', 'Reptilia', 'Amphibia','Mammalia', 'Arachnida', 'Insecta', 'Plantae', 'Fungi', 'Protozoa', 'Mollusca', 'Chromista'), callback=None, 
+            items=('', 'Animalia', 'Actinopterygii', 'Aves', 'Reptilia', 'Amphibia','Mammalia', 'Arachnida', 'Insecta', 'Plantae', 'Fungi', 'Protozoa', 'Mollusca', 'Chromista'), 
+            callback=None, 
             sendSelectedValue=True, 
             emptyString=False, 
             editable=False, 
@@ -99,11 +156,19 @@ class MinkaWidget(OWBaseWidget):
             "year", 
             label="Year:", 
             orientation=1, 
-            controlWidth=80, 
+            controlWidth=120, 
             valueType=int, 
             validator=QIntValidator()
             )
-        self.id_obs_line = gui.lineEdit(self.searchBox, self, 'id_obs', label="Id of observation:", callback=self.id_obs_edit, orientation=1, controlWidth=80)
+        self.id_obs_line = gui.lineEdit(
+            self.searchBox, 
+            self, 
+            'id_obs', 
+            label="Id of observation:", 
+            callback=self.id_obs_edit, 
+            orientation=1, 
+            controlWidth=120
+            )
                
         gui.separator(self.controlArea)
 
@@ -173,7 +238,6 @@ class MinkaWidget(OWBaseWidget):
             self.id_obs_line.setDisabled(False)
             self.project_line.setDisabled(False)
 
-
     def commit(self):
         self.infoa.setText(f'Searching...')
         self.infob.setText(f'')
@@ -209,12 +273,15 @@ class MinkaWidget(OWBaseWidget):
                 user = self.user
 
             if self.place_name == "":
-                place_name = None
+                place_id = None
             else:
                 place_name = self.place_name
+                place_id=place_name.split(":")[0]
 
             progress = gui.ProgressBar(self, 2)
             progress.advance()
+
+            
             
             observations = get_obs(
                 id_obs=id_obs, 
@@ -222,7 +289,7 @@ class MinkaWidget(OWBaseWidget):
                 query=query,
                 user=user,
                 taxon=taxon,
-                place_name=place_name,
+                place_id=place_id,
                 year=year,
                 num_max=self.num_max,
                 )
