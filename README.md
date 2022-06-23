@@ -13,7 +13,7 @@ This widget collects observations from Minka API and allows filter them by:
 | `Search by words` | Word or phrase found in the data of an observation | `query="quercus quercus"` |
 | `Project name` | Name of a project | `project_name="urbamar"` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
-| `Place` | Name of a place | `place_name="Barcelona"` |
+| `Place` | One of the places created in minka website | `place="246: BioPrat"` |
 | `Taxon` | One of the main taxonomies | `taxon="fungi"` |
 | `Year` | Year of observations | `year=2019` |
 | `Id of observation` | Identification number of a specific observation | `id_obs=425` |
@@ -48,29 +48,32 @@ The observations output gets a Table with the following fields:
   * family
   * genus
 
-The `observations` table allows statistical analysis. The photos table allows image analysis.
+The `observations` table allows to make statistical analysis. The photos table allows image analysis.
 
 The widget is complemented with other widgets that can take input from it or directly from Minka API:
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/camera-minka.png" alt="get-images" width="50"/> get_images
 
-This widget takes a `Table` with observations (and a column with ids from Minka) and get the photos from all of them. 
-Works with data from Minka API. 
+This widget takes a `Table` with observations (and a column with ids from Minka) and get the photos from all of them. Works with data from Minka Widget. 
 
 The output is a Table with an image type feature that can be accessed using `Image viewer`.
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/arrow-down-wide-short-solid-minka.png" alt="taxon-filter" width="50"/> Minka Taxon Filter
 
-This widget allows to filter Minka observations by different taxonomic levels (from kingdom to species). The levels shown are just the ones with registered observations.
+This widget allows the user to filter Minka observations by different taxonomic levels (from kingdom to species). The levels shown are just the ones with registered observations.
 
 The widget looks like that:
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_taxon_filter_2.png" alt="taxon-filter-widget" width="350"/> 
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/leaf-solid-minka.png" alt="taxon-filter-by-words" width="50"/> Minka Taxon Search
 
-This widget allows to filter Minka observations by scientific or common name.
+This widget allows the user to filter Minka observations by scientific or common name.
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_taxon_search_widget.png" alt="taxon-search-widget" width="350"/> 
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/globe-minka.png" alt="globe-minka.png" width="50"/> Map Filter
+
+This widget allows the user to filter Minka observations using a file (.shp or .kml) composed of a geographic polygon.
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/fish-minka.png" alt="fish-minka.png" width="50"/> Marine and Terrestrial Filter
 
@@ -80,12 +83,11 @@ The widget splits Table of observations into two dataframes: one for marine spec
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 
-The Odour Collect widget allows to get observations from Odour Collect API. The widget looks like this:
+The Odour Collect widget allows the user to get observations from Odour Collect API. The widget looks like this:
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odour-collect-widget-2.png" alt="odour-collect-widget" width="350"/>
 
-The widget has different search fields: date, annoy level, intensity level, category and type. 
-Besides the observations can be complemented with the distance from a Point of Interest, if this is set.
+The widget has different search fields: date, annoy level, intensity level, category and type. Besides, the observations can be complemented with the distance from a Point of Interest, if this is set.
 
 The output is a `Table` of observations, with this information:
 
