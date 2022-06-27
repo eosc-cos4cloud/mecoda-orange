@@ -1,14 +1,11 @@
 import pandas as pd
 import os
-import datetime
-import requests
 import geopandas as gpd
 from shapely.geometry import LineString
 from geopy.geocoders import Nominatim
 from geopandas.tools import sjoin
 from mecoda_minka import get_obs, get_dfs
 import fiona
-gpd.io.file.fiona.drvsupport.supported_drivers['KML'] = 'rw'
 
 from orangewidget.widget import OWBaseWidget, Output, Input
 from orangewidget.settings import Setting
@@ -20,6 +17,8 @@ from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from PyQt5.QtWidgets import QFileDialog
 from AnyQt.QtWidgets import QStyle, QSizePolicy as Policy
 
+# Enable fiona driver
+gpd.io.file.fiona.drvsupport.supported_drivers['KML'] = 'rw'
 
 class MapWidget(OWBaseWidget):
     
@@ -44,8 +43,7 @@ class MapWidget(OWBaseWidget):
 
     # Defining settings
     path_file = Setting("", schema_only=True)
-    #data = Setting(pd.DataFrame(), schema_only=True)
-    #observations = Setting("", schema_only=True)
+
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Inputs:
@@ -53,7 +51,6 @@ class MapWidget(OWBaseWidget):
 
     class Outputs:
         observations = Output("Observations", Orange.data.Table, auto_summary=False)
-        #photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
 
     def __init__(self):
@@ -135,7 +132,6 @@ class MapWidget(OWBaseWidget):
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            #input_data = self.set_data(self.input_data)
             
             print(len(self.input_data))
             if self.path_file != "":
