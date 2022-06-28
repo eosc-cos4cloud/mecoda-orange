@@ -1,11 +1,7 @@
 import pandas as pd
 import os
 import geopandas as gpd
-from shapely.geometry import LineString
-from geopy.geocoders import Nominatim
 from geopandas.tools import sjoin
-from mecoda_minka import get_obs, get_dfs
-import fiona
 
 from orangewidget.widget import OWBaseWidget, Output, Input
 from orangewidget.settings import Setting
