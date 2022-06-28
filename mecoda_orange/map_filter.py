@@ -1,11 +1,12 @@
 import pandas as pd
 import os
+import fiona
 import geopandas as gpd
 from geopandas.tools import sjoin
 
 from orangewidget.widget import OWBaseWidget, Output, Input
 from orangewidget.settings import Setting
-from orangewidget import gui, widget
+from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
@@ -14,7 +15,10 @@ from PyQt5.QtWidgets import QFileDialog
 from AnyQt.QtWidgets import QStyle, QSizePolicy as Policy
 
 # Enable fiona driver
-gpd.io.file.fiona.drvsupport.supported_drivers['KML'] = 'rw'
+#gpd.io.file.fiona.drvsupport.supported_drivers['KML'] = 'rw'
+
+fiona.drvsupport.supported_drivers["LIBKML"] = "rw"
+fiona.drvsupport.supported_drivers["KML"] = "rw"
 
 class MapWidget(OWBaseWidget):
     

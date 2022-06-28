@@ -67,11 +67,12 @@ setup(
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 0.3.2",
         "mooda >= 1.13.1",
-        "geopandas == 0.10.2",
+        "geopandas >= 0.11.0",
         "rtree >=1.0.0",
-        "shapely >= 1.8.2",
-        "fiona >= 1.8.21",
-        "pyproj >= 2.6.1"
+        "pyogrio >= 0.4.0"
+        # "shapely >= 1.8.2",
+        # "fiona >= 1.8.21",
+        # "pyproj >= 2.6.1"
         ],
     keywords=KEYWORDS,
     include_package_data=True,
