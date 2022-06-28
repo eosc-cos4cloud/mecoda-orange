@@ -67,10 +67,8 @@ setup(
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 0.3.2",
         "mooda >= 1.13.1",
-        #"geopandas >= 0.11.0",
-        #"rtree >=1.0.0",
-        #"pyogrio >= 0.4.0",
-        #"fiona >= 1.8.21"
+        "geopandas >= 0.11.0",
+        "rtree >=1.0.0",
         ],
     keywords=KEYWORDS,
     include_package_data=True,
