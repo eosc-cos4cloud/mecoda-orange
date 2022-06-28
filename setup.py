@@ -69,7 +69,7 @@ setup(
         "mooda >= 1.13.1",
         "geopandas == 0.10.2",
         "rtree >=1.0.0",
-        "shapely >= 1.8.2"
+        "shapely >= 1.8.2",
         "fiona >= 1.8.21",
         "pyproj >= 2.6.1"
         ],
