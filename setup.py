@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.4.5"
+VERSION = "1.4.6"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -67,7 +67,9 @@ setup(
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 0.3.2",
         "mooda >= 1.13.1",
-        "geopandas == 0.10.2"
+        "geopandas == 0.10.2",
+        "geopy >= 2.2.0",
+        "rtree >=1.0.0"
         ],
     keywords=KEYWORDS,
     include_package_data=True,
