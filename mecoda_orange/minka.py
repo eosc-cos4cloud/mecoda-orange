@@ -34,11 +34,15 @@ places = [
     '263: Atles barcelonès',
     '264: Barcelonès',
     '265: Area marina Sant Feliu',
-    '266: Sant Vicenç de Montalt mar'
+    '266: Sant Vicenç de Montalt mar',
+    '267: Desembocadura del Torrent de Sant Joan',
+    "268: Posidonia activa 1",
+    "269: Posidonia activa 2",
+    "270: Posidonia activa 3",
     ]
 
 def get_places(places):
-    for number in range(266, 280):
+    for number in range(270, 280):
         path = f"https://minka-sdg.org/places/{number}.json"
         try:
             name = requests.get(path).json()['name']
@@ -141,7 +145,22 @@ class MinkaWidget(OWBaseWidget):
             box=None, 
             label="Taxon:", 
             labelWidth=None, 
-            items=('', 'Animalia', 'Actinopterygii', 'Aves', 'Reptilia', 'Amphibia','Mammalia', 'Arachnida', 'Insecta', 'Plantae', 'Fungi', 'Protozoa', 'Mollusca', 'Chromista'), 
+            items=(
+                '', 
+                'Animalia', 
+                'Actinopterygii', 
+                'Aves', 
+                'Reptilia', 
+                'Amphibia',
+                'Mammalia', 
+                'Arachnida', 
+                'Insecta', 
+                'Plantae', 
+                'Fungi', 
+                'Protozoa', 
+                'Mollusca', 
+                'Chromista'
+                ), 
             callback=None, 
             sendSelectedValue=True, 
             emptyString=False, 
@@ -280,8 +299,6 @@ class MinkaWidget(OWBaseWidget):
 
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-
-            
             
             observations = get_obs(
                 id_obs=id_obs, 
