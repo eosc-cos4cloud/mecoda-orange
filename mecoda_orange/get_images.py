@@ -10,7 +10,7 @@ class ImagesWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
     name = "Minka Images"
     # Short widget description
-    description = "Get photos from column of observation ids. Works with data from Minka API."
+    description = "Get photos from selection of observations. Works with data from Minka API."
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)

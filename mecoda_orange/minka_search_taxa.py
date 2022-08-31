@@ -13,7 +13,7 @@ taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/mast
 taxon_tree = pd.read_csv(taxon_url)
 
 
-def get_tree_from_ancestry(obs):
+def _get_tree_from_ancestry(obs):
     ancestries = []
     for ob in obs:
         ancestries.append(ob.taxon_ancestry)
@@ -42,7 +42,7 @@ def get_tree_from_ancestry(obs):
     return " <br>>> ".join(tree)
 
 
-def get_id_from_name(taxon_name):
+def _get_id_from_name(taxon_name):
     taxon_name = taxon_name.replace(" ", "%20")
     taxon_name = taxon_name.capitalize()
     url = f"https://minka-sdg.org/taxon_names.json?name={taxon_name}"
@@ -50,7 +50,7 @@ def get_id_from_name(taxon_name):
     taxon_id = requests.get(url).json()[0]['taxon_id']
     return taxon_id
 
-def get_id_from_wikipedia(name_search):
+def _get_id_from_wikipedia(name_search):
     names = []
     searches = requests.get(f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search']
     for search in searches:
@@ -58,7 +58,7 @@ def get_id_from_wikipedia(name_search):
 
     for name in names:
         try:
-            taxon_id = get_id_from_name(name)
+            taxon_id = _get_id_from_name(name)
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
             if obs_count > 0:
@@ -69,19 +69,19 @@ def get_id_from_wikipedia(name_search):
 def get_obs_from_common_name(name_search):
     try:
         name_clean = name_search.replace(" ", "%20")
-        taxon_id = get_id_from_name(name_clean)
+        taxon_id = _get_id_from_name(name_clean)
         sci_name = taxon_tree[taxon_tree['taxon_id'] == taxon_id]['taxon_name'].item()
         print(taxon_id, sci_name)
         obs = get_obs(taxon_id=taxon_id)
         if len(obs) > 0:
             #print("Option 1:", sci_name)
-            ancestry = get_tree_from_ancestry(obs)
+            ancestry = _get_tree_from_ancestry(obs)
         else:
             ancestry = ""
     except:
         try:
-            taxon_id, sci_name = get_id_from_wikipedia(name_search)
-            #taxon_id = get_id_from_name(sci_name)
+            taxon_id, sci_name = _get_id_from_wikipedia(name_search)
+            #taxon_id = _get_id_from_name(sci_name)
             print(taxon_id, sci_name)
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
@@ -89,21 +89,21 @@ def get_obs_from_common_name(name_search):
                 print("Option 2:", sci_name)
                 obs = get_obs(taxon_id=taxon_id)
                 if len(obs) > 0:
-                    ancestry = get_tree_from_ancestry(obs)
+                    ancestry = _get_tree_from_ancestry(obs)
             #else:
                 #obs = []
                 #ancestry = ""
         except:
             sci_name = requests.get(f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search'][0]['title']
             options = get_close_matches(sci_name, taxon_tree.taxon_name.to_list())
-            taxon_id = get_id_from_name(options[0])
+            taxon_id = _get_id_from_name(options[0])
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
             if obs_count > 0:
                 print("Option 3:", options[0])
                 obs = get_obs(taxon_id=taxon_id)
                 if len(obs) > 0:
-                    ancestry = get_tree_from_ancestry(obs)
+                    ancestry = _get_tree_from_ancestry(obs)
                 else:
                     ancestry = ""
             else:
@@ -115,49 +115,49 @@ def get_obs_from_common_name(name_search):
 
 def get_obs_from_sci_name(name_search):
     try:
-        taxon_id = get_id_from_name(name_search)
+        taxon_id = _get_id_from_name(name_search)
         print(taxon_id)
         obs = get_obs(taxon_id=taxon_id)
         if len(obs) > 0:
-            ancestry = get_tree_from_ancestry(obs)
+            ancestry = _get_tree_from_ancestry(obs)
         else:
             ancestry = ""
             obs = []
     except:
         options = get_close_matches(name_search, taxon_tree.taxon_name.to_list())
-        taxon_id = get_id_from_name(options[0])
+        taxon_id = _get_id_from_name(options[0])
         taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
         obs_count = requests.get(taxa_url).json()['observations_count']
         if obs_count > 0:
             print("Option 1:", options[0])
-            taxon_id = get_id_from_name(options[0])
+            taxon_id = _get_id_from_name(options[0])
             obs = get_obs(taxon_id=taxon_id)
             if len(obs) > 0:
-                ancestry = get_tree_from_ancestry(obs)
+                ancestry = _get_tree_from_ancestry(obs)
             else:
                 ancestry = ""
         else:
-            taxon_id = get_id_from_name(options[1])
+            taxon_id = _get_id_from_name(options[1])
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
             if obs_count > 0:
                 print("Option 2:", options[1])
-                taxon_id = get_id_from_name(options[1])
+                taxon_id = _get_id_from_name(options[1])
                 obs = get_obs(taxon_id=taxon_id)
                 if len(obs) > 0:
-                    ancestry = get_tree_from_ancestry(obs)
+                    ancestry = _get_tree_from_ancestry(obs)
                 else:
                     ancestry = ""
             else:
-                taxon_id = get_id_from_name(options[2])
+                taxon_id = _get_id_from_name(options[2])
                 taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
                 obs_count = requests.get(taxa_url).json()['observations_count']
                 if obs_count > 0:
                     print("Option 3:", options[2])
-                    taxon_id = get_id_from_name(options[2])
+                    taxon_id = _get_id_from_name(options[2])
                     obs = get_obs(taxon_id=taxon_id)
                     if len(obs) > 0:
-                        ancestry = get_tree_from_ancestry(obs)
+                        ancestry = _get_tree_from_ancestry(obs)
                     else:
                         ancestry = ""
                 else:
@@ -165,7 +165,7 @@ def get_obs_from_sci_name(name_search):
                     if len(options) > 0:
                         for option in options:
                             try:
-                                possible_id = get_id_from_name(option)
+                                possible_id = _get_id_from_name(option)
                                 taxa_url = f"https://minka-sdg.org/taxa/{possible_id}.json"
                                 obs_count = requests.get(taxa_url).json()['observations_count']
                                 if obs_count > 0:
@@ -173,7 +173,7 @@ def get_obs_from_sci_name(name_search):
                                     print("Option 4:", option)
                                     obs = get_obs(taxon_id=taxon_id)
                                     if len(obs) > 0:
-                                        ancestry = get_tree_from_ancestry(obs)
+                                        ancestry = _get_tree_from_ancestry(obs)
                             except:
                                 ancestry = ""
                                 obs = []

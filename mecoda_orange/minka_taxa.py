@@ -12,10 +12,10 @@ import requests
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
 
-def get_descendants(selected_taxon, df):
-    id_ = df[df['taxon_name'] == selected_taxon]['taxon_id'].item()
-    ancestry = df[df['taxon_name'] == selected_taxon]['ancestry'].item()
-    result_df = df[df['ancestry'] == f"{ancestry}/{id_}"][['taxon_id', 'taxon_name', 'rank']]
+def get_descendants(selected_taxon, taxon_tree):
+    id_ = taxon_tree[taxon_tree['taxon_name'] == selected_taxon]['taxon_id'].item()
+    ancestry = taxon_tree[taxon_tree['taxon_name'] == selected_taxon]['ancestry'].item()
+    result_df = taxon_tree[taxon_tree['ancestry'] == f"{ancestry}/{id_}"][['taxon_id', 'taxon_name', 'rank']]
     names = result_df.taxon_name.to_list()
     taxa = ["", ]
     for name in names:

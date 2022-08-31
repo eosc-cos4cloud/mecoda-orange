@@ -36,10 +36,13 @@ places = [
     '265: Area marina Sant Feliu',
     '266: Sant Vicenç de Montalt mar',
     '267: Desembocadura del Torrent de Sant Joan',
+    "268: Posidonia activa 1",
+    "269: Posidonia activa 2",
+    "270: Posidonia activa 3",
     ]
 
 def get_places(places):
-    for number in range(268, 280):
+    for number in range(270, 280):
         path = f"https://minka-sdg.org/places/{number}.json"
         try:
             name = requests.get(path).json()['name']

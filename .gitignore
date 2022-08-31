@@ -4,4 +4,6 @@ Mecoda_Orange.egg-info
 .vscode
 build
 dist
+.ipynb_checkpoints
+.pytest_cache
 
