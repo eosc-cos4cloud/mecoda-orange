@@ -209,3 +209,37 @@ The Natusfera widget integrates the Python library `mecoda-nat` into a visual in
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 A single observation can have more than a photo. 
 
+# Testing
+To run tests locally you'll need to have python 3.8, pip, virtualenv and git installed.
+
+* Clone the repository and go into the directory:
+```
+git clone https://github.com/eosc-cos4cloud/mecoda-orange.git
+cd mecoda-orange
+```
+
+* Set up the virtualenv for running tests:
+```
+virtualenv -p `which python3.8` env
+source env/bin/activate
+```
+
+* Install mecoda-orange:
+```
+pip install -e .
+```
+
+* Install pytest:
+```
+pip install pytest
+```
+
+* Run tests from the mecoda-orange directory:
+```
+pytest
+```
+
+* To run only one test,  use:
+```
+pytest -k <name-of-the-test>
+```
