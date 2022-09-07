@@ -243,3 +243,9 @@ pytest
 ```
 pytest -k <name-of-the-test>
 ```
+
+# Next steps
+MECODA is intented to be kept as an open source repository. It will be ensured to be maintained, at least as part of other existent repository. A version will be kept in [CSIC Gitlab](https://git.csic.es/).
+
+# License
+This repository is under GPLv3 license. See [license](./license) for more details.
