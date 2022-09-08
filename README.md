@@ -71,12 +71,6 @@ This widget allows the user to filter Minka observations by scientific or common
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_taxon_search_widget.png" alt="taxon-search-widget" width="350"/> 
 
-### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/globe-minka.png" alt="globe-minka.png" width="50"/> Map Filter
-
-This widget allows the user to filter Minka observations using a file (.shp or .kml) composed of a geographic polygon.
-
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/map_filter_workflow.png" alt="minka-widget2" width="800"/>
-
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/fish-minka.png" alt="fish-minka.png" width="50"/> Marine and Terrestrial Filter
 
 The widget splits Table of observations into two dataframes: one for marine species and other for terrestrial ones. Just gets observations with research degree.
