@@ -5,7 +5,6 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 from mecoda_minka import get_obs, get_dfs, get_taxon_columns
-from typing import Optional, List
 import pandas as pd
 import traceback
 import requests
@@ -88,7 +87,7 @@ class MinkaWidget(OWBaseWidget):
         photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
-        # llama el método init de la clase padre OWBaseWidget
+        # llama al método init de la clase padre OWBaseWidget
         super().__init__()
 
         from AnyQt.QtGui import QIntValidator

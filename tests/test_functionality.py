@@ -26,8 +26,8 @@ def observations():
 @pytest.fixture(name='taxon_tree', scope='session')
 def taxon_tree():
     taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
-    taxon_tree = pd.read_csv(taxon_url)
-    return taxon_tree
+    df_taxon_tree = pd.read_csv(taxon_url)
+    return df_taxon_tree
     
 
 def test_minka_widget(observations):
@@ -173,7 +173,7 @@ def test_odour_collect():
 def test_get_fixed_stations_data():
     observations = get_fixed_stations_data('PM1')
     table_canairio = table_from_frame(observations)
-    assert len(observations) > 30
+    assert len(observations) > 20
     assert len(observations.columns) == 19
     assert len(observations.geohash.unique()) > 20
     assert observations.measurementValue.max() > 10
