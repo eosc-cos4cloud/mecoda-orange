@@ -4,6 +4,11 @@ This repository includes different Orange Data Mining widgets to access data fro
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/cos4cloud.png" alt="cos4cloud-logo" width="75"/> MECODA is part of [Cos4Cloud](https://cos4cloud.eu/), a European Horizon 2020 project to boost citizen science technologies.
 
+To use MECODA package you need to install Orange Data Mining platform through https://orangedatamining.com/download
+
+Once Orange is installed, inside the Options menu, it's possible to get the package using "Add-ons" category, clicking on "Add more" and searching by name "mecoda-orange". The last version of the package will be installed into Orange platform.
+
+
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-logo.png" alt="minka-logo" width="75"/> Minka widget 
 
 This widget collects observations from Minka API and allows filter them by:
