@@ -1,12 +1,12 @@
 # Installation Guide
 
 1. Install Orange Data Mining platform through https://orangedatamining.com/download 
-<img src="images/orange_installation.png" alt="orange_installation" width="600"/> 
+<img src="images/orange_installation.png" alt="orange_installation" width="800"/> 
 
 Click on “Download Orange”.
 
 2. Open Orange from the menu in your computer, you will see something like this:
-<img src="images/orange_canvas.png" alt="orange_canvas" width="600"/> 
+<img src="images/orange_canvas.png" alt="orange_canvas" width="800"/> 
 
 3. Go to menu “Options” and select “Add-ons”:
 <img src="images/orange_addons.png" alt="orange_addons" width="600"/> 
@@ -78,31 +78,31 @@ If we change the “Detail” option in the Choropleth Map we can also see the n
 
 ## Let’s answer some questions now:
 * Which category of odors is the most prevalent in Greece? Use the **Pivot Table** widget:
-<img src="images/oc_pivot.png" alt="oc_pivot_table" width="600"/> 
+<img src="images/oc_pivot.png" alt="oc_pivot_table" width="800"/> 
 
 * In which year are there more odours recorded? Use the **Distributions** widget:
-<img src="images/oc_year.png" alt="oc_year" width="600"/> 
+<img src="images/oc_year.png" alt="oc_year" width="800"/> 
 
 * What day of the week the most odours are recorded? Use the **Distributions** widget / or the **Pivot Table** widget:
-<img src="images/oc_distributions_weekday2.png" alt="oc_distributions_weekday" width="600"/> 
+<img src="images/oc_distributions_weekday2.png" alt="oc_distributions_weekday" width="800"/> 
 
 * Where are the odours registered inside Greece? Can we see the points on a map? Use **Geo Map** widget
-<img src="images/oc_geo_map.png" alt="oc_geo_map" width="600"/> 
+<img src="images/oc_geo_map.png" alt="oc_geo_map" width="800"/> 
 
 * Which category of odour has the worst hedonic tone? Use the **BoxPlot**
-<img src="images/orange_boxplot.png" alt="orange_boxplot" width="600"/> 
+<img src="images/orange_boxplot.png" alt="orange_boxplot" width="800"/> 
 
 * Which category of odours have the biggest intensity?
-<img src="images/orange_boxplot2.png" alt="orange_boxplot2" width="600"/> 
+<img src="images/orange_boxplot2.png" alt="orange_boxplot2" width="800"/> 
 
 We can also see the intensity in every category using the **Violin Plot**:
-<img src="images/orange_violinplot.png" alt="orange_violinplot" width="600"/> 
+<img src="images/orange_violinplot.png" alt="orange_violinplot" width="800"/> 
 
 * Imagine you want to change a column, to update the weekday names from english to greek. You can use the **Edit domain** option.
-<img src="images/oc_edit_domain.png" alt="oc_edit_domain" width="600"/> 
+<img src="images/oc_edit_domain.png" alt="oc_edit_domain" width="800"/> 
 
 * And if you want to inspect the whole dataset, you can use **Feature Statistics**.
-<img src="images/oc_feature_statistics.png" alt="oc_feature_statistics" width="600"/> 
+<img src="images/oc_feature_statistics.png" alt="oc_feature_statistics" width="800"/> 
 
 
 
