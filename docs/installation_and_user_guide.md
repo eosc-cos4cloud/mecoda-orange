@@ -1,7 +1,7 @@
 # Installation Guide
 
 1. Install Orange Data Mining platform through https://orangedatamining.com/download 
-<img src="images/orange_installation.png" alt="orange_installation"/> 
+<img src="images/orange_installation.png" alt="orange_installation" width="300"/> 
 
     Click on “Download Orange”.
 
