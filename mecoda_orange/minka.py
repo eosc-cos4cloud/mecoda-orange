@@ -38,6 +38,7 @@ places = [
     "268: Posidonia activa 1",
     "269: Posidonia activa 2",
     "270: Posidonia activa 3",
+    "271: Quadricules 200x200 Barcelonés"
     ]
 
 def get_places(places):
@@ -60,7 +61,7 @@ class MinkaWidget(OWBaseWidget):
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    #icon = "icons/N2.png"
+    # icon = "icons/N2.png"
     icon = "icons/minka-logo.png"
     priority = 1
 
@@ -143,7 +144,7 @@ class MinkaWidget(OWBaseWidget):
             "taxon", 
             box=None, 
             label="Taxon:", 
-            labelWidth=None, 
+            # labelWidth=None,
             items=(
                 '', 
                 'Animalia', 
@@ -294,7 +295,7 @@ class MinkaWidget(OWBaseWidget):
                 place_id = None
             else:
                 place_name = self.place_name
-                place_id=place_name.split(":")[0]
+                place_id = place_name.split(":")[0]
 
             progress = gui.ProgressBar(self, 2)
             progress.advance()
