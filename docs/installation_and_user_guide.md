@@ -46,6 +46,7 @@ Here we can see all the filters available to Odour Collect observations. If we d
 
 4. After pressing **Commit** the widget will connect with the API from Odour Collect website to fetch the data and make it available to use in inside Orange:
 <img src="images/oc_widget4.png" alt="oc_widget4" width="600"/> 
+
 Here we can see that 11.676 observations are downloaded.
 
 5. How is this data? We can now inspect it using the Table widget. Put your mouse over the right side of the Odour Collect widget where a pointed curve appears. Drag this curve and you will see a line appear:
@@ -76,7 +77,7 @@ This Table has around 304 observations, not the 11.000 from the beginning. These
 
 If we change the “Detail” option in the Choropleth Map we can also see the number in the different regions of Greece:
 
-## Let’s answer some questions now:
+## Let’s answer some questions
 * Which category of odors is the most prevalent in Greece? Use the **Pivot Table** widget:
 <img src="images/oc_pivot.png" alt="oc_pivot_table" width="800"/> 
 
