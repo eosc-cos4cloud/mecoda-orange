@@ -5,17 +5,21 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-from mecoda_minka import get_obs, get_dfs, get_taxon_columns
+from mecoda_minka import get_obs, get_dfs
 import requests
 
 #taxon_tree = pd.read_csv("taxon_tree.csv")
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
 
+
 def get_descendants(selected_taxon, taxon_tree):
-    id_ = taxon_tree[taxon_tree['taxon_name'] == selected_taxon]['taxon_id'].item()
-    ancestry = taxon_tree[taxon_tree['taxon_name'] == selected_taxon]['ancestry'].item()
-    result_df = taxon_tree[taxon_tree['ancestry'] == f"{ancestry}/{id_}"][['taxon_id', 'taxon_name', 'rank']]
+    id_ = taxon_tree[taxon_tree['taxon_name']
+                     == selected_taxon]['taxon_id'].item()
+    ancestry = taxon_tree[taxon_tree['taxon_name']
+                          == selected_taxon]['ancestry'].item()
+    result_df = taxon_tree[taxon_tree['ancestry'] ==
+                           f"{ancestry}/{id_}"][['taxon_id', 'taxon_name', 'rank']]
     names = result_df.taxon_name.to_list()
     taxa = ["", ]
     for name in names:
@@ -23,12 +27,14 @@ def get_descendants(selected_taxon, taxon_tree):
         taxa_url = f"https://minka-sdg.org/taxa/{id_taxa}.json"
         obs_count = requests.get(taxa_url).json()['observations_count']
         if obs_count > 0:
-            order = result_df[result_df['taxon_name'] == name]['rank'].item().capitalize()
+            order = result_df[result_df['taxon_name']
+                              == name]['rank'].item().capitalize()
             taxa.append(f"{order} {name}")
     return sorted(taxa)
 
+
 class TaxonWidget(OWBaseWidget):
-    
+
     # Widget's name as displayed in the canvas
     name = "Minka Taxon Filter"
 
@@ -44,7 +50,7 @@ class TaxonWidget(OWBaseWidget):
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
     want_main_area = False
-    
+
     #   with a fixed non resizable geometry.
     resizing_enabled = False
 
@@ -60,13 +66,14 @@ class TaxonWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output("Observations", Orange.data.Table, auto_summary=False)
+        observations = Output(
+            "Observations", Orange.data.Table, auto_summary=False)
         photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
         super().__init__()
-        
+
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
@@ -79,18 +86,18 @@ class TaxonWidget(OWBaseWidget):
 
         # searchBox area
         self.searchBox = gui.widgetBox(
-            self.controlArea, 
+            self.controlArea,
             "Taxa fields",
-            )
+        )
 
-        self.searchBox.setFixedSize(300,230)
+        self.searchBox.setFixedSize(300, 230)
 
         self.kingdom_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "kingdom", 
+            self.searchBox,
+            self,
+            "kingdom",
             box=None,
-            #label="First Level:", 
+            #label="First Level:",
             labelWidth=None,
             items=(
                 '',
@@ -101,94 +108,94 @@ class TaxonWidget(OWBaseWidget):
                 'Kingdom Chromista',
                 'Kingdom Bacteria',
                 #'Kingdom Archae',
-                ),
+            ),
             sendSelectedValue=True,
             emptyString=False,
             editable=False,
-            contentsLength=None, 
-            searchable=True, 
+            contentsLength=None,
+            searchable=True,
             orientation=2,
-            callback=self.kingdom_edit 
-            )
+            callback=self.kingdom_edit
+        )
 
         self.filo_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "filo", 
+            self.searchBox,
+            self,
+            "filo",
             box=None,
-            #label="", 
+            # label="",
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
             callback=self.filo_edit
-            )
-        
+        )
+
         self.class_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "class_", 
+            self.searchBox,
+            self,
+            "class_",
             box=None,
-            #label="Class:", 
+            # label="Class:",
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
             callback=self.class_edit
-            )
+        )
 
         self.order_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "order", 
+            self.searchBox,
+            self,
+            "order",
             box=None,
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
             callback=self.order_edit
-            )
+        )
 
         self.family_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "family", 
+            self.searchBox,
+            self,
+            "family",
             box=None,
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
             callback=self.family_edit
-            )
+        )
 
         self.gender_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "gender", 
+            self.searchBox,
+            self,
+            "gender",
             box=None,
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
             callback=self.gender_edit
-            )
+        )
 
         self.species_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "species", 
+            self.searchBox,
+            self,
+            "species",
             box=None,
             labelWidth=None,
             items=(),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=True,
             searchable=True,
-            )
+        )
 
         # commit area
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
@@ -196,7 +203,7 @@ class TaxonWidget(OWBaseWidget):
 
     def info_searching(self):
         self.infoa.setText('Searching...')
-    
+
     # function to change subtype items due to type choice
     def kingdom_edit(self):
         self.infoa.setText(f'Selected: {self.kingdom}')
@@ -207,23 +214,22 @@ class TaxonWidget(OWBaseWidget):
             self.filo_line.clear()
             self.filo_line.addItems(get_descendants(kingdom, taxon_tree))
             self.selected = kingdom
-        
-    
+
     def filo_edit(self):
         self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo}')
         self.infob.setText('')
-        
+
         if self.filo != "":
             filo = self.filo.split(" ")[1]
             self.class_line.clear()
             self.class_line.addItems(get_descendants(filo, taxon_tree))
             self.selected = filo
-        
 
     def class_edit(self):
-        self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_}')
+        self.infoa.setText(
+            f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_}')
         self.infob.setText('')
-        
+
         if self.class_ != "":
             class_ = self.class_.split(" ")[1]
             self.order_line.clear()
@@ -231,7 +237,8 @@ class TaxonWidget(OWBaseWidget):
             self.selected = class_
 
     def order_edit(self):
-        self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order}')
+        self.infoa.setText(
+            f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order}')
         self.infob.setText('')
         if self.order != "":
             order = self.order.split(" ")[1]
@@ -240,7 +247,8 @@ class TaxonWidget(OWBaseWidget):
             self.selected = order
 
     def family_edit(self):
-        self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family}')
+        self.infoa.setText(
+            f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family}')
         self.infob.setText('')
         if self.family != "":
             family = self.family.split(" ")[1]
@@ -249,7 +257,8 @@ class TaxonWidget(OWBaseWidget):
             self.selected = family
 
     def gender_edit(self):
-        self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family} \n>> {self.gender}')
+        self.infoa.setText(
+            f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family} \n>> {self.gender}')
         self.infob.setText('')
         if self.gender != "":
             gender = self.gender.split(" ")[1]
@@ -258,7 +267,8 @@ class TaxonWidget(OWBaseWidget):
             self.selected = gender
 
     def species_edit(self):
-        self.infoa.setText(f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family} \n>> {self.gender} \n>> {self.species}')
+        self.infoa.setText(
+            f'Selected: {self.kingdom} \n>> {self.filo} \n>> {self.class_} \n>> {self.order} \n>> {self.family} \n>> {self.gender} \n>> {self.species}')
         self.infob.setText('')
         if self.species != "":
             species = self.species.replace("Species ", "")
@@ -274,30 +284,34 @@ class TaxonWidget(OWBaseWidget):
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            id_selected = taxon_tree[taxon_tree['taxon_name'] == self.selected].taxon_id.item()
+            id_selected = taxon_tree[taxon_tree['taxon_name']
+                                     == self.selected].taxon_id.item()
 
             taxa_url = f"https://minka-sdg.org/taxa/{id_selected}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
 
             if obs_count > 0:
-                obs = get_obs(taxon_id=id_selected)             
+                obs = get_obs(taxon_id=id_selected)
 
                 if len(obs) > 0:
                     self.df_obs, self.df_photos = get_dfs(obs)
-                    
-                    self.df_obs = get_taxon_columns(self.df_obs)
-                    self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
+
+                    self.df_obs.taxon_name = pd.Categorical(
+                        self.df_obs.taxon_name)
                     self.df_obs.order = pd.Categorical(self.df_obs.order)
                     self.df_obs.family = pd.Categorical(self.df_obs.family)
                     self.df_obs.genus = pd.Categorical(self.df_obs.genus)
-                    
+
                     self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
-                    self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower()
+                    self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower(
+                    )
 
                     self.infoa.setText(f'{len(obs)} observations gathered')
-                    self.infob.setText(f'{len(self.df_photos)} photos gathered')
-                    
-                    self.Outputs.observations.send(table_from_frame(self.df_obs))
+                    self.infob.setText(
+                        f'{len(self.df_photos)} photos gathered')
+
+                    self.Outputs.observations.send(
+                        table_from_frame(self.df_obs))
 
                     table_photos = table_from_frame(self.df_photos)
                     for meta in table_photos.domain.metas:
@@ -312,14 +326,14 @@ class TaxonWidget(OWBaseWidget):
                     self.infob.setText("")
                     self.info.set_output_summary(self.info.NoOutput)
 
-
         except ValueError:
             self.infoa.setText(f'Nothing found.')
-            
+
         except Exception as error:
             self.infoa.setText(f'ERROR: \n{error}')
-            
-        progress.finish()    
+
+        progress.finish()
+
 
 # For developer purpose, allow running the widget directly with python
 if __name__ == "__main__":
