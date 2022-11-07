@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.6.1"
+VERSION = "1.7.0"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -65,7 +65,7 @@ setup(
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
-        "mecoda-minka >= 0.3.2",
+        "mecoda-minka >= 1.0.0",
         ],
     keywords=KEYWORDS,
     include_package_data=True,
