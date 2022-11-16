@@ -1,6 +1,6 @@
 # <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/share.png" alt="mecoda-logo" width="100"/> Mecoda-Orange 
 
-This repository includes different Orange Data Mining widgets to access data from [Minka](https://minka-sdg.org/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/), [Ictio](https://ictio.org/) or [Natusfera](https://natusfera.gbif.es/).
+This repository includes different Orange Data Mining widgets to access data from [Minka](https://minka-sdg.org/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/), [Ictio](https://ictio.org/), [Natusfera](https://natusfera.gbif.es/) or [Smart Citizen](https://smartcitizen.me).
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/cos4cloud.png" alt="cos4cloud-logo" width="75"/> MECODA is part of [Cos4Cloud](https://cos4cloud.eu/), a European Horizon 2020 project to boost citizen science technologies.
 
@@ -209,7 +209,7 @@ The Natusfera widget integrates the Python library `mecoda-nat` into a visual in
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 A single observation can have more than a photo.
 
-## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/smartcitizen.png" alt="natusfera-logo" width="75"/> SmartCitizen widget
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/smartcitizen.png" alt="smartcitizen-logo" width="75"/> SmartCitizen widget
 
 The first widget collects data from the Smart Citizen API. It allows to select the device either via device ID (the number after https://smartcitizen.me/kits/[...]) or by searching the API by city, tags, or device type.
 
