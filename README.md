@@ -207,7 +207,13 @@ This widget collects observations from Natusfera API and allows filter them by:
 
 The Natusfera widget integrates the Python library `mecoda-nat` into a visual interface. 
 You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
-A single observation can have more than a photo. 
+A single observation can have more than a photo.
+
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/smartcitizen.png" alt="natusfera-logo" width="75"/> SmartCitizen widget
+
+The first widget collects data from the Smart Citizen API. It allows to select the device either via device ID (the number after https://smartcitizen.me/kits/[...]) or by searching the API by city, tags, or device type.
+
+The second widget uses the data from the first one and collects timeseries tabular data from a device, with a defined `rollup` (i.e. the frequency of the readings).
 
 # Testing
 To run tests locally you'll need to have python 3.8, pip, virtualenv and git installed.

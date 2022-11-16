@@ -66,6 +66,7 @@ setup(
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 0.3.2",
+        "smartcitizen-connector"
         ],
     keywords=KEYWORDS,
     include_package_data=True,
