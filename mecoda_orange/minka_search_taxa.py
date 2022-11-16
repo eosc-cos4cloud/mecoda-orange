@@ -5,7 +5,7 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-from mecoda_minka import get_obs, get_dfs, get_taxon_columns
+from mecoda_minka import get_obs, get_dfs
 import requests
 from difflib import SequenceMatcher, get_close_matches
 
@@ -19,11 +19,12 @@ def _get_tree_from_ancestry(obs):
         ancestries.append(ob.taxon_ancestry)
     unique_ancestries = list(set(ancestries))
     if len(unique_ancestries) > 1:
-        match = SequenceMatcher(None, unique_ancestries[0], unique_ancestries[1]).find_longest_match(0, len(unique_ancestries[0]), 0, len(unique_ancestries[1]))
+        match = SequenceMatcher(None, unique_ancestries[0], unique_ancestries[1]).find_longest_match(
+            0, len(unique_ancestries[0]), 0, len(unique_ancestries[1]))
         common_string = unique_ancestries[0][match.a:match.a + match.size]
     else:
         common_string = unique_ancestries[0]
-    
+
     # eliminamos último número no completo en la coincidencia y la barra final
     common_string = common_string.rsplit("/", 1)[0]
     numbers = common_string.split("/")
@@ -35,7 +36,8 @@ def _get_tree_from_ancestry(obs):
 
     for number in numbers:
         number = int(number)
-        name = taxon_tree[taxon_tree['taxon_id'] == number]['taxon_name'].item()
+        name = taxon_tree[taxon_tree['taxon_id']
+                          == number]['taxon_name'].item()
         rank = taxon_tree[taxon_tree['taxon_id'] == number]['rank'].item()
         tree.append(f"{rank} {name}")
 
@@ -50,9 +52,11 @@ def _get_id_from_name(taxon_name):
     taxon_id = requests.get(url).json()[0]['taxon_id']
     return taxon_id
 
+
 def _get_id_from_wikipedia(name_search):
     names = []
-    searches = requests.get(f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search']
+    searches = requests.get(
+        f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search']
     for search in searches:
         names.append(search['title'])
 
@@ -66,11 +70,13 @@ def _get_id_from_wikipedia(name_search):
         except:
             continue
 
+
 def get_obs_from_common_name(name_search):
     try:
         name_clean = name_search.replace(" ", "%20")
         taxon_id = _get_id_from_name(name_clean)
-        sci_name = taxon_tree[taxon_tree['taxon_id'] == taxon_id]['taxon_name'].item()
+        sci_name = taxon_tree[taxon_tree['taxon_id']
+                              == taxon_id]['taxon_name'].item()
         print(taxon_id, sci_name)
         obs = get_obs(taxon_id=taxon_id)
         if len(obs) > 0:
@@ -90,12 +96,14 @@ def get_obs_from_common_name(name_search):
                 obs = get_obs(taxon_id=taxon_id)
                 if len(obs) > 0:
                     ancestry = _get_tree_from_ancestry(obs)
-            #else:
+            # else:
                 #obs = []
                 #ancestry = ""
         except:
-            sci_name = requests.get(f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search'][0]['title']
-            options = get_close_matches(sci_name, taxon_tree.taxon_name.to_list())
+            sci_name = requests.get(
+                f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search'][0]['title']
+            options = get_close_matches(
+                sci_name, taxon_tree.taxon_name.to_list())
             taxon_id = _get_id_from_name(options[0])
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
@@ -124,7 +132,8 @@ def get_obs_from_sci_name(name_search):
             ancestry = ""
             obs = []
     except:
-        options = get_close_matches(name_search, taxon_tree.taxon_name.to_list())
+        options = get_close_matches(
+            name_search, taxon_tree.taxon_name.to_list())
         taxon_id = _get_id_from_name(options[0])
         taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
         obs_count = requests.get(taxa_url).json()['observations_count']
@@ -161,13 +170,15 @@ def get_obs_from_sci_name(name_search):
                     else:
                         ancestry = ""
                 else:
-                    options = taxon_tree[taxon_tree.taxon_name.str.contains(name_search)].name.to_list()
+                    options = taxon_tree[taxon_tree.taxon_name.str.contains(
+                        name_search)].name.to_list()
                     if len(options) > 0:
                         for option in options:
                             try:
                                 possible_id = _get_id_from_name(option)
                                 taxa_url = f"https://minka-sdg.org/taxa/{possible_id}.json"
-                                obs_count = requests.get(taxa_url).json()['observations_count']
+                                obs_count = requests.get(taxa_url).json()[
+                                    'observations_count']
                                 if obs_count > 0:
                                     taxon_id = possible_id
                                     print("Option 4:", option)
@@ -181,10 +192,9 @@ def get_obs_from_sci_name(name_search):
                     else:
                         ancestry = ""
                         obs = []
-                        taxon_id = ""   
+                        taxon_id = ""
     taxon_name = taxon_tree[taxon_tree.taxon_id == taxon_id].taxon_name.item()
     return obs, ancestry, taxon_name
-
 
 
 class TaxonWidget(OWBaseWidget):
@@ -203,7 +213,7 @@ class TaxonWidget(OWBaseWidget):
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
     want_main_area = False
-    
+
     #   with a fixed non resizable geometry.
     resizing_enabled = False
 
@@ -213,13 +223,14 @@ class TaxonWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output("Observations", Orange.data.Table, auto_summary=False)
+        observations = Output(
+            "Observations", Orange.data.Table, auto_summary=False)
         photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
         super().__init__()
-        
+
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
@@ -232,11 +243,11 @@ class TaxonWidget(OWBaseWidget):
 
         # searchBox area
         self.searchBox = gui.widgetBox(
-            self.controlArea, 
+            self.controlArea,
             "Search fields",
-            )
+        )
 
-        #self.searchBox.setFixedSize(250,200)
+        # self.searchBox.setFixedSize(250,200)
 
         self.taxon_sci_line = gui.lineEdit(
             self.searchBox,
@@ -260,7 +271,6 @@ class TaxonWidget(OWBaseWidget):
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
         gui.button(self.commitBox, self, "Load", callback=self.commit)
 
-
     def commit(self):
         self.infoa.setText('Searching...')
         self.infob.setText(f'')
@@ -268,26 +278,28 @@ class TaxonWidget(OWBaseWidget):
             progress = gui.ProgressBar(self, 2)
             progress.advance()
             if self.taxon_common != "":
-                obs, ancestry, sci_name = get_obs_from_common_name(self.taxon_common)
+                obs, ancestry, sci_name = get_obs_from_common_name(
+                    self.taxon_common)
             elif self.taxon_sci != "":
                 obs, ancestry, sci_name = get_obs_from_sci_name(self.taxon_sci)
             if len(obs) > 0:
                 self.df_obs, self.df_photos = get_dfs(obs)
-                
-                self.df_obs = get_taxon_columns(self.df_obs)
+
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)
                 self.df_obs.genus = pd.Categorical(self.df_obs.genus)
                 print(self.df_obs.head())
 
-                
                 self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
-                self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower()
+                self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower(
+                )
 
-                self.infoa.setText(f'Found: <b>{sci_name}</b><br>>> {ancestry}')
-                self.infob.setText(f'{len(self.df_obs):,} observations | {len(self.df_photos):,} photos')
-                
+                self.infoa.setText(
+                    f'Found: <b>{sci_name}</b><br>>> {ancestry}')
+                self.infob.setText(
+                    f'{len(self.df_obs):,} observations | {len(self.df_photos):,} photos')
+
                 self.Outputs.observations.send(table_from_frame(self.df_obs))
 
                 table_photos = table_from_frame(self.df_photos)
@@ -304,11 +316,12 @@ class TaxonWidget(OWBaseWidget):
                 self.info.set_output_summary(self.info.NoOutput)
         except ValueError:
             self.infoa.setText(f'Nothing found.')
-            
+
         except Exception as error:
             self.infoa.setText(f'ERROR: \n{error}')
-            
-        progress.finish()    
-        
+
+        progress.finish()
+
+
 if __name__ == "__main__":
     WidgetPreview(TaxonWidget).run()

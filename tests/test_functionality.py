@@ -5,7 +5,7 @@ import os
 import pytest
 from Orange.data.pandas_compat import table_from_frame
 import Orange.data
-from mecoda_minka import get_obs, get_dfs, get_taxon_columns
+from mecoda_minka import get_obs, get_dfs
 import pyodourcollect.ocmodels as ocmodels
 import pyodourcollect.occore as occore
 from ictiopy import ictiopy
@@ -23,19 +23,19 @@ from mecoda_orange.ictio import clean_df, split_date
 def observations():
     return get_obs(num_max=20)
 
+
 @pytest.fixture(name='taxon_tree', scope='session')
 def taxon_tree():
     taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
     df_taxon_tree = pd.read_csv(taxon_url)
     return df_taxon_tree
-    
+
 
 def test_minka_widget(observations):
     df_obs, df_photos = get_dfs(observations)
     df_obs['taxon_name'] = df_obs['taxon_name'].str.lower()
     df_photos['taxon_name'] = df_photos['taxon_name'].str.lower()
-    df_obs = get_taxon_columns(df_obs)
-    
+
     table_obs = table_from_frame(df_obs)
     table_photos = table_from_frame(df_photos)
     for meta in table_photos.domain.metas:
@@ -44,19 +44,20 @@ def test_minka_widget(observations):
 
     assert len(df_obs) <= len(df_photos)
     assert type(table_obs) == Orange.data.table.Table
-    assert [meta.attributes for meta in table_photos.domain.metas if meta.name == "photos.medium_url"] == [{'type': 'image'}]
+    assert [meta.attributes for meta in table_photos.domain.metas if meta.name ==
+            "photos.medium_url"] == [{'type': 'image'}]
     assert len(df_obs.columns) == 28
     assert len(table_obs) == 20
+
 
 def test_marine_filter(taxon_tree):
     marine_df = taxon_tree[['taxon_id', 'rank', 'marine']]
     observations = get_obs(
         num_max=40,
         year=2021,
-        )
+    )
     df_obs, df_photos = get_dfs(observations)
     df_obs['taxon_name'] = df_obs['taxon_name'].str.lower()
-    df_obs = get_taxon_columns(df_obs)
     df_complete = df_obs.merge(marine_df, how="left", on="taxon_id")
     df = df_complete[df_complete['quality_grade'] == "research"]
     marines_df = df[df.marine == True]
@@ -69,9 +70,10 @@ def test_marine_filter(taxon_tree):
     if len(marines_df) > 0:
         assert get_marine(marines_df.taxon_name.iloc[0]) == True
 
+
 def test_get_images(observations):
     df_obs, df_photos = get_dfs(observations)
-    df_sample = df_obs.sample(frac =.50)
+    df_sample = df_obs.sample(frac=.50)
     obs = []
     for id in df_sample['id'].values:
         obs.extend(get_obs(id_obs=id))
@@ -84,9 +86,12 @@ def test_get_images(observations):
     assert len(out) == len(df_photos2)
     assert len(df_photos2) >= len(obs)
     assert type(out) == Orange.data.table.Table
-    assert [meta.attributes for meta in out.domain.metas if meta.name == "photos.medium_url"] == [{'type': 'image'}]
+    assert [meta.attributes for meta in out.domain.metas if meta.name ==
+            "photos.medium_url"] == [{'type': 'image'}]
 
 # tests on minka_search_taxa
+
+
 def test_get_obs_from_sci_name():
     name = 'Peltodoris atromaculata'
     obs, ancestry, taxon_name = get_obs_from_sci_name(name)
@@ -94,6 +99,7 @@ def test_get_obs_from_sci_name():
     assert type(obs[0].created_at) == datetime.datetime
     assert ancestry.startswith('kingdom')
     assert taxon_name[0].isupper()
+
 
 def test_get_obs_from_common_name():
     name = 'pulpo'
@@ -103,6 +109,8 @@ def test_get_obs_from_common_name():
     assert sci_name[0].isupper()
 
 # tests on minka_taxa
+
+
 def test_get_descendants(taxon_tree):
     for name in ['Edmundsella', 'Tripterygiidae', 'Gadiformes']:
         taxa = get_descendants(name, taxon_tree)
@@ -110,10 +118,11 @@ def test_get_descendants(taxon_tree):
         assert taxa[0] == ""
         assert taxa[1][0].isupper()
 
+
 def test_minka_taxa(taxon_tree):
     name = 'Asterina gibbosa'
     id_selected = taxon_tree[taxon_tree['taxon_name'] == name].taxon_id.item()
-    obs = get_obs(taxon_id=id_selected)   
+    obs = get_obs(taxon_id=id_selected)
     assert len(obs) > 0
     assert type(obs[0].created_at) == datetime.datetime
     assert obs[0].quality_grade in ['casual', 'research', 'needs_id']
@@ -151,10 +160,12 @@ def test_odour_collect():
         maxIntensity=maxIntensity,
         type=type_,
         subtype=subtype
-        )
+    )
     observations = occore.get_oc_data(requestparams, gpscoords=None)
-    observations[['longitude', 'latitude']] = observations[['longitude', 'latitude']].astype(float)
-    observations[['time_hour', 'time_min', 'time_sec']] = observations.time.astype(str).str.split(":", expand=True)
+    observations[['longitude', 'latitude']] = observations[[
+        'longitude', 'latitude']].astype(float)
+    observations[['time_hour', 'time_min', 'time_sec']
+                 ] = observations.time.astype(str).str.split(":", expand=True)
 
     table_oc = table_from_frame(observations)
 
@@ -170,6 +181,8 @@ def test_odour_collect():
     assert 'time_hour' in observations.columns
 
 # tests canAIRio widgets
+
+
 def test_get_fixed_stations_data():
     observations = get_fixed_stations_data('PM1')
     table_canairio = table_from_frame(observations)
@@ -180,6 +193,7 @@ def test_get_fixed_stations_data():
     assert observations.measurementValue.min() == 0
     assert type(table_canairio) == Orange.data.table.Table
 
+
 def test_get_historic_data_fixed_station():
     st = "D34TTGOT777426"
     obs = get_historic_data_fixed_station(st)
@@ -189,12 +203,14 @@ def test_get_historic_data_fixed_station():
     assert obs['decimalLatitude '].max() > 6
     assert obs['decimalLongitude '].unique()[0] == -75.59
 
+
 def test_get_mobile_stations():
     obs = get_mobile_stations()
     assert len(obs) > 2000
     assert len(obs.columns) == 23
     assert obs.dtypes['lastLat'] == float
     assert obs.dtypes['P25'] == float
+
 
 def test_get_mobile_track():
     obs = get_mobile_track('20200621210203')
@@ -203,9 +219,11 @@ def test_get_mobile_track():
     assert obs.dtypes['lat'] == float
 
 # tests ictiopy
+
+
 def test_ictiopy_zip_folder():
     zip_path = "./tests/Ictio_Basic_20220401.zip"
-    observations = ictiopy.load_zipdb(zip_path) 
+    observations = ictiopy.load_zipdb(zip_path)
     observations = clean_df(observations)
     init = "1860-01-01"
     end = str(datetime.date.today())
@@ -217,15 +235,16 @@ def test_ictiopy_zip_folder():
     assert len(observations) > 86000
     assert len(observations.port.unique()) == 13
 
+
 def test_ictiopy_xlsx_file():
     file_path = "./tests/BDB_20220401.xlsx"
     directory, file = os.path.split(os.path.abspath(file_path))
     observations = ictiopy.sanitizedb(
         ictiopy.load_ictio_bdb_file(
-            directory, 
+            directory,
             file
-            )
         )
+    )
     observations = clean_df(observations)
     init = "1860-01-01"
     end = str(datetime.date.today())

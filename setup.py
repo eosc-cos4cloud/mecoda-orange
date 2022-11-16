@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.6.1"
+VERSION = "1.7.1"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -15,14 +15,15 @@ AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
 URL = 'https://github.com/eosc-cos4cloud/mecoda-orange'
 
 DESCRIPTION = "Add-on containing MECODA widgets to analyse data from citizen science observatories"
-LONG_DESCRIPTION  = open(os.path.join(os.path.dirname(__file__), 'README_pypi.md')).read()
+LONG_DESCRIPTION = open(os.path.join(
+    os.path.dirname(__file__), 'README_pypi.md')).read()
 LICENSE = "BSD"
 
 KEYWORDS = [
     'orange3 add-on',
     'orange',
     'data mining',
-    ]
+]
 #PACKAGES = find_packages(include=("mecoda_orange*",))
 setup(
     name="Mecoda Orange",
@@ -35,10 +36,10 @@ setup(
     long_description_content_type='text/markdown',
     license=LICENSE,
     packages=["mecoda_orange"],
-    #packages=PACKAGES,
+    # packages=PACKAGES,
     package_data={
-        "mecoda_orange": ["icons/*"], 
-        },
+        "mecoda_orange": ["icons/*"],
+    },
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
         'Environment :: X11 Applications :: Qt',
@@ -53,11 +54,11 @@ setup(
         'Intended Audience :: Education',
         'Intended Audience :: Science/Research',
         'Intended Audience :: Developers',
-        ],
+    ],
     entry_points={
         "orange.widgets": "MECODA = mecoda_orange",
         "orange.addons": "MECODA = mecoda_orange"
-        },
+    },
     install_requires=[
         "flat_table >= 1.1.1",
         "mecoda-nat >= 0.5.8",
@@ -65,12 +66,10 @@ setup(
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
-        "mecoda-minka >= 0.3.2",
+        "mecoda-minka >= 1.0.0",
         "smartcitizen-connector"
         ],
     keywords=KEYWORDS,
     include_package_data=True,
     zip_safe=False,
-    )
-
-
+)
