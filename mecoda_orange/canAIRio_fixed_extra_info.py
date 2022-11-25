@@ -4,24 +4,28 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
-import requests 
+import requests
 import pandas as pd
-import flat_table
 from datetime import datetime
+
 
 def get_historic_data_fixed_station(st) -> pd.DataFrame:
     url = f"http://api.canair.io:8080/dwc/stations/{st}"
-    data = requests.get(url).json()
-    data = pd.DataFrame(data)
-    obs = flat_table.normalize(data)
-    obs.rename(columns=lambda s: s.replace("measurements.", ""), inplace=True)
-    obs.rename(columns={'measurementDeterminedDate ': 'measurementDeterminedDate'}, inplace=True)
+    response = requests.get(url).json()
+    data = pd.DataFrame(response)
+    data = data.explode('measurements').reset_index(drop=True)
+    for col in ['measurementID', 'measurementType', 'measurementUnit', 'measurementDeterminedDate ', 'measurementDeterminedBy', 'measurementValue']:
+        data[col] = data['measurements'].str.get(col)
+    data = data.drop(columns='measurements')
+
+    data.rename(columns={
+        'measurementDeterminedDate ': 'measurementDeterminedDate'}, inplace=True)
     cols = [
-        'measurementDeterminedDate', 
+        'measurementDeterminedDate',
         'observedOn', 'measurementID']
-    obs[cols] = obs[cols].apply(pd.to_datetime)
-    #obs = obs.drop(['index'], axis=1)
-    return obs
+    data[cols] = data[cols].apply(pd.to_datetime)
+    return data
+
 
 class ExtraInfoWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
@@ -32,27 +36,24 @@ class ExtraInfoWidget(OWBaseWidget):
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
     icon = "icons/circle-info-solid-gris.png"
-    priority = 7
+    priority = 10
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
     want_main_area = False
     #   with a fixed non resizable geometry.
     resizing_enabled = False
-    
-    # We want the current number entered by the user to be saved and restored when saving/loading a workflow. 
-    # We can achieve this by declaring a special property/member in the widget’s class definition like so: 
+
+    # We want the current number entered by the user to be saved and restored when saving/loading a workflow.
+    # We can achieve this by declaring a special property/member in the widget’s class definition like so:
     obs_table = Setting("", schema_only=True)
 
-    # Widget's outputs; here, a single output named "Number", of type int
-
+    # Inputs and Outputs
     class Inputs:
         data = Input("Data", Orange.data.Table, auto_summary=False)
 
     class Outputs:
         extra_data = Output("extra", Orange.data.Table, auto_summary=False)
-
-    want_main_area = False
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
@@ -67,14 +68,6 @@ class ExtraInfoWidget(OWBaseWidget):
 
         gui.separator(self.controlArea)
 
-        # searchBox area
-        #self.searchBox = gui.widgetBox(self.controlArea, "Search fields")
-
-        # commit area
-        #self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
-        #gui.button(self.commitBox, self, "Commit", callback=self.commit)
-        #self.searchBox.setDisabled(True)
-
     def info_searching(self):
         self.infoa.setText('Searching...')
 
@@ -83,30 +76,32 @@ class ExtraInfoWidget(OWBaseWidget):
         if dataset is not None:
             self.dataset = dataset
             self.infoa.setText('%d instances in input dataset' % len(dataset))
-            
+
         else:
-            self.dataset = None           
-            self.infoa.setText('No data on input yet, waiting to get something.')
+            self.dataset = None
+            self.infoa.setText(
+                'No data on input yet, waiting to get something.')
             self.infob.setText('')
         self.commit()
-    
+
     def selection(self):
         if self.dataset is None:
             return
         df = table_to_frame(self.dataset)
         ids = df['station_name'].to_list()
         progress = gui.ProgressBar(self, len(df))
-        
+
         observations = pd.DataFrame()
         for id_num in ids:
             obs = get_historic_data_fixed_station(id_num)
             observations = pd.concat([observations, obs])
             progress.advance()
 
-        progress.finish()     
+        progress.finish()
 
         if len(df['measurementType'].unique()) == 1:
-            observations = observations[observations['measurementType'] == df['measurementType'].unique()]
+            observations = observations[observations['measurementType']
+                                        == df['measurementType'].unique()]
 
         self.obs_table = table_from_frame(observations)
 
@@ -127,18 +122,20 @@ class ExtraInfoWidget(OWBaseWidget):
             types = df['measurementType'].unique()
             for t in types:
                 observations = observations[observations['measurementType'] == t]
-            
-            observations.measurementValue = observations.measurementValue.astype(float)
+
+            observations.measurementValue = observations.measurementValue.astype(
+                float)
             self.obs_table = table_from_frame(observations)
 
-            
-
-            self.infoa.setText(f'{len(self.dataset)} instances in input dataset')
-            self.infob.setText(f"{len(self.obs_table)} instances in output dataset")
+            self.infoa.setText(
+                f'{len(self.dataset)} instances in input dataset')
+            self.infob.setText(
+                f"{len(self.obs_table)} instances in output dataset")
             self.info.set_output_summary(len(observations))
 
         else:
-            self.infoa.setText('No data on input yet, waiting to get something.')
+            self.infoa.setText(
+                'No data on input yet, waiting to get something.')
             self.infob.setText('')
             self.info.set_output_summary(self.info.NoOutput)
 
