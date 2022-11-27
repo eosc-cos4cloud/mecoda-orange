@@ -9,7 +9,7 @@ from mecoda_minka import get_obs, get_dfs
 import pyodourcollect.ocmodels as ocmodels
 import pyodourcollect.occore as occore
 from ictiopy import ictiopy
-from mecoda_orange.marine_filter import get_marine
+from mecoda_orange.minka_marine_filter import get_marine
 from mecoda_orange.minka_search_taxa import get_obs_from_sci_name, get_obs_from_common_name
 from mecoda_orange.minka_taxa import get_descendants
 from mecoda_orange.canAIRio_fixed import get_fixed_stations_data
@@ -46,18 +46,21 @@ def test_minka_widget(observations):
     assert type(table_obs) == Orange.data.table.Table
     assert [meta.attributes for meta in table_photos.domain.metas if meta.name ==
             "photos.medium_url"] == [{'type': 'image'}]
-    assert len(df_obs.columns) == 28
+    assert len(df_obs.columns) == 25
     assert len(table_obs) == 20
 
 
-def test_marine_filter(taxon_tree):
-    marine_df = taxon_tree[['taxon_id', 'rank', 'marine']]
+def test_marine_filter():
+    taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
+    df_taxon_tree = pd.read_csv(taxon_url)
+    marine_df = df_taxon_tree[['taxon_id', 'rank', 'marine']]
     observations = get_obs(
         num_max=40,
         year=2021,
     )
     df_obs, df_photos = get_dfs(observations)
     df_obs['taxon_name'] = df_obs['taxon_name'].str.lower()
+    df_obs['taxon_id'] = df_obs.taxon_id.astype(int)
     df_complete = df_obs.merge(marine_df, how="left", on="taxon_id")
     df = df_complete[df_complete['quality_grade'] == "research"]
     marines_df = df[df.marine == True]
@@ -89,8 +92,8 @@ def test_get_images(observations):
     assert [meta.attributes for meta in out.domain.metas if meta.name ==
             "photos.medium_url"] == [{'type': 'image'}]
 
-# tests on minka_search_taxa
 
+# tests on minka_search_taxa
 
 def test_get_obs_from_sci_name():
     name = 'Peltodoris atromaculata'
@@ -108,8 +111,8 @@ def test_get_obs_from_common_name():
     assert ancestry.startswith('kingdom')
     assert sci_name[0].isupper()
 
-# tests on minka_taxa
 
+# tests on minka_taxa
 
 def test_get_descendants(taxon_tree):
     for name in ['Edmundsella', 'Tripterygiidae', 'Gadiformes']:
@@ -188,8 +191,8 @@ def test_get_fixed_stations_data():
     table_canairio = table_from_frame(observations)
     assert len(observations) > 20
     assert len(observations.columns) == 19
-    assert len(observations.geohash.unique()) > 20
-    assert observations.measurementValue.max() > 10
+    assert len(observations.geohash.unique()) > 10
+    assert observations.measurementValue.max() > 5
     assert observations.measurementValue.min() == 0
     assert type(table_canairio) == Orange.data.table.Table
 
@@ -197,7 +200,7 @@ def test_get_fixed_stations_data():
 def test_get_historic_data_fixed_station():
     st = "D34TTGOT777426"
     obs = get_historic_data_fixed_station(st)
-    assert len(obs) > 1200
+    assert len(obs) > 1
     assert obs.observedOn.max().year == 2022
     assert obs.license.unique()[0] == 'CC BY-NC-SA'
     assert obs['decimalLatitude '].max() > 6
@@ -207,7 +210,7 @@ def test_get_historic_data_fixed_station():
 def test_get_mobile_stations():
     obs = get_mobile_stations()
     assert len(obs) > 2000
-    assert len(obs.columns) == 23
+    assert len(obs.columns) == 11
     assert obs.dtypes['lastLat'] == float
     assert obs.dtypes['P25'] == float
 
