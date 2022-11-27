@@ -4,10 +4,12 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
-from mecoda_minka import get_obs, get_dfs
+
 import pandas as pd
 import traceback
 import requests
+
+from mecoda_minka import get_obs, get_dfs
 
 places = [
     "",
@@ -67,7 +69,6 @@ class MinkaWidget(OWBaseWidget):
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
-    # icon = "icons/N2.png"
     icon = "icons/minka-logo.png"
     priority = 1
 
@@ -77,8 +78,9 @@ class MinkaWidget(OWBaseWidget):
     #   with a fixed non resizable geometry.
     resizing_enabled = False
 
-    # We want the current number entered by the user to be saved and restored when saving/loading a workflow.
-    # We can achieve this by declaring a special property/member in the widget’s class definition like so:
+    # We don't want the current number entered by the user to be saved
+    # and restored when saving/loading a workflow.
+    # We can achieve this by declaring schema_only=True
     id_obs = Setting("", schema_only=True)
     id_project = Setting("", schema_only=True)
     query = Setting("", schema_only=True)
@@ -90,21 +92,28 @@ class MinkaWidget(OWBaseWidget):
     ends_on = Setting("", schema_only=True)
     num_max = Setting(10000, schema_only=True)
 
-    # Widget's outputs; here, a single output named "Number", of type int
+    # Widget's outputs
     class Outputs:
         observations = Output(
-            "Observations", Orange.data.Table, auto_summary=False)
-        photos = Output("Photos", Orange.data.Table, auto_summary=False)
+            "Observations",
+            Orange.data.Table,
+            auto_summary=False
+        )
+        photos = Output(
+            "Photos",
+            Orange.data.Table,
+            auto_summary=False
+        )
 
     def __init__(self):
-        # llama al método init de la clase padre OWBaseWidget
+        # Calls the init method of the parent class OWBaseWidget
         super().__init__()
 
         from AnyQt.QtGui import QIntValidator
 
-        box = gui.widgetBox(self.controlArea, "Info")
-        self.infoa = gui.widgetLabel(box, "No observations fetched yet.")
-        self.infob = gui.widgetLabel(box, "")
+        infoBox = gui.widgetBox(self.controlArea, "Info")
+        self.infoa = gui.widgetLabel(infoBox, "No observations fetched yet.")
+        self.infob = gui.widgetLabel(infoBox, "")
 
         gui.separator(self.controlArea)
 
@@ -145,7 +154,6 @@ class MinkaWidget(OWBaseWidget):
             editable=False,
             sendSelectedValue=True,
             orientation=1,
-            # controlWidth=140
         )
         self.taxon_line = gui.comboBox(
             self.searchBox,
@@ -153,7 +161,6 @@ class MinkaWidget(OWBaseWidget):
             "taxon",
             box=None,
             label="Taxon:",
-            # labelWidth=None,
             items=(
                 "",
                 "Animalia",
@@ -362,7 +369,6 @@ class MinkaWidget(OWBaseWidget):
                 )
                 # error with pd.NA in conversion to table_from_frame
                 self.df_obs["taxon_id"].replace({pd.NA: 0}, inplace=True)
-
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)

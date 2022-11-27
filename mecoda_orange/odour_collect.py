@@ -9,20 +9,20 @@ import pandas as pd
 import pyodourcollect.ocmodels as ocmodels
 import pyodourcollect.occore as occore
 import datetime
-from pyodourcollect.ochelpers import TYPE_LIST, CATEGORY_LIST
+from pyodourcollect.ochelpers import TYPE_LIST
 from pyodourcollect.ocmodels import GPScoords
 
 
 def get_type_from_category(choice):
     correspondences = {
-        0: [i for i in range(1,90)],
-        1: [i for i in range(1,10)],
-        2: [i for i in range(10,16)],
-        3: [i for i in range(16,26)],
-        4: [i for i in range(26,44)],
-        5: [i for i in range(44,58)],
-        6: [i for i in range(58,74)],
-        7: [i for i in range(74,88)],
+        0: [i for i in range(1, 90)],
+        1: [i for i in range(1, 10)],
+        2: [i for i in range(10, 16)],
+        3: [i for i in range(16, 26)],
+        4: [i for i in range(26, 44)],
+        5: [i for i in range(44, 58)],
+        6: [i for i in range(58, 74)],
+        7: [i for i in range(74, 88)],
         8: [89],
         9: [88],
     }
@@ -33,27 +33,29 @@ def get_type_from_category(choice):
     else:
         for i in correspondences[choice]:
             set_items.append(TYPE_LIST[i].replace("|", " | "))
-    
+
     return set_items
+
 
 def get_subtype_from_correspondences(odour_type, odour_subtype):
     correspondences = {
-        0: [i for i in range(1,90)],
-        1: [i for i in range(1,10)],
-        2: [i for i in range(10,16)],
-        3: [i for i in range(16,26)],
-        4: [i for i in range(26,44)],
-        5: [i for i in range(44,58)],
-        6: [i for i in range(58,74)],
-        7: [i for i in range(74,88)],
+        0: [i for i in range(1, 90)],
+        1: [i for i in range(1, 10)],
+        2: [i for i in range(10, 16)],
+        3: [i for i in range(16, 26)],
+        4: [i for i in range(26, 44)],
+        5: [i for i in range(44, 58)],
+        6: [i for i in range(58, 74)],
+        7: [i for i in range(74, 88)],
         8: [89],
         9: [88],
     }
     subtype = correspondences[odour_type][odour_subtype]
     return subtype
 
+
 class OdourCollectWidget(OWBaseWidget):
-    
+
     # Widget's name as displayed in the canvas
     name = "OdourCollect Obs."
 
@@ -64,12 +66,12 @@ class OdourCollectWidget(OWBaseWidget):
     icon = "icons/odourcollect-logo.png"
 
     # Priority in the section MECODA
-    priority = 5
+    priority = 6
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
     want_main_area = False
-    
+
     #   with a fixed non resizable geometry.
     resizing_enabled = False
 
@@ -87,12 +89,13 @@ class OdourCollectWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output("Observations", Orange.data.Table, auto_summary=False)
+        observations = Output(
+            "Observations", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
         super().__init__()
-        
+
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
@@ -105,22 +108,22 @@ class OdourCollectWidget(OWBaseWidget):
         self.searchBox = gui.widgetBox(self.controlArea, "Search fields")
 
         self.date_init_line = gui.lineEdit(
-            self.searchBox, 
-            self, 
-            "date_init", 
-            label="Initial Date:", 
-            orientation=1, 
+            self.searchBox,
+            self,
+            "date_init",
+            label="Initial Date:",
+            orientation=1,
             controlWidth=140,
-            )
+        )
 
         self.date_end_line = gui.lineEdit(
-            self.searchBox, 
-            self, 
-            "date_end", 
-            label="End Date:", 
-            orientation=1, 
+            self.searchBox,
+            self,
+            "date_end",
+            label="End Date:",
+            orientation=1,
             controlWidth=140
-            )
+        )
 
         gui.separator(self.searchBox)
 
@@ -167,17 +170,17 @@ class OdourCollectWidget(OWBaseWidget):
             maxValue=6,
             step=1,
             label="Max. Intensity:",
-            vertical=False      
+            vertical=False
         )
 
         gui.separator(self.searchBox)
 
         self.type_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "type", 
+            self.searchBox,
+            self,
+            "type",
             box=None,
-            label="Category:", 
+            label="Category:",
             labelWidth=None,
             items=(
                 '',
@@ -190,50 +193,51 @@ class OdourCollectWidget(OWBaseWidget):
                 'Nice odours',
                 'Other odours not fitting elsewhere',
                 'No odour observations',
-                ),
+            ),
             sendSelectedValue=False,
             emptyString=False,
             editable=False,
-            contentsLength=None, 
-            searchable=True, 
+            contentsLength=None,
+            searchable=True,
             orientation=1,
-            callback=self.type_edit 
-            )
+            callback=self.type_edit
+        )
 
         self.subtype_line = gui.comboBox(
-            self.searchBox, 
-            self, 
-            "subtype", 
+            self.searchBox,
+            self,
+            "subtype",
             box=None,
-            label="Type:", 
+            label="Type:",
             labelWidth=None,
             items=get_type_from_category(self.type),
-            orientation=1, 
+            orientation=1,
             sendSelectedValue=False,
-            searchable=True, 
-            )
+            searchable=True,
+        )
 
         # poi area
-        self.poi = gui.widgetBox(self.controlArea, "Point of Interest", spacing=2)
+        self.poi = gui.widgetBox(
+            self.controlArea, "Point of Interest", spacing=2)
         self.poi_lat_line = gui.lineEdit(
             self.poi,
             self,
             "poi_coords_lat",
-            label="Latitude:", 
-            orientation=0, 
+            label="Latitude:",
+            orientation=0,
             controlWidth=140,
             valueType=float
-            )
+        )
 
         self.poi_lon_line = gui.lineEdit(
             self.poi,
             self,
             "poi_coords_lon",
-            label="Longitude:", 
-            orientation=0, 
+            label="Longitude:",
+            orientation=0,
             controlWidth=140,
             valueType=float
-            )
+        )
 
         # commit area
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
@@ -241,11 +245,11 @@ class OdourCollectWidget(OWBaseWidget):
 
     def info_searching(self):
         self.infoa.setText('Searching...')
-    
+
     # function to change subtype items due to type choice
     def type_edit(self):
         self.subtype_line.clear()
-        if self.type in range(1,10):
+        if self.type in range(1, 10):
             self.subtype_line.addItems(get_type_from_category(self.type))
 
         elif (self.type == "") or (self.type == 0):
@@ -257,26 +261,28 @@ class OdourCollectWidget(OWBaseWidget):
         try:
             # convert date_init and date_end to datetime format
             if type(self.date_init) == str:
-                init = datetime.datetime.strptime(self.date_init, '%Y-%m-%d').date()
+                init = datetime.datetime.strptime(
+                    self.date_init, '%Y-%m-%d').date()
             else:
                 init = self.date_init
 
             if type(self.date_end) == str:
-                end = datetime.datetime.strptime(self.date_end, '%Y-%m-%d').date()
+                end = datetime.datetime.strptime(
+                    self.date_end, '%Y-%m-%d').date()
             else:
                 end = self.date_end
 
             # convert subtype to number 0-89
             if self.subtype != 0:
-                subtype = get_subtype_from_correspondences(self.type, self.subtype)
+                subtype = get_subtype_from_correspondences(
+                    self.type, self.subtype)
             else:
                 subtype = 0
-            
 
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            
+
             requestparams = ocmodels.OCRequest(
                 date_init=init,
                 date_end=end,
@@ -290,21 +296,25 @@ class OdourCollectWidget(OWBaseWidget):
 
             # construct GPScoords
             if (self.poi_coords_lat != "") and (self.poi_coords_lon != ""):
-                poi_coords = GPScoords(lat=float(self.poi_coords_lat), long=float(self.poi_coords_lon))
+                poi_coords = GPScoords(
+                    lat=float(self.poi_coords_lat), long=float(self.poi_coords_lon))
             else:
                 poi_coords = None
 
             observations = occore.get_oc_data(requestparams, poi_coords)
 
-            # convert lon-lat variables to float, convert time column to hour, min, sec columns
-            observations[['longitude', 'latitude']] = observations[['longitude', 'latitude']].astype(float)
-            observations[['time_hour', 'time_min', 'time_sec']] = observations.time.astype(str).str.split(":", expand=True)
+            # convert lon-lat and create columns from time
+            observations[['longitude', 'latitude']] = observations[[
+                'longitude', 'latitude']].astype(float)
+            observations[['time_hour', 'time_min', 'time_sec']] = observations.time.astype(
+                str).str.split(":", expand=True)
 
             if len(observations) > 0:
-                
+
                 table_oc = table_from_frame(observations)
 
-                self.infoa.setText(f'{len(observations)} observations gathered')
+                self.infoa.setText(
+                    f'{len(observations)} observations gathered')
                 self.info.set_output_summary(len(observations))
 
                 self.Outputs.observations.send(table_oc)
@@ -315,11 +325,12 @@ class OdourCollectWidget(OWBaseWidget):
 
         except ValueError:
             self.infoa.setText(f'Nothing found.')
-            
+
         except Exception as error:
             self.infoa.setText(f'ERROR: \n{error}')
-            
-        progress.finish()    
+
+        progress.finish()
+
 
 # For developer purpose, allow running the widget directly with python
 if __name__ == "__main__":
