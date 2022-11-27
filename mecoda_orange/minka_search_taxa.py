@@ -4,10 +4,12 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
+
 import pandas as pd
-from mecoda_minka import get_obs, get_dfs
 import requests
 from difflib import SequenceMatcher, get_close_matches
+from mecoda_minka import get_obs, get_dfs
+
 
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
@@ -25,7 +27,7 @@ def _get_tree_from_ancestry(obs):
     else:
         common_string = unique_ancestries[0]
 
-    # eliminamos último número no completo en la coincidencia y la barra final
+    # delete last number not complete in the match and the last /
     common_string = common_string.rsplit("/", 1)[0]
     numbers = common_string.split("/")
 
@@ -48,7 +50,6 @@ def _get_id_from_name(taxon_name):
     taxon_name = taxon_name.replace(" ", "%20")
     taxon_name = taxon_name.capitalize()
     url = f"https://minka-sdg.org/taxon_names.json?name={taxon_name}"
-    #taxon_ids = []
     taxon_id = requests.get(url).json()[0]['taxon_id']
     return taxon_id
 
@@ -57,6 +58,7 @@ def _get_id_from_wikipedia(name_search):
     names = []
     searches = requests.get(
         f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search']
+
     for search in searches:
         names.append(search['title'])
 
@@ -80,14 +82,12 @@ def get_obs_from_common_name(name_search):
         print(taxon_id, sci_name)
         obs = get_obs(taxon_id=taxon_id)
         if len(obs) > 0:
-            #print("Option 1:", sci_name)
             ancestry = _get_tree_from_ancestry(obs)
         else:
             ancestry = ""
     except:
         try:
             taxon_id, sci_name = _get_id_from_wikipedia(name_search)
-            #taxon_id = _get_id_from_name(sci_name)
             print(taxon_id, sci_name)
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
             obs_count = requests.get(taxa_url).json()['observations_count']
@@ -96,9 +96,7 @@ def get_obs_from_common_name(name_search):
                 obs = get_obs(taxon_id=taxon_id)
                 if len(obs) > 0:
                     ancestry = _get_tree_from_ancestry(obs)
-            # else:
-                #obs = []
-                #ancestry = ""
+
         except:
             sci_name = requests.get(
                 f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search'][0]['title']
@@ -246,8 +244,6 @@ class TaxonWidget(OWBaseWidget):
             self.controlArea,
             "Search fields",
         )
-
-        # self.searchBox.setFixedSize(250,200)
 
         self.taxon_sci_line = gui.lineEdit(
             self.searchBox,

@@ -4,9 +4,10 @@ from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
+
 import pandas as pd
-from mecoda_minka import get_obs, get_dfs
 import requests
+from mecoda_minka import get_obs, get_dfs
 
 #taxon_tree = pd.read_csv("taxon_tree.csv")
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
@@ -77,10 +78,15 @@ class TaxonWidget(OWBaseWidget):
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
-        self.infoa = gui.widgetLabel(info, '\
+        self.infoa = gui.widgetLabel(
+            info, '\
             Here you can select taxonomic levels<br>\
-            to filter observations from <a href="https://minka-sdg.org">minka-sdg.org</a>.')
-        self.infob = gui.widgetLabel(info, 'No observations fetched yet.')
+            to filter observations from <a href="https://minka-sdg.org">minka-sdg.org</a>.'
+        )
+        self.infob = gui.widgetLabel(
+            info,
+            'No observations fetched yet.'
+        )
 
         gui.separator(self.controlArea)
 
@@ -97,7 +103,6 @@ class TaxonWidget(OWBaseWidget):
             self,
             "kingdom",
             box=None,
-            #label="First Level:",
             labelWidth=None,
             items=(
                 '',
@@ -107,7 +112,6 @@ class TaxonWidget(OWBaseWidget):
                 'Kingdom Protozoa',
                 'Kingdom Chromista',
                 'Kingdom Bacteria',
-                #'Kingdom Archae',
             ),
             sendSelectedValue=True,
             emptyString=False,
@@ -123,7 +127,6 @@ class TaxonWidget(OWBaseWidget):
             self,
             "filo",
             box=None,
-            # label="",
             labelWidth=None,
             items=(),
             orientation=1,
@@ -137,7 +140,6 @@ class TaxonWidget(OWBaseWidget):
             self,
             "class_",
             box=None,
-            # label="Class:",
             labelWidth=None,
             items=(),
             orientation=1,
@@ -308,7 +310,8 @@ class TaxonWidget(OWBaseWidget):
 
                     self.infoa.setText(f'{len(obs)} observations gathered')
                     self.infob.setText(
-                        f'{len(self.df_photos)} photos gathered')
+                        f'{len(self.df_photos)} photos gathered'
+                    )
 
                     self.Outputs.observations.send(
                         table_from_frame(self.df_obs))

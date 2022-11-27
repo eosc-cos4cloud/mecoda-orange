@@ -5,7 +5,7 @@ from ictiopy import ictiopy
 
 from orangewidget.widget import OWBaseWidget, Output
 from orangewidget.settings import Setting
-from orangewidget import gui, widget
+from orangewidget import gui
 from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
@@ -13,9 +13,11 @@ from Orange.data.pandas_compat import table_from_frame
 from PyQt5.QtWidgets import QFileDialog
 from AnyQt.QtWidgets import QStyle, QSizePolicy as Policy
 
+
 def clean_df(observations):
     observations.weight = observations.weight.astype(float)
-    observations.price_local_currency = observations.price_local_currency.astype(float)
+    observations.price_local_currency = observations.price_local_currency.astype(
+        float)
     observations.num_photos = observations.num_photos.astype(int)
     observations.fishing_duration = observations.fishing_duration.astype(float)
     observations.num_of_fishers = observations.num_of_fishers.astype(float)
@@ -25,16 +27,19 @@ def clean_df(observations):
     observations.obs_day = observations.obs_day.astype(int)
     return observations
 
+
 def split_date(observations, init, end):
-    observations['obs_date'] = observations['obs_year'].astype(int).astype(str) + observations['obs_month'].astype(int).astype(str).str.zfill(2) + observations['obs_day'].astype(int).astype(str).str.zfill(2)
+    observations['obs_date'] = observations['obs_year'].astype(int).astype(str) + observations['obs_month'].astype(
+        int).astype(str).str.zfill(2) + observations['obs_day'].astype(int).astype(str).str.zfill(2)
     observations['obs_date'] = pd.to_datetime(observations['obs_date'])
     observations = observations[observations['obs_date'] >= init]
     observations = observations[observations['obs_date'] <= end]
     observations = observations.drop(['obs_date'], axis=1)
     return observations
 
+
 class IctioWidget(OWBaseWidget):
-    
+
     # Widget's name as displayed in the canvas
     name = "Ictio Observations"
 
@@ -45,12 +50,12 @@ class IctioWidget(OWBaseWidget):
     icon = "icons/ictio-circular.png"
 
     # Priority in the section MECODA
-    priority = 10
+    priority = 7
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
     want_main_area = False
-    
+
     #   with a fixed non resizable geometry.
     resizing_enabled = False
 
@@ -59,12 +64,11 @@ class IctioWidget(OWBaseWidget):
     path_file = Setting("", schema_only=True)
     date_init = Setting("1860-01-01", schema_only=True)
     date_end = Setting(str(datetime.date.today()), schema_only=True)
-    #observations = Setting("", schema_only=True)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output("Observations", Orange.data.Table, auto_summary=False)
-
+        observations = Output(
+            "Observations", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
@@ -74,15 +78,16 @@ class IctioWidget(OWBaseWidget):
         info = gui.widgetBox(self.controlArea, "Info")
 
         self.infoa = gui.widgetLabel(
-            info, 
+            info,
             'Please specify the path to a <b>Ictio_Basic_xxxxxxxx.zip</b> file\
             <br>that has been downloaded from the "Download" section<br>\
             of <a href="https://ictio.org/">ictio.org</a> website.<br><br>\
             You can also specity an XLSX file if you have already extracted\
             <br> the file BDB_XXXXXXXX.xlsx that can be found inside\
              <br>ICTIO_BASIC_XXXXXXXX.zip'
-)
-        self.infob = gui.widgetLabel(info, 'NOTE: Downloading the file requires user registration.')
+        )
+        self.infob = gui.widgetLabel(
+            info, 'NOTE: Downloading the file requires user registration.')
 
         gui.separator(self.controlArea)
 
@@ -90,64 +95,52 @@ class IctioWidget(OWBaseWidget):
         self.searchBox = gui.widgetBox(self.controlArea, "Source")
         self.browsers = gui.widgetBox(self.searchBox, "", orientation=1)
         zip_button = gui.button(
-            self.browsers, 
-            self, 
-            'Choose .zip', 
-            callback=self.browse_zip, 
+            self.browsers,
+            self,
+            'Choose .zip',
+            callback=self.browse_zip,
             autoDefault=False,
             width=160,
-            )
+        )
         zip_button.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
         zip_button.setSizePolicy(
-            Policy.Maximum, 
+            Policy.Maximum,
             Policy.Fixed
-            )
+        )
         file_button = gui.button(
-            self.browsers, 
-            self, 
-            'Choose .xlsx', 
-            callback=self.browse_file, 
+            self.browsers,
+            self,
+            'Choose .xlsx',
+            callback=self.browse_file,
             autoDefault=False,
             width=160,
-            )
+        )
         file_button.setIcon(self.style().standardIcon(QStyle.SP_DirOpenIcon))
         file_button.setSizePolicy(
-            Policy.Maximum, 
+            Policy.Maximum,
             Policy.Fixed
-            )
+        )
 
-        #layout.addWidget(file_button, 0, 2)
-
-        """self.path_line = gui.lineEdit(
-            self.searchBox, 
-            self, 
-            "path", 
-            label="Path to zip:", 
-            orientation=1, 
-            controlWidth=300,
-            disable=True
-            )"""
-
-        #gui.separator(self.searchBox)
+        # gui.separator(self.searchBox)
         self.dateBox = gui.widgetBox(self.controlArea, "Filter by date")
 
         self.date_init_line = gui.lineEdit(
-            self.dateBox, 
-            self, 
-            "date_init", 
-            label="Initial Date:", 
-            orientation=1, 
+            self.dateBox,
+            self,
+            "date_init",
+            label="Initial Date:",
+            orientation=1,
             controlWidth=140,
-            )
+        )
 
         self.date_end_line = gui.lineEdit(
-            self.dateBox, 
-            self, 
-            "date_end", 
-            label="End Date:", 
-            orientation=1, 
+            self.dateBox,
+            self,
+            "date_end",
+            label="End Date:",
+            orientation=1,
             controlWidth=140
-            )
+        )
 
         # commit area
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
@@ -159,18 +152,18 @@ class IctioWidget(OWBaseWidget):
     def browse_file(self):
         dialog = QFileDialog()
         home = os.path.expanduser("~")
-        path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "xlsx files (*.xlsx)")
+        path_string, __ = dialog.getOpenFileName(
+            self, 'Select a zip file', home, "xlsx files (*.xlsx)")
         self.path_file = path_string
 
         if self.path_file is not None:
             try:
-                #file_selected = path_string.split("data")[-1]
                 self.infoa.setText(f"<b>File selected:</b><br>{path_string}")
                 self.infob.setText("")
 
             except ValueError:
                 self.infoa.setText(f'Nothing found.')
-                
+
             except Exception as error:
                 self.infoa.setText(f'ERROR: \n{error}')
                 self.infob.setText("")
@@ -182,18 +175,18 @@ class IctioWidget(OWBaseWidget):
     def browse_zip(self):
         dialog = QFileDialog()
         home = os.path.expanduser("~")
-        path_string, __ = dialog.getOpenFileName(self, 'Select a zip file', home, "Zip files (*.zip)")
+        path_string, __ = dialog.getOpenFileName(
+            self, 'Select a zip file', home, "Zip files (*.zip)")
         self.path_folder = path_string
 
         if self.path_folder is not None:
             try:
-                #file_selected = path_string.split("data")[-1]
                 self.infoa.setText(f"<b>File selected:</b><br>{path_string}")
                 self.infob.setText("")
 
             except ValueError:
                 self.infoa.setText(f'Nothing found.')
-                
+
             except Exception as error:
                 self.infoa.setText(f'ERROR: \n{error}')
                 self.infob.setText("")
@@ -201,7 +194,6 @@ class IctioWidget(OWBaseWidget):
 
         else:
             self.infoa.setText(f'Choose some zip file to load data.')
-
 
     def commit(self):
         self.infoa.setText(f'Loading...')
@@ -221,26 +213,28 @@ class IctioWidget(OWBaseWidget):
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-            
+
             if self.path_file != "":
-                directory, file = os.path.split(os.path.abspath(self.path_file))
+                directory, file = os.path.split(
+                    os.path.abspath(self.path_file))
                 observations = ictiopy.sanitizedb(
                     ictiopy.load_ictio_bdb_file(
-                        directory, 
+                        directory,
                         file
-                        )
                     )
+                )
             elif self.path_folder != "":
-                observations = ictiopy.load_zipdb(self.path_folder) 
-            
+                observations = ictiopy.load_zipdb(self.path_folder)
+
             observations = clean_df(observations)
             observations = split_date(observations, init, end)
 
             if len(observations) > 0:
-                
+
                 table_ictio = table_from_frame(observations)
 
-                self.infoa.setText(f'{len(observations):,} observations gathered')
+                self.infoa.setText(
+                    f'{len(observations):,} observations gathered')
                 self.infob.setText("")
 
                 self.info.set_output_summary(len(observations))
@@ -253,14 +247,14 @@ class IctioWidget(OWBaseWidget):
 
         except ValueError:
             self.infoa.setText(f'Nothing found.')
-            
+
         except Exception as error:
             self.infoa.setText(f'ERROR: \n{error}')
             self.infob.setText("")
             print(error)
-            
-        progress.finish()    
-        
+
+        progress.finish()
+
 
 # For developer purpose, allow running the widget directly with python
 if __name__ == "__main__":
