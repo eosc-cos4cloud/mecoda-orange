@@ -34,7 +34,6 @@ def get_mobile_stations():
     df_stations.lastLat = df_stations.lastLat.astype(float)
     df_stations.lastLon = df_stations.lastLon.astype(float)
     df_stations['size'] = df_stations["size"].astype(int)
-    #df_stations['distance'] = df_stations["distance"].astype(float)
     df_stations[[
         'P10',
         'P25',

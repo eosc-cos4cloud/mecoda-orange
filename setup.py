@@ -63,6 +63,8 @@ setup(
         "flat_table >= 1.1.1",
         "mecoda-nat >= 0.5.8",
         "pandas >= 1.4.1",
+        # excluded due to bug with ictiopy library solved in next version of pandas
+        "pandas != 1.5.1",
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",

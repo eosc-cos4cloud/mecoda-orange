@@ -1,2 +1,0 @@
-multimedia.csv filter=lfs diff=lfs merge=lfs -text
-occurrence.csv filter=lfs diff=lfs merge=lfs -text
