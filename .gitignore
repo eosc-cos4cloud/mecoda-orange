@@ -7,4 +7,3 @@ dist
 .ipynb_checkpoints
 .pytest_cache
 
-.DS_Store
