@@ -21,7 +21,7 @@ class SmartcitizenSearchWidget(OWBaseWidget):
     icon = "icons/smartcitizen.png"
 
     # Priority in the section MECODA
-    priority = 11
+    priority = 13
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
