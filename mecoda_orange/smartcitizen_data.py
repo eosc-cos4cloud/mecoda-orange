@@ -19,7 +19,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
     description = "Get data from environmental devices from the Smart Citizen API"
 
     # An icon resource file path for this widget
-    icon = "icons/smartcitizen.png"
+    icon = "icons/smartcitizend.png"
 
     # Priority in the section MECODA
     priority = 14
