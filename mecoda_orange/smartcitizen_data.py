@@ -1,4 +1,5 @@
 from orangewidget.widget import OWBaseWidget, Output, Input
+from AnyQt.QtWidgets import QCheckBox
 from orangewidget.settings import Setting
 from Orange.widgets.settings import DomainContextHandler, ContextSetting
 from orangewidget import gui
@@ -6,7 +7,7 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 
-from smartcitizen_connector import ScApiDevice, rollup_table
+from smartcitizen_connector import ScApiDevice, rollup_table, localise_date
 
 # Fixed stations
 class SmartcitizenDataWidget(OWBaseWidget):
@@ -34,6 +35,9 @@ class SmartcitizenDataWidget(OWBaseWidget):
     device = Setting("", schema_only=True)
     rollup_number = Setting("10", schema_only=True)
     rollup_text = Setting("m", schema_only=True)
+    resample = Setting(True, schema_only=True)
+    min_date_text = Setting("", schema_only=True)
+    max_date_text = Setting("", schema_only=True)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Inputs:
@@ -55,7 +59,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
 
         gui.separator(self.controlArea)
 
-        self.rollupBox = gui.widgetBox(self.controlArea, "")
+        self.rollupBox = gui.widgetBox(self.controlArea,  "Get data at a specific frequency")
 
         self.rollup_number_line = gui.lineEdit(
             self.rollupBox,
@@ -63,7 +67,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
             "rollup_number",
             label="Rollup:",
             orientation=1,
-            controlWidth=200,
+            controlWidth=140,
             callback=self.rollup_check
         )
 
@@ -78,40 +82,45 @@ class SmartcitizenDataWidget(OWBaseWidget):
             editable=False,
             contentsLength=None,
             searchable=True,
-            orientation=1,
+            orientation=1
         )
 
-        # self.resampleBox = gui.widgetBox(self.controlArea, "")
+        self.dateBox = gui.widgetBox(self.controlArea, "Filter by date (YYYY-MM-DD)")
 
-        # self.resample_line = gui.lineEdit(
-        #     self.resampleBox,
-        #     self,
-        #     "resample",
-        #     label="Resample:",
-        #     orientation=1,
-        #     controlWidth=200,
-        #     callback=self.rollup_check
-        # )
+        self.date_init_line = gui.lineEdit(
+            self.dateBox,
+            self,
+            "min_date_text",
+            label="Initial Date:",
+            orientation=1,
+            controlWidth=140,
+            callback=self.date_check
+        )
 
-        # self.clean_line = gui.comboBox(
-        #     self.resampleBox,
-        #     self,
-        #     "rollup_text",
-        #     label="Rollup units:",
-        #     items=tuple(rollup_table.keys()),
-        #     sendSelectedValue=True,
-        #     emptyString=False,
-        #     editable=False,
-        #     contentsLength=None,
-        #     searchable=True,
-        #     orientation=1,
-        # )
+        self.date_end_line = gui.lineEdit(
+            self.dateBox,
+            self,
+            "max_date_text",
+            label="End Date:",
+            orientation=1,
+            controlWidth=140,
+            callback=self.date_check
+        )
+
+        self.resampleBox = gui.checkBox(
+            self.controlArea,
+            self,
+            "resample",
+            label="Resample data"
+            )
 
         gui.separator(self.controlArea)
 
         # commit area
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
         gui.button(self.commitBox, self, "Get data", callback=self.commit)
+
+        self.device = None
 
     @Inputs.devices
     def set_data(self, dataset):
@@ -146,11 +155,11 @@ class SmartcitizenDataWidget(OWBaseWidget):
                     f"\nCity: {city} ({country})" + \
                     f"\nBy: {owner}"
                 )
+            # Info banners
+            self.infosettings = gui.widgetLabel(self.rollupBox, '')
 
             self.rollup_check()
-
-            # Info banners
-            self.inforollup = gui.widgetLabel(self.rollupBox, '')
+            self.date_check()
 
             gui.separator(self.controlArea)
 
@@ -180,8 +189,18 @@ class SmartcitizenDataWidget(OWBaseWidget):
         if self.rollup_number.isnumeric():
             self.rollup = self.rollup_number + str(self.rollup_text)
         else:
-            self.inforollup.setText("Rollup needs to be an integer")
+            self.infosettings.setText("Rollup needs to be an integer")
             self.rollup = None
+
+    def date_check(self):
+        self.min_date = None
+        self.max_date = None
+
+        if self.min_date_text != "":
+            self.min_date = self.min_date_text
+
+        if self.max_date_text != "":
+            self.max_date = self.max_date_text
 
     def commit(self):
 
@@ -198,15 +217,17 @@ class SmartcitizenDataWidget(OWBaseWidget):
                 return
 
             d = ScApiDevice(self.device)
+            timezone = d.get_device_timezone()
             progress = gui.ProgressBar(self, 4)
             progress.advance()
 
             data = d.get_device_data(
-                        min_date = None,
-                        max_date = None,
+                        min_date = localise_date(self.min_date, timezone),
+                        max_date = localise_date(self.max_date, timezone),
                         rollup = self.rollup,
                         clean_na = None,
-                        resample = True)
+                        resample = self.resample
+                    )
 
             progress.advance()
 
