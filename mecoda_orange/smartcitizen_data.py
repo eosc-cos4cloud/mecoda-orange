@@ -22,7 +22,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
     icon = "icons/smartcitizend.png"
 
     # Priority in the section MECODA
-    priority = 12
+    priority = 14
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
@@ -236,7 +236,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
                 progress.advance()
                 self.Outputs.readings.send(table)
                 progress.advance()
-                self.infoa.setText(f'Device {self.device} data  downloaded!')
+                self.infoa.setText(f'Device {self.device} data downloaded!')
                 self.info.set_output_summary(1)
 
             else:
