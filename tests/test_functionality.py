@@ -3,8 +3,12 @@ import pandas as pd
 import datetime
 import os
 import pytest
+import requests
+import datetime
+
 from Orange.data.pandas_compat import table_from_frame
 import Orange.data
+
 from mecoda_minka import get_obs, get_dfs
 import pyodourcollect.ocmodels as ocmodels
 import pyodourcollect.occore as occore
@@ -17,6 +21,7 @@ from mecoda_orange.canAIRio_fixed_extra_info import get_historic_data_fixed_stat
 from mecoda_orange.canAIRio_mobile import get_mobile_stations
 from mecoda_orange.canAIRio_mobile_extra_info import get_mobile_track
 from mecoda_orange.ictio import clean_df, split_date
+from mecoda_orange.aire_ciudadano import get_data
 
 
 @pytest.fixture(name='observations', scope='session')
@@ -185,7 +190,6 @@ def test_odour_collect():
 
 # tests canAIRio widgets
 
-
 def test_get_fixed_stations_data():
     observations = get_fixed_stations_data('PM1')
     table_canairio = table_from_frame(observations)
@@ -258,3 +262,28 @@ def test_ictiopy_xlsx_file():
     assert type(table_ictio) == Orange.data.table.Table
     assert len(observations) > 86000
     assert len(observations.port.unique()) == 13
+
+# tests aire_ciudadano widget
+
+def test_aireciudadano_last_query_response():
+    query = '{job%3D"pushgateway"}'
+    url = f"http://sensor.aireciudadano.com:30887/api/v1/query?query={query}"
+    data = requests.get(url).json()['data']['result']
+    df = pd.json_normalize(data)
+
+    assert "value" in df.columns
+    assert "CO2" in df['metric.__name__'].unique()
+    assert len(df['metric.exported_job'].unique()) >= 70
+
+def test_aireciudadano_range_query_response():
+    start_datetime = '2022-12-01T12:00:00Z'
+    end_datetime = '2022-12-01T13:00:00Z'
+    query = '{job%3D"pushgateway"}'
+    step = "10m"
+    url = f"http://sensor.aireciudadano.com:30887/api/v1/query_range?query={query}&start={start_datetime}&end={end_datetime}&step={step}"
+    data = requests.get(url).json()['data']['result']
+    df = pd.json_normalize(data)
+
+    assert "values" in df.columns
+    assert "CO2" in df['metric.__name__'].unique()
+    assert len(df['metric.exported_job'].unique()) >= 70
