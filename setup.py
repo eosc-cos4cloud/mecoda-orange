@@ -60,7 +60,6 @@ setup(
         "orange.addons": "MECODA = mecoda_orange"
     },
     install_requires=[
-        "flat_table >= 1.1.1",
         "mecoda-nat >= 0.5.8",
         "pandas >= 1.5.2",
         "Orange3 >= 3.31.1",
