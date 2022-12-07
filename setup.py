@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.7.2"
+VERSION = "1.8.0"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -62,14 +62,13 @@ setup(
     install_requires=[
         "flat_table >= 1.1.1",
         "mecoda-nat >= 0.5.8",
-        "pandas >= 1.4.1",
-        # excluded due to bug with ictiopy library solved in next version of pandas
-        "pandas != 1.5.1",
+        "pandas >= 1.5.2",
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 1.0.0",
-        "smartcitizen-connector >= 0.1.2"
+        "smartcitizen-connector >= 0.1.2",
+        "pytest"
     ],
     keywords=KEYWORDS,
     include_package_data=True,
