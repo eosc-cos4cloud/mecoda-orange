@@ -70,7 +70,6 @@ def get_data(url, selected_cols):
     
 # function to get wide table
 def _wide_table(df, selected_cols):
-
     df_result = pd.pivot(
         df, 
         index=['station', 'date', 'time'], 
@@ -86,8 +85,8 @@ def _wide_table(df, selected_cols):
 
     return df_result
 
+# constructor of the step value for time range queries
 def _get_step(number, choice):
-
     # convert word to code
     options = {
         "seconds": "s",
@@ -244,6 +243,7 @@ class AireCiudadanoWidget(OWBaseWidget):
         self.infoa.setText('Searching...')
 
     def option(self):
+        # Enable time paramenters box when range is selected
         if self.option == 1:
             self.parametersBox.setDisabled(False)
         elif self.option == 0:
@@ -254,15 +254,18 @@ class AireCiudadanoWidget(OWBaseWidget):
         self.infoa.setText("Searching...")
         self.infob.setText("")
         try:
-
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
+
+            # query to get all data
             query = '{job%3D"pushgateway"}'
 
+            # last registers selected
             if self.option == 0:
                 url = f"http://sensor.aireciudadano.com:30887/api/v1/query?query={query}"
 
+            # range of time selected
             elif self.option == 1:
                 # construct start_datetime
                 start_datetime = f"{self.starts_day}T{self.starts_hour}:00Z"
@@ -274,9 +277,13 @@ class AireCiudadanoWidget(OWBaseWidget):
                 step = _get_step(self.step_number, self.step_option)
                 
                 url = f"http://sensor.aireciudadano.com:30887/api/v1/query_range?query={query}&start={start_datetime}&end={end_datetime}&step={step}"
-
+            
+            # get obs from API, using the url created before
             obs = get_data(url, selected_cols)
+
+            # convert to Table format for Orange environment
             table_obs = table_from_frame(obs)
+
             self.infoa.setText(
                 f'{len(obs):,} registers gathered')
             self.info.set_output_summary(len(obs))
