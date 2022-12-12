@@ -215,6 +215,32 @@ The first widget (Smart Citizen Search) collects data from the Smart Citizen API
 
 Example workflow is available https://github.com/fablabbcn/smartcitizen-docs/blob/master/docs/assets/ows/example_sc.ows and documentation will be made available in https://docs.smartcitizen.me/Data/.
 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/logo-aire-ciudadano.png" alt="aireciudadano-logo" width="75"/> Aire Ciudadano widget
+
+The widget allows to get data from Aire Ciudadano air quality stations, from the last registers or filtering by range of time.
+
+The output is a table with these columns:
+| Field | Descrition |
+| --------- | ----------- |
+| `station` | Code of the station. |
+| `date` | Date of registry in format `Year-Month-Date`. |
+| `time` | Time of registry in format `Hour:Minute:Second`. |
+| `Latitude` | Geographical latitude. |
+| `Longitude` | Geographical longitude. |
+| `CO2` | Value in ppm (parts per million) of the concentration of carbon dioxide. |
+| `Humidity` | Value in % of relative humidity. |
+| `InOut` | Variable to identify if the sensor is located outdoors (InOut= 0) or indoors (InOut = 1). |
+| `NOx` | NOx index (nitrous oxides) with [range from 1 to 500](https://sensirion.com/media/documents/9F289B95/6294DFFC/Info_Note_NOx_Index.pdf), only applicable to [Sensirion's SEN55 sensor](https://sensirion.com/products/catalog/SEN55/). |
+| `Noise` | Value in dbA (A-weighted decibel). |
+| `NoisePeak` | Peak value in dbA reached in the time range (Publication time) in which the sensor publishes its data. |
+| `PM10` | Value in ug/m3 of Particulate Matter PM10. |
+| `PM25` | Value in ug/m3 of Particulate Matter PM2.5. |
+| `PM252` | Value in ug/m3 of Particulate Matter PM2.5 measured by an installed secondary sensor (optional). |
+| `PM25raw` | Value in ug/m3 of Particulate Matter PM2.5 without adjustment, only applies to Plantower brand sensors for which the "Plantower PMS adjust RECOMMENDED" function has been activated. |
+| `Temperature` | Value in °C of the temperature. |
+| `VOC` | VOC index (volatile organic compounds) with [range from 1 to 500](https://sensirion.com/media/documents/02232963/6294E043/Info_Note_VOC_Index.pdf), only applicable to [Sensirion SEN55 and SEN54 sensor](https://sensirion.com/products/catalog/SEN55/). |
+
+
 # Testing
 To run tests locally you'll need to have python 3.8, pip, virtualenv and git installed.
 
