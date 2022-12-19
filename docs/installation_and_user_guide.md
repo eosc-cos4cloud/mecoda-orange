@@ -3,7 +3,7 @@
 1. Install Orange Data Mining platform through https://orangedatamining.com/download 
 <img src="images/orange_installation.png" alt="orange_installation" width="800"/> 
 
-Click on “Download Orange”.
+Click on “Download Orange” or follow the instructions for your operating system (available for Linux, Windows and macOS). Remember to check if you need additional system packages provided by your distribution (like PyQt or PyQtWebEngine), in addition to Orange3.
 
 2. Open Orange from the menu in your computer, you will see something like this:
 <img src="images/orange_canvas.png" alt="orange_canvas" width="800"/> 
