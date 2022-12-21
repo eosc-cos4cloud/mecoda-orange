@@ -56,7 +56,7 @@ class CanairioWidget(OWBaseWidget):
     want_main_area = False
 
     #   with a fixed non resizable geometry.
-    resizing_enabled = True
+    resizing_enabled = False
 
     # Defining settings
     type = Setting('', schema_only=True)
@@ -146,8 +146,8 @@ class CanairioWidget(OWBaseWidget):
             self.infoa.setText(f'Nothing found.')
 
         except Exception as error:
-            self.infoa.setText(f'ERROR: \n{error}')
-
+            #self.infoa.setText(f'ERROR: \n{error}')
+            self.infoa.setText(f'CanAIRio API is temporarily unavailable')
         progress.finish()
 
 

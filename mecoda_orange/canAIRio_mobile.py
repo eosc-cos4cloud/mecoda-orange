@@ -6,7 +6,6 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-#import flat_table
 import requests
 
 # Mobile stations
@@ -99,7 +98,6 @@ class CanairioWidget(OWBaseWidget):
         self.infoa.setText(f'Searching...')
         self.infob.setText(f'')
         try:
-
             # show progress bar
             progress = gui.ProgressBar(self, 2)
             progress.advance()
@@ -124,7 +122,8 @@ class CanairioWidget(OWBaseWidget):
             self.infoa.setText(f'Nothing found.')
 
         except Exception as error:
-            self.infoa.setText(f'ERROR: \n{error}')
+            #self.infoa.setText(f'ERROR: \n{error}')
+            self.infoa.setText(f'CanAIRio API is temporarily unavailable')
 
         progress.finish()
 
