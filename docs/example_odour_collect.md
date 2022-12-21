@@ -33,6 +33,10 @@ Lo siguiente que podemos comprobar es qué día de la semana es el que se regist
 
 <img src="images/oc8.png" alt="orange_installation" width="600"/> 
 
+Y si lo que queremos ver son las horas a las que se reportan más olores, simplemente seleccionamos la columna `time_hour` para ver la distribución horaria:
+
+<img src="images/oc18.png" alt="orange_installation" width="600"/> 
+
 Ahora vamos a ver cuántos usuarios han registrado olores en esta zona, y si lo hacen muy frecuentemente. Pero el campo de "user" es un campo de texto, no podemos hacer cálculos con él. Para convertirlo en una categoría usamos el widget `Edit Domain` y convertimos la columna user en una categoría que poder utilizar:
 
 <img src="images/oc9.png" alt="orange_installation" width="600"/> 
@@ -54,6 +58,14 @@ Si atendemos a la intensidad, cambiando la variable utilizada por "intensity_n" 
 Si lo que queremos es analizar el número de olores de cada categoría o tipo, usaremos el widget `Distributions` en lugar del widget `Boxplot`. Este widget nos dará número de apariciones, sobre todo útil en campos de texto. El boxplot nos representará campos numéricos, donde podemos ver media, mediana, desviación, etc. Aquí está el número de olores por categoría:
 
 <img src="images/oc13.png" alt="orange_installation" width="600"/> 
+
+En caso de que queramos analizar qué peso tiene cada tipo de olor dentro de cada categoría, es decir, qué tipos de olor son los más relevantes dentro de cada una de las categorías, podemos utilizar el widget de `Pivot Table` (o tabla dinámica), que nos permite cruzar dos columnas. Colocamos las categorías como columnas y los tipos como filas, y seleccionamos "count" con cualquiera de las otras variables:
+
+<img src="images/oc20.png" alt="orange_installation" width="600"/> 
+
+Si convertimos esta tabla dinámica en una tabla, usando el widget "Data Table" podremos ordenar cada una de las columnas de forma descendente y ver cuáles son los tipos más frecuentes de cada una de ellas:
+
+<img src="images/oc19.png" alt="orange_installation" width="600"/> 
 
 Y si queremos ver estos registros en un mapa usamos el widget `Geo Map` y podemos situar cada punto sobre un mapa de Satélite, por ejemplo, y colorearlos por categoría:
 
