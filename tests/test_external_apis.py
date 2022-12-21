@@ -21,7 +21,6 @@ from mecoda_orange.canAIRio_fixed_extra_info import get_historic_data_fixed_stat
 from mecoda_orange.canAIRio_mobile import get_mobile_stations
 from mecoda_orange.canAIRio_mobile_extra_info import get_mobile_track
 from mecoda_orange.ictio import clean_df, split_date
-from mecoda_orange.aire_ciudadano import get_data
 
 
 @pytest.fixture(name='observations', scope='session')
