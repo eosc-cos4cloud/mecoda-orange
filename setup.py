@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.8.2"
+VERSION = "1.8.3"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -61,7 +61,7 @@ setup(
     },
     install_requires=[
         "mecoda-nat >= 0.5.8",
-        "pandas >= 1.5.2",
+        "pandas >= 1.4.4",
         "Orange3 >= 3.31.1",
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
