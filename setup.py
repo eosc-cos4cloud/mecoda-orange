@@ -37,9 +37,7 @@ setup(
     license=LICENSE,
     packages=["mecoda_orange"],
     # packages=PACKAGES,
-    package_data={
-        "mecoda_orange": ["icons/*"],
-    },
+    package_data={"mecoda_orange": ["icons/*"]},
     classifiers=[
         "License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)",
         'Environment :: X11 Applications :: Qt',
