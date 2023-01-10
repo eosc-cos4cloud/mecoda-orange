@@ -6,45 +6,55 @@ MECODA is constructed on Orange Data Mining, a visual programming toolbox made t
 
 [Orange](orangedatamining.org) supports the construction of data analysis workflows by assembling components for data preprocessing, visualization, and modeling. 
 
-* Learning by doing
-* Learning from data by exploring and breaking it and playing with them.
-
-Let's see how orange looks like.
-
+Let's see how Orange looks like.
 
 
 # Installation Guide
 
 1. Install Orange Data Mining platform through https://orangedatamining.com/download 
 
+<img src="images/orange_installation.png" alt="orange_installation" width="800"/> 
+
 Click on “Download Orange” or follow the instructions for your operating system (available for Linux, Windows and macOS). Remember to check if you need additional system packages provided by your distribution (like PyQt or PyQtWebEngine), in addition to Orange3.
 
-2. Once installed, open Orange from the menu in your computer, you will see something like this:
+2. Open Orange from the menu in your computer, you will see something like this:
+
+<img src="images/orange_canvas.png" alt="orange_canvas" width="800"/> 
 
 3. Go to menu “Options” and select “Add-ons”:
 
+<img src="images/orange_addons.png" alt="orange_addons" width="600"/> 
+
 4. In the pop-up click on ***Add more…*** button on the top right. A search window will appear called ***Add add-on by name***. Write ***mecoda-orange*** in the search box and click on the ***Add*** button.
 
-5. ***Mecoda Orange*** will be available in the list of packages for installation. Check the box besides the name.
+<img src="images/orange_add_more2.png" alt="orange_add_more" width="600"/> 
 
-6. Orange will show a message because it needs to restart. We click on **OK**.
+5. ***Mecoda Orange*** will be available in the list of packages for installation. Check the box besides the name and click on OK to install it. Orange will ask you to restart after the process.
 
-7. We will need other packages for this example, so we check the box of the package called ***Geo*** and ***Image Analytics*** also.
+<img src="images/orange_mecoda_package.png" alt="orange_mecoda_package" width="600"/> 
 
-8. After selecting these three packages, we will press **OK** to install them and restart.
+6. We will need other packages for this example, so after the installation of MECODA, we go to "add-ons" again and we check the box of the package called ***Geo*** and ***Image Analytics*** also.
 
-9. Orange will be restarted and the interface will show our new installed packages on the left side column:
+<img src="images/orange_other_packages.png" alt="orange_other_packages" width="600"/> 
 
-*WARNING*: If MECODA doesn’t appear in the interface, close it and remove the *.cache/Orange* folder, because other previous installations could be made and have problems with the new one. Check if it is installed in the Options >> Add-ons and if not, install it again.
+7. After selecting these two packages, we will press **OK** to install them.
+Orange will show a message because it needs to restart. We click on **OK**.
+
+<img src="images/orange_reinicio.png" alt="orange_reinicio" width="600"/> 
+
+8. Orange will be restarted and the interface will show our new installed packages on the left side column:
+
+<img src="images/orange_interface_installed.png" alt="orange_interface_installed" width="600"/> 
 
 # Use of Orange Canvas
-Main concepts:
+
+## Main concepts:
 * Widgets
 * Inputs
 * Outputs
 * Links: The communication channel passes the output from one widget to the input of the other widget.
 
-Documentation: 
+## Documentation: 
 * YouTube tutorials: https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g
     * Getting started with Orange: https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy
 * Widget catalog: https://orangedatamining.com/widget-catalog/ 
