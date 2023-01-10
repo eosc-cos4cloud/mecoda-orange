@@ -263,7 +263,7 @@ class AireCiudadanoWidget(OWBaseWidget):
 
             # last registers selected
             if self.option == 0:
-                url = f"http://sensor.aireciudadano.com:30887/api/v1/query?query={query}"
+                url = f"http://sensor.aireciudadano.com:30000/api/v1/query?query={query}"
 
             # range of time selected
             elif self.option == 1:
@@ -276,7 +276,7 @@ class AireCiudadanoWidget(OWBaseWidget):
                 # construct step                
                 step = _get_step(self.step_number, self.step_option)
                 
-                url = f"http://sensor.aireciudadano.com:30887/api/v1/query_range?query={query}&start={start_datetime}&end={end_datetime}&step={step}"
+                url = f"http://sensor.aireciudadano.com:30000/api/v1/query_range?query={query}&start={start_datetime}&end={end_datetime}&step={step}"
             
             # get obs from API, using the url created before
             obs = get_data(url, selected_cols)
