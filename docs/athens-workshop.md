@@ -84,9 +84,11 @@ If an observation is well classified, the taxonomic name will be the species. If
 * **What observations are not identified at least with phylum level** 
 
 Select rows where phylum is defined using `Select rows` widges:
+
 <img src="images/select_rows.png" alt="pivot_table" width="500"/> 
 
 Use the link to get data that unmatches the criteria:
+
 <img src="images/unmatched.png" alt="unmatched" width="400"/> 
 
 
