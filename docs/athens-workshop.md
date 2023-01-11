@@ -124,5 +124,9 @@ Use `Report` button to add visualizations to a report and save it in pdf (left b
 ## Save the dataset of observations and images
 Use `Save Data` and `Save Images`:
 
-<img src="images/save_data.png" alt="save_data" width="280"/>
-<img src="images/save_images.png" alt="save_images" width="320"/>
+<img src="images/save_data.png" alt="save_data" width="200"/> <img src="images/save_images.png" alt="save_images" width="230"/>
+
+Or save the workflow to reproduce it again, as .ows format (typical of this platform), clicking on `Save as`:
+
+<img src="images/save_workflow.png" alt="save_workflow" width="500"/>
+
