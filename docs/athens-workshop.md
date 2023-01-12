@@ -71,13 +71,25 @@ Orange will show a message because it needs to restart. We click on **OK**.
 
 We are using for this example the widget `Minka` and the project [`Bio-Datathon Athens: trees for life, trees for learning`](https://minka-sdg.org/projects/bio-datathon-athens-trees-for-life-trees-for-learning) (Project ID: 69) 
 
+<img src="images/project_69.png" alt="project_69" width="500"/> 
+
+
+
+
 * **What are the most frequent species of trees in Athens?**
 
 If an observation is well classified, the taxonomic name will be the species. If we cannot reach the species level, we will identify it at the kingdom, phylum, class, order, family, genus level.
-    * `Distributions`
-    * `Pivot table`
+
+* Using `Distribution` widget:
+
+<img src="images/conection1.png" alt="conection1" width="500"/> 
 
 <img src="images/distributions.png" alt="distribution" width="800"/> 
+
+* Using `Pivot Table` widget:
+
+<img src="images/connection2.png" alt="connection2" width="500"/> 
+
 
 <img src="images/pivot_table.png" alt="pivot_table" width="500"/> 
 
