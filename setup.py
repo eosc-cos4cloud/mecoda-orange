@@ -7,7 +7,7 @@ import os
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = 'Orange MECODA'
 
-VERSION = "1.8.3"
+VERSION = "1.8.4"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"

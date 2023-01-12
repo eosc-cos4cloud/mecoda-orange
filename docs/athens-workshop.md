@@ -1,12 +1,12 @@
 # Presentation
 
-MECODA is a repository to facilitate analyzing and viewing data from diferent citizen science observatories. 
+MECODA is a repository created to facilitate analyzing and viewing data from different citizen science observatories.
 
 MECODA is constructed on Orange Data Mining, a visual programming toolbox made to simplify analysis and data visualization.
 
 [Orange](orangedatamining.org) supports the construction of data analysis workflows by assembling components for data preprocessing, visualization, and modeling. 
 
-Let's see how Orange looks like.
+Let's see what Orange looks like.
 
 
 # Installation Guide
@@ -83,7 +83,7 @@ If an observation is well classified, the taxonomic name will be the species. If
 
 * **What observations are not identified at least with phylum level** 
 
-Select rows where phylum is defined using `Select rows` widges:
+Select rows where phylum is defined using `Select rows` widgets:
 
 <img src="images/select_rows.png" alt="pivot_table" width="500"/> 
 
@@ -98,7 +98,7 @@ Use `Pivot table`:
 
 <img src="images/users_pivot_table.png" alt="users_pivot_table" width="500"/> 
 
-You can use also the distribution widget to see the number of observations by user.
+You can also use the distribution widget to see the number of observations by user.
 
 * **When are the observations taken?**
 
@@ -120,7 +120,8 @@ And explore images from a selection using `Minka images`:
 
 ## Create a report with our findings
 
-Use `Report` button to add visualizations to a report and save it in pdf (left bottom side of the widget window).
+Use the `Report` button to add visualizations to a report and save it in pdf (left bottom side of the widget window).
+
 <img src="images/report_button.png" alt="report_button" width="500"/>
 
 ## Save the dataset of observations and images
