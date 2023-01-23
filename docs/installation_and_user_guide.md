@@ -1,3 +1,22 @@
+# Presentation
+
+MECODA is a repository created to facilitate analyzing and viewing data from different citizen science observatories.
+
+MECODA is constructed on Orange Data Mining, a visual programming toolbox made to simplify analysis and data visualization.
+
+[Orange](orangedatamining.org) supports the construction of data analysis workflows by assembling components for data preprocessing, visualization, and modeling. 
+
+Let's see what Orange looks like.
+
+# Use of Orange platform
+
+## Documentation: 
+* YouTube tutorials: https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g
+    * Getting started with Orange: https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy
+* Widget catalog: https://orangedatamining.com/widget-catalog/ 
+* Workflows of example: https://orangedatamining.com/workflows/
+
+
 # Installation Guide
 
 1. Install Orange Data Mining platform through https://orangedatamining.com/download 
@@ -28,8 +47,9 @@ Click on “Download Orange” or follow the instructions for your operating sys
 9. Orange will be restarted and the interface will show our new installed packages on the left side column:
 <img src="images/orange_interface_installed.png" alt="orange_interface_installed" width="600"/> 
 
-*WARNING*: If MECODA doesn’t appear in the interface, close it and remove the *.cache/Orange* folder, because other previous installations could be made and have problems with the new one. Check if it is installed in the Options >> Add-ons and if not, install it again.
+*WARNING*: If the installation process finish with a "non-zero message" you should repeat the installation process, repeating steps in this manual to add "mecoda-orange" add-on and install it.
 
+If MECODA doesn’t appear in the Orange interface after the installation, close it and remove the *.cache/Orange* folder, because other previous installations could be made and have problems with the new one. Check if it is installed in the Options >> Add-ons.
 
 # Example of Use with Odour Collect widget
 
