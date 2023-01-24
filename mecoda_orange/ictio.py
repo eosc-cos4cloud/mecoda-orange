@@ -50,7 +50,7 @@ class IctioWidget(OWBaseWidget):
     icon = "icons/ictio-circular.png"
 
     # Priority in the section MECODA
-    priority = 7
+    priority = 8
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
