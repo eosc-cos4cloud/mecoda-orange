@@ -306,6 +306,7 @@ class OdourCollectWidget(OWBaseWidget):
             # convert lon-lat and create columns from time
             observations[['longitude', 'latitude']] = observations[[
                 'longitude', 'latitude']].astype(float)
+            observations.user = pd.Categorical(observations.user)
             observations[['time_hour', 'time_min', 'time_sec']] = observations.time.astype(
                 str).str.split(":", expand=True)
 
