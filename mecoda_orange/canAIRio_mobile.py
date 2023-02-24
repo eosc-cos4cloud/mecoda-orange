@@ -12,7 +12,7 @@ import requests
 
 
 def get_mobile_stations():
-    url = "http://api.canair.io:8080/tracks"
+    url = "https://mcopen.pythonanywhere.com/mobiletracks"
     stations = requests.get(url, verify=False).json()
     df_stations = pd.DataFrame(stations).transpose()
     for col in [
