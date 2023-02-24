@@ -11,7 +11,7 @@ from Orange.data.pandas_compat import table_from_frame
 
 # Fixed stations
 def get_fixed_stations_data(filter=None) -> pd.DataFrame:
-    url = "http://api.canair.io:8080/dwc/stations"
+    url = "https://mcopen.pythonanywhere.com/fixstations/"
     stations = requests.get(url).json()
     df_stations = pd.DataFrame(stations)
     # flat table
