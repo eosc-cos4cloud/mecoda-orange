@@ -12,7 +12,7 @@ from datetime import datetime
 def get_mobile_track(name):
     try:
         df = pd.DataFrame(requests.get(
-            f"http://api.canair.io:8080/tracks/{name}").json()['data'])
+            f"https://mcopen.pythonanywhere.com/mobiletracks/{name}").json()['data'])
         df['station'] = name
         df['station'] = pd.Categorical(df['station'])
         df['timestamp'] = df.timestamp.apply(
