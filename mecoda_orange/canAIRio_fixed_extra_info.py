@@ -10,7 +10,7 @@ from datetime import datetime
 
 
 def get_historic_data_fixed_station(st) -> pd.DataFrame:
-    url = f"http://api.canair.io:8080/dwc/stations/{st}"
+    url = f"https://mcopen.pythonanywhere.com/fixstations/{st}"
     response = requests.get(url).json()
     data = pd.DataFrame(response)
     data = data.explode('measurements').reset_index(drop=True)
