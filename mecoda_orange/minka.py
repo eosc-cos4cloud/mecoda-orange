@@ -1,53 +1,145 @@
-from orangewidget.widget import OWBaseWidget, Output
-from orangewidget.settings import Setting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
-import Orange.data
-from Orange.data.pandas_compat import table_from_frame
-
-import pandas as pd
 import traceback
-import requests
 
-from mecoda_minka import get_obs, get_dfs
+import Orange.data
+import pandas as pd
+import requests
+from AnyQt.QtGui import QIntValidator
+from mecoda_minka import get_dfs, get_obs
+from Orange.data.pandas_compat import table_from_frame
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Output, OWBaseWidget
 
 places = [
     "",
-    "243: Torrelles de Llobregat",
+    "361: ANERIS - Badia Roses ",
+    "340: ANERIS - Cadaqués",
+    "331: ANERIS - Divers - Platja d'Aro",
+    "346: ANERIS - Escullera Port de Barcelona",
+    "360: ANERIS - Estartit (Opistobrànquis)",
+    "342: ANERIS - Llançà",
+    "363: ANERIS - Parc Natural Cap de Creus",
+    "358: ANERIS - Parc Subaquàtic del Port de Tarragona",
+    "343: ANERIS - Port de Barcelona",
+    "341: ANERIS - Port de la Selva",
+    "344: ANERIS - Sant Adrià del Besòs",
+    "359: ANERIS - Tossa de Mar",
+    "338: ANERIS - UNISUB - Estartit",
+    "345: ANERIS - Vilanova i la Geltrú",
+    "312: Àrea Marina de AMB",
+    "251: Area marina de Badalona",
+    "247: Area marina de Barcelona",
+    "252: Area marina de Sant Adrià del Besòs",
+    "265: Area marina Sant Feliu",
+    "258: Area Sitges prova",
+    "275: Athens city, GR, Greece",
+    "263: Atles barcelonès",
+    "306: Badalona",
+    "301: Badia del Vallès",
+    "300: Barberà del Vallès",
+    "311: Barcelona",
+    "264: Barcelonès",
+    "279: Begues",
+    "259: Biodiversitat Sitges",
+    "248: BioMARató Barcelona",
     "244: BioMARató Catalunya",
     "245: BioMARató Girona",
-    "246: BioPrat",
-    "247: Area marina de Barcelona",
-    "248: BioMARató Barcelona",
     "249: BioMARató Tarragona",
-    "250: Vedat de Pesca de Ses Negres",
-    "251: Area marina de Badalona",
-    "252: Area marina de Sant Adrià del Besòs",
-    "253: Piscinas del Forum FECDAS",
-    "254: Platja Nova Icària",
-    "255: Platja Somorrostro",
-    "256: Platja Sant Sebastià",
-    "257: Platja Banys del Forum",
-    "258: Area Sitges prova",
-    "259: Biodiversitat Sitges",
-    "260: Isola di Tremiti",
-    "261: Platges CEM",
-    "263: Atles barcelonès",
-    "264: Barcelonès",
-    "265: Area marina Sant Feliu",
-    "266: Sant Vicenç de Montalt mar",
+    "246: BioPrat",
+    "329: BM_Águilas",
+    "326: BM_Alcúdia",
+    "327: BM_Manacor",
+    "330: BM_Mazarrón",
+    "334: BM_S'illot",
+    "328: BM_St.Feliu de Guíxols",
+    "335: BM_St.FeliudeGuíxols2",
+    "325: BM-Blanes",
+    "336: Bogliasco- BioMARató",
+    "289: Castellbisbal",
+    "277: Castelldefels",
+    "299: Cerdanyola del Vallès",
+    "286: Cervelló",
+    "287: Corbera de Llobregat",
+    "297: Cornellà de Llobregat",
+    "276: Costa de Mataró",
+    "273: Costa del Garraf",
     "267: Desembocadura del Torrent de Sant Joan",
+    "337: Diving Cadaqués - ANERIS",
+    "324: Ecotros - EcoNau",
+    "313: EIN Santes Creus barranc llacunes",
+    "314: EIN Santes Creus sense barranc",
+    "293: El Papiol",
+    "282: El Prat de Llobregat",
+    "274: Escullera Port de Barcelona",
+    "310: Esplugues de Llobregat",
+    "364: Fundació PLEGADIS",
+    "278: Gavà",
+    "298: Hospitalet de Llobregat",
+    "260: Isola di Tremiti",
+    "332: Mare jose-avilez",
+    "294: Molins de Rei",
+    "303: Montcada i Reixac",
+    "307: Montgat",
+    "362: North Red Sea - Egipcian",
+    "290: Pallejà",
+    "285: Palma de Cervelló",
+    "253: Piscinas del Forum FECDAS",
+    "347: Platges Badalona Nord - AMB",
+    "348: Platges Badalona Sud - AMB",
+    "355: Platges Barcelona Nord - AMB",
+    "356: Platges Barcelona Sud - AMB",
+    "349: Platges Castelldefels - AMB",
+    "261: Platges CEM",
+    "354: Platges de Viladecans - AMB",
+    "351: Platges El Prat de Llobregat - AMB",
+    "350: Platges Gavà - AMB",
+    "357: Platges Montgat - AMB",
+    "352: Platges Sant Adrià - AMB",
+    "257: Platja Banys del Forum",
+    "315: Platja de la Barceloneta",
+    "316: Platja de la Mar Bella",
+    "317: Platja de la Nova Mar Bella",
+    "318: Platja de Llevant",
+    "319: Platja de Nova Icaria",
+    "320: Platja de Sant Miquel",
+    "321: Platja de Sant Sebastià",
+    "322: Platja de Somorrostro",
+    "323: Platja del Bogatell",
+    "272: Platja del Castell",
+    "254: Platja Nova Icària",
+    "256: Platja Sant Sebastià",
+    "255: Platja Somorrostro",
     "268: Posidonia activa 1",
     "269: Posidonia activa 2",
     "270: Posidonia activa 3",
+    "353: Praia Angeiras - BIOPOLIS",
+    "339: Praia do Molhe - BIOPOLIS",
+    "333: Praia Vila Cha bioblitz",
     "271: Quadricules 200x200 Barcelonés",
-    "272: Platja del Castell",
+    "302: Ripollet",
+    "305: Sant Adrià del Besòs",
+    "288: Sant Andreu de la Barca",
+    "283: Sant Boi de Llobregat",
+    "280: Sant Climent de Llobregat",
+    "292: Sant Cugat del Vallés",
+    "295: Sant Feliu de Llobregat",
+    "296: Sant Joan Despí",
+    "309: Sant Just Desvern",
+    "266: Sant Vicenç de Montalt mar",
+    "291: Sant Vicenç dels Horts",
+    "284: Santa Coloma de Cervelló",
+    "304: Santa Coloma de Gramenet",
+    "308: Tiana",
+    "243: Torrelles de Llobregat",
+    "250: Vedat de Pesca de Ses Negres",
+    "281: Viladecans",
 ]
 
 
 def get_places(places):
-    first = 273
-    for number in range(first, first + 10):
+    first = 365
+    for number in range(first, first + 100):
         path = f"https://minka-sdg.org/places/{number}.json"
         try:
             name = requests.get(path).json()["name"]
@@ -61,7 +153,6 @@ places = get_places(places)
 
 
 class MinkaWidget(OWBaseWidget):
-
     # Widget's name as displayed in the canvas
     name = "Minka Obs."
     # Short widget description
@@ -94,29 +185,21 @@ class MinkaWidget(OWBaseWidget):
 
     # Widget's outputs
     class Outputs:
-        observations = Output(
-            "Observations",
-            Orange.data.Table,
-            auto_summary=False
-        )
-        photos = Output(
-            "Photos",
-            Orange.data.Table,
-            auto_summary=False
-        )
+        observations = Output("Observations", Orange.data.Table, auto_summary=False)
+        photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # Calls the init method of the parent class OWBaseWidget
         super().__init__()
 
-        from AnyQt.QtGui import QIntValidator
-
+        # info area
         infoBox = gui.widgetBox(self.controlArea, "Info")
         self.infoa = gui.widgetLabel(infoBox, "No observations fetched yet.")
         self.infob = gui.widgetLabel(infoBox, "")
 
         gui.separator(self.controlArea)
 
+        # filters area
         self.searchBox = gui.widgetBox(self.controlArea, "Search fields")
 
         self.query_line = gui.lineEdit(
@@ -365,8 +448,7 @@ class MinkaWidget(OWBaseWidget):
             if len(observations) > 0:
                 self.df_obs, self.df_photos = get_dfs(observations)
                 self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
-                self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower(
-                )
+                self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
                 # error with pd.NA in conversion to table_from_frame
                 self.df_obs["taxon_id"].replace({pd.NA: 0}, inplace=True)
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
@@ -381,7 +463,7 @@ class MinkaWidget(OWBaseWidget):
 
                 table_photos = table_from_frame(self.df_photos)
                 for meta in table_photos.domain.metas:
-                    if meta.name == "photos.medium_url":
+                    if meta.name == "photos_medium_url":
                         meta.attributes = {"type": "image"}
 
                 self.Outputs.photos.send(table_photos)

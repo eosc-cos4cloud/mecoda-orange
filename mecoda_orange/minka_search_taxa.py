@@ -1,15 +1,14 @@
-from orangewidget.widget import OWBaseWidget, Output
-from orangewidget.settings import Setting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
-import Orange.data
-from Orange.data.pandas_compat import table_from_frame
+from difflib import SequenceMatcher, get_close_matches
 
+import Orange.data
 import pandas as pd
 import requests
-from difflib import SequenceMatcher, get_close_matches
-from mecoda_minka import get_obs, get_dfs
-
+from mecoda_minka import get_dfs, get_obs
+from Orange.data.pandas_compat import table_from_frame
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Output, OWBaseWidget
 
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
@@ -21,9 +20,10 @@ def _get_tree_from_ancestry(obs):
         ancestries.append(ob.taxon_ancestry)
     unique_ancestries = list(set(ancestries))
     if len(unique_ancestries) > 1:
-        match = SequenceMatcher(None, unique_ancestries[0], unique_ancestries[1]).find_longest_match(
-            0, len(unique_ancestries[0]), 0, len(unique_ancestries[1]))
-        common_string = unique_ancestries[0][match.a:match.a + match.size]
+        match = SequenceMatcher(
+            None, unique_ancestries[0], unique_ancestries[1]
+        ).find_longest_match(0, len(unique_ancestries[0]), 0, len(unique_ancestries[1]))
+        common_string = unique_ancestries[0][match.a : match.a + match.size]
     else:
         common_string = unique_ancestries[0]
 
@@ -37,10 +37,10 @@ def _get_tree_from_ancestry(obs):
     tree = []
 
     for number in numbers:
+        __import__("pdb").set_trace()
         number = int(number)
-        name = taxon_tree[taxon_tree['taxon_id']
-                          == number]['taxon_name'].item()
-        rank = taxon_tree[taxon_tree['taxon_id'] == number]['rank'].item()
+        name = taxon_tree[taxon_tree["taxon_id"] == number]["taxon_name"].item()
+        rank = taxon_tree[taxon_tree["taxon_id"] == number]["rank"].item()
         tree.append(f"{rank} {name}")
 
     return " <br>>> ".join(tree)
@@ -50,23 +50,24 @@ def _get_id_from_name(taxon_name):
     taxon_name = taxon_name.replace(" ", "%20")
     taxon_name = taxon_name.capitalize()
     url = f"https://minka-sdg.org/taxon_names.json?name={taxon_name}"
-    taxon_id = requests.get(url).json()[0]['taxon_id']
+    taxon_id = requests.get(url).json()[0]["taxon_id"]
     return taxon_id
 
 
 def _get_id_from_wikipedia(name_search):
     names = []
     searches = requests.get(
-        f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search']
+        f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}"
+    ).json()["query"]["search"]
 
     for search in searches:
-        names.append(search['title'])
+        names.append(search["title"])
 
     for name in names:
         try:
             taxon_id = _get_id_from_name(name)
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-            obs_count = requests.get(taxa_url).json()['observations_count']
+            obs_count = requests.get(taxa_url).json()["observations_count"]
             if obs_count > 0:
                 return taxon_id, name
         except:
@@ -77,8 +78,7 @@ def get_obs_from_common_name(name_search):
     try:
         name_clean = name_search.replace(" ", "%20")
         taxon_id = _get_id_from_name(name_clean)
-        sci_name = taxon_tree[taxon_tree['taxon_id']
-                              == taxon_id]['taxon_name'].item()
+        sci_name = taxon_tree[taxon_tree["taxon_id"] == taxon_id]["taxon_name"].item()
         print(taxon_id, sci_name)
         obs = get_obs(taxon_id=taxon_id)
         if len(obs) > 0:
@@ -90,7 +90,7 @@ def get_obs_from_common_name(name_search):
             taxon_id, sci_name = _get_id_from_wikipedia(name_search)
             print(taxon_id, sci_name)
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-            obs_count = requests.get(taxa_url).json()['observations_count']
+            obs_count = requests.get(taxa_url).json()["observations_count"]
             if obs_count > 0:
                 print("Option 2:", sci_name)
                 obs = get_obs(taxon_id=taxon_id)
@@ -99,12 +99,12 @@ def get_obs_from_common_name(name_search):
 
         except:
             sci_name = requests.get(
-                f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}").json()['query']['search'][0]['title']
-            options = get_close_matches(
-                sci_name, taxon_tree.taxon_name.to_list())
+                f"https://es.wikipedia.org/w/api.php?action=query&list=search&srprop=snippet&format=json&origin=*&utf8=&srsearch={name_search}"
+            ).json()["query"]["search"][0]["title"]
+            options = get_close_matches(sci_name, taxon_tree.taxon_name.to_list())
             taxon_id = _get_id_from_name(options[0])
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-            obs_count = requests.get(taxa_url).json()['observations_count']
+            obs_count = requests.get(taxa_url).json()["observations_count"]
             if obs_count > 0:
                 print("Option 3:", options[0])
                 obs = get_obs(taxon_id=taxon_id)
@@ -130,11 +130,10 @@ def get_obs_from_sci_name(name_search):
             ancestry = ""
             obs = []
     except:
-        options = get_close_matches(
-            name_search, taxon_tree.taxon_name.to_list())
+        options = get_close_matches(name_search, taxon_tree.taxon_name.to_list())
         taxon_id = _get_id_from_name(options[0])
         taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-        obs_count = requests.get(taxa_url).json()['observations_count']
+        obs_count = requests.get(taxa_url).json()["observations_count"]
         if obs_count > 0:
             print("Option 1:", options[0])
             taxon_id = _get_id_from_name(options[0])
@@ -146,7 +145,7 @@ def get_obs_from_sci_name(name_search):
         else:
             taxon_id = _get_id_from_name(options[1])
             taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-            obs_count = requests.get(taxa_url).json()['observations_count']
+            obs_count = requests.get(taxa_url).json()["observations_count"]
             if obs_count > 0:
                 print("Option 2:", options[1])
                 taxon_id = _get_id_from_name(options[1])
@@ -158,7 +157,7 @@ def get_obs_from_sci_name(name_search):
             else:
                 taxon_id = _get_id_from_name(options[2])
                 taxa_url = f"https://minka-sdg.org/taxa/{taxon_id}.json"
-                obs_count = requests.get(taxa_url).json()['observations_count']
+                obs_count = requests.get(taxa_url).json()["observations_count"]
                 if obs_count > 0:
                     print("Option 3:", options[2])
                     taxon_id = _get_id_from_name(options[2])
@@ -168,15 +167,19 @@ def get_obs_from_sci_name(name_search):
                     else:
                         ancestry = ""
                 else:
-                    options = taxon_tree[taxon_tree.taxon_name.str.contains(
-                        name_search)].name.to_list()
+                    options = taxon_tree[
+                        taxon_tree.taxon_name.str.contains(name_search)
+                    ].name.to_list()
                     if len(options) > 0:
                         for option in options:
                             try:
                                 possible_id = _get_id_from_name(option)
-                                taxa_url = f"https://minka-sdg.org/taxa/{possible_id}.json"
+                                taxa_url = (
+                                    f"https://minka-sdg.org/taxa/{possible_id}.json"
+                                )
                                 obs_count = requests.get(taxa_url).json()[
-                                    'observations_count']
+                                    "observations_count"
+                                ]
                                 if obs_count > 0:
                                     taxon_id = possible_id
                                     print("Option 4:", option)
@@ -221,8 +224,7 @@ class TaxonWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output(
-            "Observations", Orange.data.Table, auto_summary=False)
+        observations = Output("Observations", Orange.data.Table, auto_summary=False)
         photos = Output("Photos", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
@@ -232,10 +234,13 @@ class TaxonWidget(OWBaseWidget):
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
-        self.infoa = gui.widgetLabel(info, '\
+        self.infoa = gui.widgetLabel(
+            info,
+            '\
             Here you can search observation by scientific or common name<br>\
-            to filter observations from <a href="https://minka-sdg.org">minka-sdg.org</a>.')
-        self.infob = gui.widgetLabel(info, 'No observations fetched yet.')
+            to filter observations from <a href="https://minka-sdg.org">minka-sdg.org</a>.',
+        )
+        self.infob = gui.widgetLabel(info, "No observations fetched yet.")
 
         gui.separator(self.controlArea)
 
@@ -268,14 +273,13 @@ class TaxonWidget(OWBaseWidget):
         gui.button(self.commitBox, self, "Load", callback=self.commit)
 
     def commit(self):
-        self.infoa.setText('Searching...')
-        self.infob.setText(f'')
+        self.infoa.setText("Searching...")
+        self.infob.setText(f"")
         try:
             progress = gui.ProgressBar(self, 2)
             progress.advance()
             if self.taxon_common != "":
-                obs, ancestry, sci_name = get_obs_from_common_name(
-                    self.taxon_common)
+                obs, ancestry, sci_name = get_obs_from_common_name(self.taxon_common)
             elif self.taxon_sci != "":
                 obs, ancestry, sci_name = get_obs_from_sci_name(self.taxon_sci)
             if len(obs) > 0:
@@ -287,14 +291,13 @@ class TaxonWidget(OWBaseWidget):
                 self.df_obs.genus = pd.Categorical(self.df_obs.genus)
                 print(self.df_obs.head())
 
-                self.df_obs['taxon_name'] = self.df_obs['taxon_name'].str.lower()
-                self.df_photos['taxon_name'] = self.df_photos['taxon_name'].str.lower(
-                )
+                self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
+                self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
 
-                self.infoa.setText(
-                    f'Found: <b>{sci_name}</b><br>>> {ancestry}')
+                self.infoa.setText(f"Found: <b>{sci_name}</b><br>>> {ancestry}")
                 self.infob.setText(
-                    f'{len(self.df_obs):,} observations | {len(self.df_photos):,} photos')
+                    f"{len(self.df_obs):,} observations | {len(self.df_photos):,} photos"
+                )
 
                 self.Outputs.observations.send(table_from_frame(self.df_obs))
 
@@ -307,14 +310,14 @@ class TaxonWidget(OWBaseWidget):
                 self.info.set_output_summary(len(obs))
 
             else:
-                self.infoa.setText(f'Nothing found.')
+                self.infoa.setText(f"Nothing found.")
                 self.infob.setText("")
                 self.info.set_output_summary(self.info.NoOutput)
         except ValueError:
-            self.infoa.setText(f'Nothing found.')
+            self.infoa.setText(f"Nothing found.")
 
         except Exception as error:
-            self.infoa.setText(f'ERROR: \n{error}')
+            self.infoa.setText(f"ERROR: \n{error}")
 
         progress.finish()
 
