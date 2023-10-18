@@ -1,4 +1,3 @@
-
 from orangewidget.widget import OWBaseWidget, Output
 from orangewidget.settings import Setting
 from orangewidget import gui
@@ -6,11 +5,11 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 import pandas as pd
-import pyodourcollect.ocmodels as ocmodels
-import pyodourcollect.occore as occore
+import pyodcollect.ocmodels as ocmodels
+import pyodcollect.occore as occore
 import datetime
-from pyodourcollect.ochelpers import TYPE_LIST
-from pyodourcollect.ocmodels import GPScoords
+from pyodcollect.ochelpers import TYPE_LIST
+from pyodcollect.ocmodels import GPScoords
 
 
 def get_type_from_category(choice):
@@ -26,7 +25,7 @@ def get_type_from_category(choice):
         8: [89],
         9: [88],
     }
-    set_items = ['']
+    set_items = [""]
     if choice != 0:
         for i in correspondences[choice]:
             set_items.append(TYPE_LIST[i].split("|")[1])
@@ -55,7 +54,6 @@ def get_subtype_from_correspondences(odour_type, odour_subtype):
 
 
 class OdourCollectWidget(OWBaseWidget):
-
     # Widget's name as displayed in the canvas
     name = "OdourCollect Obs."
 
@@ -89,8 +87,7 @@ class OdourCollectWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
-        observations = Output(
-            "Observations", Orange.data.Table, auto_summary=False)
+        observations = Output("Observations", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # use the init method from the class OWBaseWidget
@@ -99,8 +96,8 @@ class OdourCollectWidget(OWBaseWidget):
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
-        self.infoa = gui.widgetLabel(info, 'No observations fetched yet.')
-        self.infob = gui.widgetLabel(info, '')
+        self.infoa = gui.widgetLabel(info, "No observations fetched yet.")
+        self.infob = gui.widgetLabel(info, "")
 
         gui.separator(self.controlArea)
 
@@ -122,7 +119,7 @@ class OdourCollectWidget(OWBaseWidget):
             "date_end",
             label="End Date:",
             orientation=1,
-            controlWidth=140
+            controlWidth=140,
         )
 
         gui.separator(self.searchBox)
@@ -135,7 +132,7 @@ class OdourCollectWidget(OWBaseWidget):
             maxValue=4,
             step=1,
             label="Min. Annoy:",
-            vertical=False
+            vertical=False,
         )
 
         self.maxAnnoy_line = gui.hSlider(
@@ -146,7 +143,7 @@ class OdourCollectWidget(OWBaseWidget):
             maxValue=4,
             step=1,
             label="Max. Annoy:",
-            vertical=False
+            vertical=False,
         )
 
         gui.separator(self.searchBox)
@@ -159,7 +156,7 @@ class OdourCollectWidget(OWBaseWidget):
             maxValue=6,
             step=1,
             label="Min. Intensity:",
-            vertical=False
+            vertical=False,
         )
 
         self.maxIntensity_line = gui.hSlider(
@@ -170,7 +167,7 @@ class OdourCollectWidget(OWBaseWidget):
             maxValue=6,
             step=1,
             label="Max. Intensity:",
-            vertical=False
+            vertical=False,
         )
 
         gui.separator(self.searchBox)
@@ -183,16 +180,16 @@ class OdourCollectWidget(OWBaseWidget):
             label="Category:",
             labelWidth=None,
             items=(
-                '',
-                'Waste related odours',
-                'Waste water related odours',
-                'Agriculture and livestock related odours',
-                'Food Industries related odours',
-                'Industry related odours',
-                'Urban odours',
-                'Nice odours',
-                'Other odours not fitting elsewhere',
-                'No odour observations',
+                "",
+                "Waste related odours",
+                "Waste water related odours",
+                "Agriculture and livestock related odours",
+                "Food Industries related odours",
+                "Industry related odours",
+                "Urban odours",
+                "Nice odours",
+                "Other odours not fitting elsewhere",
+                "No odour observations",
             ),
             sendSelectedValue=False,
             emptyString=False,
@@ -200,7 +197,7 @@ class OdourCollectWidget(OWBaseWidget):
             contentsLength=None,
             searchable=True,
             orientation=1,
-            callback=self.type_edit
+            callback=self.type_edit,
         )
 
         self.subtype_line = gui.comboBox(
@@ -217,8 +214,7 @@ class OdourCollectWidget(OWBaseWidget):
         )
 
         # poi area
-        self.poi = gui.widgetBox(
-            self.controlArea, "Point of Interest", spacing=2)
+        self.poi = gui.widgetBox(self.controlArea, "Point of Interest", spacing=2)
         self.poi_lat_line = gui.lineEdit(
             self.poi,
             self,
@@ -226,7 +222,7 @@ class OdourCollectWidget(OWBaseWidget):
             label="Latitude:",
             orientation=0,
             controlWidth=140,
-            valueType=float
+            valueType=float,
         )
 
         self.poi_lon_line = gui.lineEdit(
@@ -236,7 +232,7 @@ class OdourCollectWidget(OWBaseWidget):
             label="Longitude:",
             orientation=0,
             controlWidth=140,
-            valueType=float
+            valueType=float,
         )
 
         # commit area
@@ -244,7 +240,7 @@ class OdourCollectWidget(OWBaseWidget):
         gui.button(self.commitBox, self, "Commit", callback=self.commit)
 
     def info_searching(self):
-        self.infoa.setText('Searching...')
+        self.infoa.setText("Searching...")
 
     # function to change subtype items due to type choice
     def type_edit(self):
@@ -256,26 +252,23 @@ class OdourCollectWidget(OWBaseWidget):
             self.subtype_line.addItems(get_type_from_category(0))
 
     def commit(self):
-        self.infoa.setText(f'Searching...')
-        self.infob.setText(f'')
+        self.infoa.setText(f"Searching...")
+        self.infob.setText(f"")
         try:
             # convert date_init and date_end to datetime format
             if type(self.date_init) == str:
-                init = datetime.datetime.strptime(
-                    self.date_init, '%Y-%m-%d').date()
+                init = datetime.datetime.strptime(self.date_init, "%Y-%m-%d").date()
             else:
                 init = self.date_init
 
             if type(self.date_end) == str:
-                end = datetime.datetime.strptime(
-                    self.date_end, '%Y-%m-%d').date()
+                end = datetime.datetime.strptime(self.date_end, "%Y-%m-%d").date()
             else:
                 end = self.date_end
 
             # convert subtype to number 0-89
             if self.subtype != 0:
-                subtype = get_subtype_from_correspondences(
-                    self.type, self.subtype)
+                subtype = get_subtype_from_correspondences(self.type, self.subtype)
             else:
                 subtype = 0
 
@@ -291,44 +284,45 @@ class OdourCollectWidget(OWBaseWidget):
                 minIntensity=self.minIntensity,
                 maxIntensity=self.maxIntensity,
                 type=self.type,
-                subtype=subtype
+                subtype=subtype,
             )
 
             # construct GPScoords
             if (self.poi_coords_lat != "") and (self.poi_coords_lon != ""):
                 poi_coords = GPScoords(
-                    lat=float(self.poi_coords_lat), long=float(self.poi_coords_lon))
+                    lat=float(self.poi_coords_lat), long=float(self.poi_coords_lon)
+                )
             else:
                 poi_coords = None
 
             observations = occore.get_oc_data(requestparams, poi_coords)
 
             # convert lon-lat and create columns from time
-            observations[['longitude', 'latitude']] = observations[[
-                'longitude', 'latitude']].astype(float)
+            observations[["longitude", "latitude"]] = observations[
+                ["longitude", "latitude"]
+            ].astype(float)
             observations.user = pd.Categorical(observations.user)
-            observations[['time_hour', 'time_min', 'time_sec']] = observations.time.astype(
-                str).str.split(":", expand=True)
+            observations[
+                ["time_hour", "time_min", "time_sec"]
+            ] = observations.time.astype(str).str.split(":", expand=True)
 
             if len(observations) > 0:
-
                 table_oc = table_from_frame(observations)
 
-                self.infoa.setText(
-                    f'{len(observations)} observations gathered')
+                self.infoa.setText(f"{len(observations)} observations gathered")
                 self.info.set_output_summary(len(observations))
 
                 self.Outputs.observations.send(table_oc)
 
             else:
-                self.infoa.setText(f'Nothing found.')
+                self.infoa.setText(f"Nothing found.")
                 self.info.set_output_summary(self.info.NoOutput)
 
         except ValueError:
-            self.infoa.setText(f'Nothing found.')
+            self.infoa.setText(f"Nothing found.")
 
         except Exception as error:
-            self.infoa.setText(f'ERROR: \n{error}')
+            self.infoa.setText(f"ERROR: \n{error}")
 
         progress.finish()
 

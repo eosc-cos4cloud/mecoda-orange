@@ -99,7 +99,7 @@ The output is a `Table` of observations, with this information:
 | user              | OdourCollect's user ID of the citizen that registered the observation.      |
 | date           	| Observation date in yyyy-mm-dd format.     	|
 | time           	| Observation time in HH:mm (24h) format, UTC timezone.     	|
-| week_day       	| Observation day of week. This field is extra data calculated by PyOdourCollect to help the analyst in finding patterns. Please bear in mind that this calculation is based on UTC, not local time, so it could be misleading in some edge cases.|
+| week_day       	| Observation day of week. This field is extra data calculated by pyodcollect to help the analyst in finding patterns. Please bear in mind that this calculation is based on UTC, not local time, so it could be misleading in some edge cases.|
 | category       	| First tier of odour classification. In OdourCollect webapp, this is called "type". It provides complementary classification nuances that can be safely ignored for basic analysis. See the full table below for better understanding.  	|
 | type           	| Second tier of odour classification. In OdourCollect webapp, this is called "subtype". It provides the richest odour classification criteria. See the full table below for better understanding.     	|
 | hedonic_tone_n 	| Hedonic tone of odour observation (numeric representation). Hedonic tone is the subjective measurement of how annoyant an odour is, from -4 (`Extremely unpleasant`) to +4 (`Extremely pleasant`). Zero is used to report nor annoyance nor pleasure. This scale is based on the `VDI 3940:2006` standard for odour impact assessement.       	|
@@ -109,7 +109,7 @@ The output is a `Table` of observations, with this information:
 | duration       	| Metric informing for how much time an odour has been perceived by reporter. Categorical text data with following self-explanatory options: `(No odour)`,`Punctual`,`Continuous in the last hour` and `Continuous throughout the day`       	|
 | latitude       	| GPS coordinates of observation. Latitude.      	|
 | longitude      	| GPS coordinates of observation. Longitude.     	|
-| distance       	| Distance in Kms (with an accuracy of 0.01 Kms.) between the point of observation and a configurable Point of Interest (POI). This extra data is calculated by PyOdourCollect when the data analyst provides a set of coordinates for a given suspicious activity that motivates his/her analysis. In case that no POI coordinates are provided, this field is missing.      	|
+| distance       	| Distance in Kms (with an accuracy of 0.01 Kms.) between the point of observation and a configurable Point of Interest (POI). This extra data is calculated by pyodcollect when the data analyst provides a set of coordinates for a given suspicious activity that motivates his/her analysis. In case that no POI coordinates are provided, this field is missing.      	|
 | time_hour           	| Observation time in HH (24h) format, UTC timezone.     	|
 | time_mins           	| Observation time in mm (0-60') format, UTC timezone.     	|
 | time_secs           	| Observation time in ss (0-60'') format, UTC timezone.     	|
