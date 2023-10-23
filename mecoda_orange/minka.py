@@ -181,6 +181,8 @@ class MinkaWidget(OWBaseWidget):
     year = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
+    created_since = Setting("", schema_only=True)
+    created_until = Setting("", schema_only=True)
     num_max = Setting(10000, schema_only=True)
 
     # Widget's outputs
@@ -294,6 +296,23 @@ class MinkaWidget(OWBaseWidget):
             orientation=1,
             controlWidth=120,
         )
+        self.starts_on_line = gui.lineEdit(
+            self.searchBox,
+            self,
+            "created_since",
+            label="Created since (YYYY-MM-DD):",
+            orientation=1,
+            controlWidth=120,
+        )
+        self.ends_on_line = gui.lineEdit(
+            self.searchBox,
+            self,
+            "created_until",
+            label="Created until (YYYY-MM-DD):",
+            orientation=1,
+            controlWidth=120,
+        )
+
         self.id_obs_line = gui.lineEdit(
             self.searchBox,
             self,
@@ -336,6 +355,8 @@ class MinkaWidget(OWBaseWidget):
             self.year_line.setDisabled(True)
             self.starts_on.setDisabled(True)
             self.ends_on.setDisabled(True)
+            self.created_since.setDisabled(True)
+            self.created_until.setDisabled(True)
             self.id_project = ""
             self.query = ""
             self.user = ""
@@ -354,6 +375,8 @@ class MinkaWidget(OWBaseWidget):
             self.year_line.setDisabled(False)
             self.starts_on.setDisabled(False)
             self.ends_on.setDisabled(False)
+            self.created_since.setDisabled(False)
+            self.created_until.setDisabled(False)
             self.max_line.setDisabled(False)
 
     def id_project_edit(self):
@@ -429,6 +452,16 @@ class MinkaWidget(OWBaseWidget):
             else:
                 ends_on = self.ends_on
 
+            if self.created_since == "":
+                created_since = None
+            else:
+                created_since = self.created_since
+
+            if self.created_until == "":
+                created_until = None
+            else:
+                created_until = self.created_until
+
             progress = gui.ProgressBar(self, 2)
             progress.advance()
 
@@ -442,6 +475,8 @@ class MinkaWidget(OWBaseWidget):
                 year=year,
                 starts_on=starts_on,
                 ends_on=ends_on,
+                created_d1=created_since,
+                created_d2=created_until,
                 num_max=self.num_max,
             )
 
