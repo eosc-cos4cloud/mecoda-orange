@@ -149,45 +149,6 @@ This example can be loaded as a workflow (.ows format) directly in Orange Canvas
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/canairio_workflow.png" alt="canairio_fixed_widget" width="800">
 
-## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/ictio-circular.png" alt="ictio_logo.png" width="75"/> Ictio widget
-
-The widget analyse data from [Ictio's citizen observatory](https://ictio.org/) for Amazon basin fish observation. The data from this Citizen Observatory is not freely available via public API nor public download, but it can be downloaded as a zip file after registration in web page.
-
-This widget takes an Ictio_Basic zip file from ictio.org and process it using [IctioPy](https://github.com/ScienceForChange/IctioPy) library, created by Science For Change:
-
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/ictio_widget.png" alt="ictio_widget" width="300">
-
-The output of this widget is a `Table` with this structure:
-
-* `obs_id`: Unique observation ID.
-* `weight`: Total weight in Kg reported for the given taxon.
-* `price_local_currency`: Price per Kg in the local currency for the taxon.
-* `obs_comments`: Comments made by the Citizen Scientist at the time of registering the observation.
-* `upload_date_yyyymmdd`: Date of observation upload. It does not necessarily match observation date. The relevant data for analysis purposes is the observation date.
-num_photos: Number of photos taken with the observation. The photos are not available in the basic version of the ictio.org's database, so this field is only included as a reference.
-* `user_id`: Anonymous, numeric ID of the user that made the observation.
-checklist_id: Unique checklist identifier
-* `protocol_name`: Name of the observation protocol used. Possible values: During fishing event , After the fishing event, Market Survey and Port Survey.
-complete_checklist: Indicates if the checklist was completed. A complete checklist is when all taxa caught during the fishing effort are reported. In a market survey it would be all taxa observed at the market. If observation was made via app, it is assumed that user reported a complete checklist.
-* `fishing_duration`: The duration of the fishing effort in hours.
-submission_method: How was data submitted? EFISH_android for mobile app or EFISH_upload for upload tool.
-* `app_version`: Version of the mobile app or upload tool used.
-* `taxon_code`: Species taxon code.
-* `scientific_name`: Scientific name of the species observed.
-* `num_of_fishers`: Number of fishers participating in fishing effort.
-* `number_of_fish`: Number of individual fish reported for the given taxon.
-* `obs_year`: Year of observation.
-* `obs_month`: Month of observation.
-* `obs_day`: Day of month of observation.
-* `port`: This is the name of the port where data was collected and is only reported with the Port Protocol. This is not the location where fish were caught.
-* `location_type`: Ictio has three location types: Watersheds, Ictio Hotspots, and Personal Locations. This field will identify watersheds and Ictio Hotspots. This field will be null for personal locations. A personal location is any new location added with the upload tool or based on raw GPS coordinates.
-* `country_code`: Country Code, automatically assigned by latitude and longitude. If you assign a checklist to a watershed it will be assigned to the country where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different country from where it is being submitted.
-* `country_name`: Country in which the observation was made.
-* `state_province_code`: State/Province Code, automatically assigned by latitude and longitude. If you assign a checklist to a watershed it will be assigned to the State/Province where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different State/Province.
-* `state_province_name`: State/Province name, automatically assigned by latitude and longitude. If there is a checklist assigned to a watershed, observation will be assigned to the State/Province where the centroid of the watershed is. If the watershed overlaps a boundary, it could be assigned to a different State/Province.
-watershed_code: Unique identifier for watershed. For Ictio hotspots and personal locations, the watershed code and watershed name are inferred based on geographic position of Citizen Scientist at the time of observation.
-* `watershed_name`: Name of the watersed in which the osbervation was made.
-
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
 
 This widget collects observations from Natusfera API and allows filter them by:
@@ -240,6 +201,19 @@ The output is a table with these columns:
 | `Temperature` | Value in °C of the temperature. |
 | `VOC` | VOC index (volatile organic compounds) with [range from 1 to 500](https://sensirion.com/media/documents/02232963/6294E043/Info_Note_VOC_Index.pdf), only applicable to [Sensirion SEN55 and SEN54 sensor](https://sensirion.com/products/catalog/SEN55/). |
 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/plantnet.png" alt="plantnet-logo" width="75"/> Plantnet widget
+Plantnet widget identify plants using photo url and the [Plantnet API](https://identify.plantnet.org/es). The widget get a message with the most probable identification and a data table with all posibilities and percentage of probability.
+
+Open plantnet widget and indicate the url of the image:
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/images/plantnet_use1.png" alt="plantnet_use1" width="800">
+
+Click "Send" button to make a request to Plantnet API. It gets the most probable identification as a result:
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/images/plantnet_use2.png" alt="plantnet_use2" width="800">
+
+Get the complete list of species and probabilities connecting the API widget with Data Table widget:
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/images/plantnet_use3.png" alt="plantnet_use3" width="800">
+You'll see every species, genus and family for each identification.
+
 
 # Testing
 To run tests locally you'll need to have python 3.8, pip, virtualenv and git installed.
@@ -261,9 +235,9 @@ source env/bin/activate
 pip install -e .
 ```
 
-* Install pytest:
+* Install development dependencies:
 ```
-pip install pytest
+pip install j-r requirements-dev.txt
 ```
 
 * Run tests from the mecoda-orange directory:
