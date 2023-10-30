@@ -428,7 +428,7 @@ class MinkaWidget(OWBaseWidget):
             else:
                 taxon = self.taxon
 
-            if self.year == "":
+            if self.year == "" or self.year == 0:
                 year = None
             else:
                 year = int(self.year)
