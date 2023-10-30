@@ -445,6 +445,7 @@ class MinkaWidget(OWBaseWidget):
 
             if self.place_name == "":
                 place_id = None
+                introduced = None
             else:
                 place_name = self.place_name
                 place_id = place_name.split(":")[0]
