@@ -1,11 +1,11 @@
-from orangewidget.widget import OWBaseWidget, Output, Input
-from orangewidget.settings import Setting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
-from Orange.data.pandas_compat import table_from_frame, table_to_frame
 import pandas as pd
 import requests
+from Orange.data.pandas_compat import table_from_frame, table_to_frame
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Input, Output, OWBaseWidget
 
 taxon_url = "https://raw.githubusercontent.com/eosc-cos4cloud/mecoda-orange/master/mecoda_orange/data/taxon_tree_with_marines.csv"
 taxon_tree = pd.read_csv(taxon_url)
@@ -14,7 +14,8 @@ taxon_tree = pd.read_csv(taxon_url)
 def get_marine(taxon_name):
     name_clean = taxon_name.replace(" ", "+")
     status = requests.get(
-        f"https://www.marinespecies.org/rest/AphiaIDByName/{name_clean}?marine_only=true").status_code
+        f"https://www.marinespecies.org/rest/AphiaIDByName/{name_clean}?marine_only=true"
+    ).status_code
     if (status == 200) or (status == 206):
         result = True
     else:
@@ -45,8 +46,7 @@ class MarineWidget(OWBaseWidget):
 
     class Outputs:
         marines = Output("marines", Orange.data.Table, auto_summary=False)
-        terrestrials = Output(
-            "terrestrials", Orange.data.Table, auto_summary=False)
+        terrestrials = Output("terrestrials", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         super().__init__()
@@ -54,22 +54,27 @@ class MarineWidget(OWBaseWidget):
         # GUI
         box = gui.widgetBox(self.controlArea, "Info")
         self.infoa = gui.widgetLabel(
-            box, 'No data on input yet, waiting to get something.')
+            box, "No data on input yet, waiting to get something."
+        )
         self.infob = gui.widgetLabel(
-            box, 'Just filter research quality grade observations.')
+            box, "Just filter research quality grade observations."
+        )
 
     @Inputs.data
     def set_data(self, dataset):
         if dataset is not None:
-            self.infoa.setText(f'{len(dataset)} instances in input dataset')
+            self.infoa.setText(f"{len(dataset)} instances in input dataset")
             df = table_to_frame(dataset)
-            df['taxon_id'] = df.taxon_id.astype(int)
-            progress = gui.ProgressBar(self, len(df))
-            marine_df = taxon_tree[['taxon_id', 'rank', 'marine']]
+            filtered_df = df[
+                (df.taxon_id != "nan") & (df.taxon_id.notnull())
+            ].reset_index(drop=True)
+            filtered_df["taxon_id"] = filtered_df.taxon_id.astype(int)
+            progress = gui.ProgressBar(self, len(filtered_df))
+            marine_df = taxon_tree[["taxon_id", "rank", "marine"]]
 
-            df_complete = df.merge(marine_df, how="left", on="taxon_id")
+            df_complete = filtered_df.merge(marine_df, how="left", on="taxon_id")
 
-            df = df_complete[df_complete['quality_grade'] == "research"]
+            df = df_complete[df_complete["quality_grade"] == "research"]
 
             marines_df = df[df.marine == True]
             terrestrials_df = df[df.marine == False]
@@ -77,8 +82,8 @@ class MarineWidget(OWBaseWidget):
             marines = table_from_frame(marines_df)
             terrestrials = table_from_frame(terrestrials_df)
 
-            self.infoa.setText(f'Marines: {len(marines)}')
-            self.infob.setText(f'Terrestrials: {len(terrestrials)}')
+            self.infoa.setText(f"Marines: {len(marines)}")
+            self.infob.setText(f"Terrestrials: {len(terrestrials)}")
 
             self.Outputs.marines.send(marines)
             self.Outputs.terrestrials.send(terrestrials)
@@ -86,9 +91,8 @@ class MarineWidget(OWBaseWidget):
             progress.finish()
 
         else:
-            self.infoa.setText(
-                'No data on input yet, waiting to get something.')
-            self.infob.setText('')
+            self.infoa.setText("No data on input yet, waiting to get something.")
+            self.infob.setText("")
 
 
 if __name__ == "__main__":
