@@ -167,7 +167,7 @@ class MinkaWidget(OWBaseWidget):
     #   a simple 'single column' GUI layout
     want_main_area = False
     #   with a fixed non resizable geometry.
-    resizing_enabled = False
+    resizing_enabled = True
 
     # We don't want the current number entered by the user to be saved
     # and restored when saving/loading a workflow.
@@ -178,6 +178,7 @@ class MinkaWidget(OWBaseWidget):
     user = Setting("", schema_only=True)
     taxon = Setting("", schema_only=True)
     place_name = Setting("", schema_only=True)
+    introduced = Setting(False, schema_only=True)
     year = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
@@ -239,6 +240,12 @@ class MinkaWidget(OWBaseWidget):
             editable=False,
             sendSelectedValue=True,
             orientation=1,
+        )
+        self.introduced_line = gui.checkBox(
+            self.searchBox,
+            self,
+            "introduced",
+            label="Non-native species (when place is selected)",
         )
         self.taxon_line = gui.comboBox(
             self.searchBox,
@@ -339,7 +346,7 @@ class MinkaWidget(OWBaseWidget):
         )
 
         self.commitBox = gui.widgetBox(self.controlArea, "", spacing=2)
-        gui.button(self.commitBox, self, "Commit", callback=self.commit)
+        gui.button(self.commitBox, self, "Request", callback=self.commit)
 
     def info_searching(self):
         self.infoa.setText("Searching...")
@@ -438,9 +445,14 @@ class MinkaWidget(OWBaseWidget):
 
             if self.place_name == "":
                 place_id = None
+                introduced = None
             else:
                 place_name = self.place_name
                 place_id = place_name.split(":")[0]
+                if self.introduced is True:
+                    introduced = True
+                else:
+                    introduced = None
 
             if self.starts_on == "":
                 starts_on = None
@@ -478,13 +490,18 @@ class MinkaWidget(OWBaseWidget):
                 created_d1=created_since,
                 created_d2=created_until,
                 num_max=self.num_max,
+                introduced=introduced,
             )
 
             if len(observations) > 0:
                 self.df_obs, self.df_photos = get_dfs(observations)
                 self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
                 self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
+                self.df_photos["obs_url"] = self.df_photos["id"].apply(
+                    lambda x: f"https://minka-sdg.org/observations/{x}"
+                )
                 # error with pd.NA in conversion to table_from_frame
+                self.df_obs["taxon_id"] = self.df_obs["taxon_id"].astype(float)
                 self.df_obs["taxon_id"].replace({pd.NA: 0}, inplace=True)
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
