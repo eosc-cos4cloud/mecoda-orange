@@ -37,7 +37,6 @@ def _get_tree_from_ancestry(obs):
     tree = []
 
     for number in numbers:
-        __import__("pdb").set_trace()
         number = int(number)
         name = taxon_tree[taxon_tree["taxon_id"] == number]["taxon_name"].item()
         rank = taxon_tree[taxon_tree["taxon_id"] == number]["rank"].item()
