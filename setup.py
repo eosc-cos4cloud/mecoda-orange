@@ -7,14 +7,14 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.2.0"
+VERSION = "2.3.0"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
 
 URL = "https://github.com/eosc-cos4cloud/mecoda-orange"
 
-DESCRIPTION = "Add-on containing MECODA widgets to analyse data from citizen science observatories"
+DESCRIPTION = "Orange Data Minining Add-on containing MECODA widgets to analyse data from citizen science observatories"
 LONG_DESCRIPTION = open(
     os.path.join(os.path.dirname(__file__), "README_pypi.md")
 ).read()
@@ -62,7 +62,7 @@ setup(
         "pandas >= 1.4.4",
         "Orange3 >= 3.31.1",
         "pyodcollect >= 1.1.0",
-        "mecoda-minka >= 1.2.2",
+        "mecoda-minka >= 1.3.1",
         "smartcitizen-connector >= 0.2.0",
         "pytest",
         "tabulate",
