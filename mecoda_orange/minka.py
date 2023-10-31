@@ -27,10 +27,12 @@ places = [
     "359: ANERIS - Tossa de Mar",
     "338: ANERIS - UNISUB - Estartit",
     "345: ANERIS - Vilanova i la Geltrú",
+    "375: Area marina Ametlla de Mar",
     "312: Àrea Marina de AMB",
     "251: Area marina de Badalona",
     "247: Area marina de Barcelona",
     "252: Area marina de Sant Adrià del Besòs",
+    "373: Area marina Hospitalet Vandellós",
     "265: Area marina Sant Feliu",
     "258: Area Sitges prova",
     "275: Athens city, GR, Greece",
@@ -51,6 +53,7 @@ places = [
     "326: BM_Alcúdia",
     "327: BM_Manacor",
     "330: BM_Mazarrón",
+    "367: BM-Port Salvi",
     "334: BM_S'illot",
     "328: BM_St.Feliu de Guíxols",
     "335: BM_St.FeliudeGuíxols2",
@@ -58,6 +61,7 @@ places = [
     "336: Bogliasco- BioMARató",
     "289: Castellbisbal",
     "277: Castelldefels",
+    "374: Catalunya",
     "299: Cerdanyola del Vallès",
     "286: Cervelló",
     "287: Corbera de Llobregat",
@@ -101,6 +105,7 @@ places = [
     "316: Platja de la Mar Bella",
     "317: Platja de la Nova Mar Bella",
     "318: Platja de Llevant",
+    "366: Platja de Montgat",
     "319: Platja de Nova Icaria",
     "320: Platja de Sant Miquel",
     "321: Platja de Sant Sebastià",
@@ -113,10 +118,13 @@ places = [
     "268: Posidonia activa 1",
     "269: Posidonia activa 2",
     "270: Posidonia activa 3",
+    "369: Posidonia Activa Cubelles",
+    "368: Posidonia Activa Cunit",
     "353: Praia Angeiras - BIOPOLIS",
     "339: Praia do Molhe - BIOPOLIS",
     "333: Praia Vila Cha bioblitz",
     "271: Quadricules 200x200 Barcelonés",
+    "372: Reserva Marina El Cavet",
     "302: Ripollet",
     "305: Sant Adrià del Besòs",
     "288: Sant Andreu de la Barca",
@@ -130,8 +138,10 @@ places = [
     "291: Sant Vicenç dels Horts",
     "284: Santa Coloma de Cervelló",
     "304: Santa Coloma de Gramenet",
+    "370: Superficie FUNDESPLAI",
     "308: Tiana",
     "243: Torrelles de Llobregat",
+    "371: University Of Antananarivo",
     "250: Vedat de Pesca de Ses Negres",
     "281: Viladecans",
 ]
@@ -147,9 +157,6 @@ def get_places(places):
         except:
             break
     return places
-
-
-places = get_places(places)
 
 
 class MinkaWidget(OWBaseWidget):
