@@ -1,8 +1,8 @@
 # Inicio de la actividad
 
-Los participantes deben seguir la [guía de instalación](guia_instalacion.md) para instalar tanto la aplicación Orange como el paquete mecoda-orange dentro de esa plataforma y los add-ons "Geo" e "Image Analytics".
+Las personas participantes en la Datathon deben seguir la [guía de instalación](guia_instalacion.md) para instalar tanto la aplicación Orange como el paquete mecoda-orange dentro de esa plataforma y los add-ons "Geo" e "Image Analytics".
 
-# La Plataforma de Programación Visual [Orange](https://orangedatamining.com/)
+## La Plataforma de Programación Visual [Orange](https://orangedatamining.com/)
 
 El aspecto de la aplicación es éste:
 
