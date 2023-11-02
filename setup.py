@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.3.1"
+VERSION = "2.3.2"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
