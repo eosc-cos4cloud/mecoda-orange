@@ -64,6 +64,7 @@ setup(
         "pyodcollect >= 1.1.0",
         "mecoda-minka >= 1.3.1",
         "smartcitizen-connector >= 0.2.0",
+        "pydantic >= 2.4.2",
         "pytest",
         "tabulate",
         "PyQt5",
