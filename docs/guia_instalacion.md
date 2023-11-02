@@ -23,9 +23,7 @@ Haz click en "Download Orange".
 
 <img src="images/orange_mecoda_package.png" alt="orange_mecoda_package" width="600"/> 
 
-ATENCIÓN: Si aparece un error en este proceso antes de que informe de que el paquete se ha instalado el proceso, pincha OK y repite el proceso (añade en Add-ons mecoda-orange, click la caja en la lista de paquetes y dale a OK en instalar). Si la primera vez ha fallado en esta ocasión irá más rápido.
-
-6. Necesitaremos otros paquetes para nuestro ejemplo de uso, así que después de la instalación de MECODA vamos de nuevo a "Options" > "Add-ons" y seleccionamos del listado los paquetes ***Geo*** e ***Image Analytics***.
+6. Necesitaremos otros paquetes para nuestro ejercicio, así que después de la instalación de MECODA vamos de nuevo a "Options" > "Add-ons" y seleccionamos del listado los paquetes ***Geo*** e ***Image Analytics***.
 
 <img src="images/orange_other_packages.png" alt="orange_other_packages" width="600"/> 
 
@@ -36,3 +34,17 @@ ATENCIÓN: Si aparece un error en este proceso antes de que informe de que el pa
 8. Orange se reiniciará y la interfaz mostrará nuestros paquetes instalados en la columna de la izquierda:
 
 <img src="images/orange_interface_installed.png" alt="orange_interface_installed" width="600"/> 
+
+## Documentación oficial de Orange: 
+
+Existen numerosos recursos para famliarizarte con esta plataforma. Estos son algunos de los más destacados.
+
+Modo de uso de cada uno de los widgets disponibles:
+* Widget catalog: https://orangedatamining.com/widget-catalog/ 
+
+Videotutoriales desde 0 a procesos avanzados de machine learning:
+* Tutoriales de YouTube: https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g
+    * Getting started with Orange: https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy
+
+Ejemplos de análisis que puedes descargar y abrir en Orange para reproducir:
+* Workflows: https://orangedatamining.com/workflows/
