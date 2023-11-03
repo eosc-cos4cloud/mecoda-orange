@@ -4,27 +4,27 @@ Las personas participantes en la Datathon deben seguir la [guía de instalación
 
 ## La Plataforma de Programación Visual [Orange](https://orangedatamining.com/)
 
-El aspecto de la aplicación es éste:
+El aspecto de la aplicación es este:
 
 <img src="images/orange_intro_1.png" alt="orange_intro_1" width="800"/> 
 
 1. Columna de widgets.
 2. Área de creación del flujo de datos.
 
-En la columna de la izquierda, identificada con el número 1 están los widgets agrupados por tipo:
+En la columna de la izquierda, identificada con el número 1, están los widgets agrupados por tipo:
 * **Data**: para importación desde diferentes formatos, ver los datos, ver las estadísticas generales, obtener información del dataset o guardar los datos.
 * **Transform**: para seleccionar columnas, filas, transposición, combinación de tablas, agregación, valores únicos, randomización, tablas dinámicas, discretizar valores, etc.
 * **Visualize**: incluye diferentes formas de representar gráficamente los datos, como árbol, gráfico de violín, de dispersión, de barras, histogramas, etc.
 * **Model, Evaluate, Unsupervised**: herramientas para trabajar modelos de datos, propios de machine learning.
 
-A estos añadiremos los add-ons que nos servirán para realizar con los ejercicios:
-* **MECODA**: widgets que conectan con los datos de diferentes observatorios de Ciencia Ciudadana (Minka, OdourCollect), datos de sensores DIY como CanAIRio, Aire Ciudadano, Smart Citizen, o realiza identificaciones de especies gracias a servicios como Plantnet.
+A estos añadiremos los add-ons que nos servirán para realizar nuestro análisis de datos de biodiversidad:
+* **MECODA**: widgets que conectan con los datos de diferentes observatorios de Ciencia Ciudadana (Minka, OdourCollect), datos de sensores DIY como CanAIRio, Aire Ciudadano o Smart Citizen.
 * **Image Analytics**: incluye widgets para el tratamiento de imágenes, que permite verlas dentro de Orange o utilizar modelos de imágenes para encontrar similitudes.
 * **Geo**: para la realización de mapas (de puntos o sombreados) y para la geocodificación de valores de latitude y longitud a regiones administrativas.
 
 NOTA: Puedes consultar toda la información sobre cómo utilizar cada uno de estos widgets en el [catálogo](https://orangedatamining.com/widget-catalog/). 
 
-Los widgets se seleccionan en esta columna izquierda, y aparecen en el área blanca de la derecha, identificada en la imagen anterior con el número 2. Para seleccionar el widget basta con clickar una vez sobre él, en la columna de la izquiera.
+Los widgets se seleccionan en esta columna izquierda, y aparecen en el área blanca de la derecha (número 2). Para seleccionar el widget basta con clicar una vez sobre él, en la columna de la izquiera.
 
 Cada widget, cada una de estas herramientas disponibles, puede comunicarse con otros widgets de diferentes formas:
 * Un widget puede admitir como entrada la salida de otro widget y dar como resultado una salida, que se pueda comunicar con un siguiente widget.
@@ -36,9 +36,9 @@ Aquí vemos un ejemplo:
 <img src="images/orange_intro_2.png" alt="orange_intro_2" width="800"/> 
 
 En este caso, vemos que hemos seleccionado del menú de la izquiera tres widgets:
-* CSV File Import, un widget para importar un csv, tiene una línea curva puntuada en el lado derecho. Eso quiere decir que este widget puede dar una salida, pero no admite ninguna entrada (el flujo de datos va de izquierda a derecha).
-* Distributions, un widget para obtener el histograma o distribución de una columna de nuestros datos, tiene línea curva punteada en ambos lados. Es decir, puede recibir información (una tabla de datos) desde el lado izquierdo y puede conectarse con otro widget por el lado derecho.
-* Save Images, un widget para guardar imágenes en local. Este widget sólo tiene línea curva en el lado izquierdo. Eso quiere decir que admite entradas, pero realizará el proceso para el que está diseñado (descargar las fotos) y no tendrá ninguna salida en Orange.
+* *CSV File Import*, un widget para importar un csv, tiene una línea curva punteada en el lado derecho. Eso quiere decir que este widget puede dar una salida, pero no admite ninguna entrada (el flujo de datos va de izquierda a derecha).
+* *Distributions*, un widget para obtener el histograma o distribución de una columna de nuestros datos, tiene línea curva punteada en ambos lados. Es decir, puede recibir información (una tabla de datos) desde el lado izquierdo y puede conectarse con otro widget por el lado derecho.
+* *Save Images*, un widget para guardar imágenes en nuestro ordenador. Este widget sólo tiene línea curva en el lado izquierdo. Eso quiere decir que admite entradas, pero realizará el proceso para el que está diseñado (descargar las fotos) y no tendrá ninguna salida en Orange.
 
 Este ejemplo es para explicar solamente cómo se conectan los diferentes widgets, necesario para construir los flujos de datos o data workflows.
 
@@ -50,17 +50,17 @@ Aquí vemos que se crea una línea entre los widgets, que comunica la informaci�
 
 # Análisis de un conjunto de datos mayor de 10.000 observaciones de biodiversidad en Minka
 
-## Ayuntamiento del Prat
+## Ejemplo con el área del Ayuntamiento del Prat
 Vamos a trabajar con el widget de Minka para obtener las observaciones de biodiversidad registradas en el área de El Prat.
 
 ### Seleccionamos los datos a analizar
 Seleccionamos el widget de Minka y hacemos doble click sobre el widget para desplegar el cuadro de diálogo. Seleccionamos el área geográfica que comprende la localización del ayuntamiento del Prat, que podemos ver aquí en Minka: https://minka-sdg.org/observations?place_id=246
 
-Dado que ese lugar tiene más de 10.000 observaciones y nuestro límite por descarga es de 10.000 podremos descargar todas las observaciones haciendo dos peticiones, una para las observaciones creadas en 2022 y otra para las de 2023. Cada una de las descargas llevará unos minutos en procesarse, porque se trata de peticiones de un volumen grande de observaciones. Ten paciencia. Si te aparece un mensaje de que el proceso está tardando demasiado, simplemente pincha en "Esperar" y deja que termine. Finalmente obtendrás algo así:
+Dado que ese lugar tiene más de 10.000 observaciones y nuestro límite por descarga es de 10.000 podremos descargar todas las observaciones haciendo dos peticiones, una para las observaciones creadas en 2022 y otra para las de 2023. Cada una de las descargas tardará unos minutos en procesarse, porque se trata de peticiones de un volumen grande de observaciones. Ten paciencia. Si te aparece un mensaje de que el proceso está tardando demasiado, simplemente pincha en "Esperar" y deja que termine. Finalmente obtendrás algo así:
 
 <img src="images/bioprat_1.png" alt="bioprat_1" width="800"/>
 
-Para conseguirlo selecciona el widget de Minka dos veces, en el primero elige el place BioPrat y el filtro "Created until:" con la fecha "2022-12-31". Con esto obtendremos las observaciones subidas a la plataforma en 2022. Cuando esta petición termine, abre el segundo widget de Minka y selecciona el place BioPrat y ahora el filtro "Created since:" con la fecha "2023-01-01".
+Para descargar los datos haz doble clic el widget de Minka, en el primero elige el place BioPrat y el filtro "Created until:" con la fecha "2022-12-31". Con esto obtendremos las observaciones subidas a la plataforma en 2022. Cuando esta petición termine, abre el segundo widget de Minka y selecciona el place BioPrat y ahora el filtro "Created since:" con la fecha "2023-01-01".
 
 Si la descarga que queremos hacer tiene menos de 10.000 observaciones bastaría con hacer una única descarga con el conjunto del *place* especificado.
 
