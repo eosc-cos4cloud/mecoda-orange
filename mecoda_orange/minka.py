@@ -179,14 +179,12 @@ class MinkaWidget(OWBaseWidget):
     # We don't want the current number entered by the user to be saved
     # and restored when saving/loading a workflow.
     # We can achieve this by declaring schema_only=True
-    id_obs = Setting("", schema_only=True)
     id_project = Setting("", schema_only=True)
     query = Setting("", schema_only=True)
     user = Setting("", schema_only=True)
     taxon = Setting("", schema_only=True)
     place_name = Setting("", schema_only=True)
     introduced = Setting(False, schema_only=True)
-    year = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
     created_since = Setting("", schema_only=True)
@@ -212,48 +210,6 @@ class MinkaWidget(OWBaseWidget):
         # filters area
         self.searchBox = gui.widgetBox(self.controlArea, "Search fields")
 
-        self.query_line = gui.lineEdit(
-            self.searchBox,
-            self,
-            "query",
-            label="Search by words:",
-            orientation=1,
-            controlWidth=200,
-        )
-        self.project_line = gui.lineEdit(
-            self.searchBox,
-            self,
-            "id_project",
-            label="Project ID:",
-            orientation=1,
-            callback=self.id_project_edit,
-            controlWidth=200,
-        )
-        self.user_line = gui.lineEdit(
-            self.searchBox,
-            self,
-            "user",
-            label="User name:",
-            orientation=1,
-            controlWidth=200,
-            callback=self.user_edit,
-        )
-        self.place_line = gui.comboBox(
-            self.searchBox,
-            self,
-            "place_name",
-            label="Place:",
-            items=places,
-            editable=False,
-            sendSelectedValue=True,
-            orientation=1,
-        )
-        self.introduced_line = gui.checkBox(
-            self.searchBox,
-            self,
-            "introduced",
-            label="Non-native species (when place is selected)",
-        )
         self.taxon_line = gui.comboBox(
             self.searchBox,
             self,
@@ -275,6 +231,15 @@ class MinkaWidget(OWBaseWidget):
                 "Protozoa",
                 "Mollusca",
                 "Chromista",
+                "Cnidaria",
+                "Annelida",
+                "Platyhelminthes",
+                "Echinodermata",
+                "Bryozoa",
+                "Porifera",
+                "Elasmobranchii",
+                "Crustacea",
+                "Ctenophora",
             ),
             callback=None,
             sendSelectedValue=True,
@@ -284,18 +249,52 @@ class MinkaWidget(OWBaseWidget):
             searchable=False,
             orientation=1,
         )
-        self.year_line = gui.lineEdit(
+
+        self.project_line = gui.lineEdit(
             self.searchBox,
             self,
-            "year",
-            label="Year:",
+            "id_project",
+            label="Project ID:",
             orientation=1,
-            controlWidth=120,
-            valueType=int,
-            validator=QIntValidator(),
+            callback=self.id_project_edit,
+            controlWidth=150,
         )
-        self.starts_on_line = gui.lineEdit(
+        self.user_line = gui.lineEdit(
             self.searchBox,
+            self,
+            "user",
+            label="User name:",
+            orientation=1,
+            controlWidth=150,
+            callback=self.user_edit,
+        )
+        self.place_line = gui.comboBox(
+            self.searchBox,
+            self,
+            "place_name",
+            label="Place:",
+            items=places,
+            editable=False,
+            sendSelectedValue=True,
+            orientation=1,
+        )
+        self.introduced_line = gui.checkBox(
+            self.searchBox,
+            self,
+            "introduced",
+            label="Non-native species (when place is selected)",
+        )
+        self.query_line = gui.lineEdit(
+            self.searchBox,
+            self,
+            "query",
+            label="Search by words:",
+            orientation=1,
+            controlWidth=150,
+        )
+        self.obsBox = gui.widgetBox(self.searchBox, "Observation date:")
+        self.starts_on_line = gui.lineEdit(
+            self.obsBox,
             self,
             "starts_on",
             label="Starts on (YYYY-MM-DD):",
@@ -303,36 +302,27 @@ class MinkaWidget(OWBaseWidget):
             controlWidth=120,
         )
         self.ends_on_line = gui.lineEdit(
-            self.searchBox,
+            self.obsBox,
             self,
             "ends_on",
             label="Ends on (YYYY-MM-DD):",
             orientation=1,
             controlWidth=120,
         )
-        self.starts_on_line = gui.lineEdit(
-            self.searchBox,
+        self.creationBox = gui.widgetBox(self.searchBox, "Creation date:")
+        self.created_since_line = gui.lineEdit(
+            self.creationBox,
             self,
             "created_since",
-            label="Created since (YYYY-MM-DD):",
+            label="Since (YYYY-MM-DD):",
             orientation=1,
             controlWidth=120,
         )
-        self.ends_on_line = gui.lineEdit(
-            self.searchBox,
+        self.created_until_line = gui.lineEdit(
+            self.creationBox,
             self,
             "created_until",
-            label="Created until (YYYY-MM-DD):",
-            orientation=1,
-            controlWidth=120,
-        )
-
-        self.id_obs_line = gui.lineEdit(
-            self.searchBox,
-            self,
-            "id_obs",
-            label="Id of observation:",
-            callback=self.id_obs_edit,
+            label="Until (YYYY-MM-DD):",
             orientation=1,
             controlWidth=120,
         )
@@ -359,72 +349,27 @@ class MinkaWidget(OWBaseWidget):
         self.infoa.setText("Searching...")
         self.infob.setText("Be patient, this could take a while.")
 
-    def id_obs_edit(self):
-        if self.id_obs != "":
-            self.project_line.setDisabled(True)
-            self.query_line.setDisabled(True)
-            self.user_line.setDisabled(True)
-            self.taxon_line.setDisabled(True)
-            self.place_line.setDisabled(True)
-            self.year_line.setDisabled(True)
-            self.starts_on.setDisabled(True)
-            self.ends_on.setDisabled(True)
-            self.created_since.setDisabled(True)
-            self.created_until.setDisabled(True)
-            self.id_project = ""
-            self.query = ""
-            self.user = ""
-            self.taxon = ""
-            self.place_name = ""
-            self.year = ""
-            self.starts_on = ""
-            self.ends_on = ""
-            self.num_max = ""
-        else:
-            self.project_line.setDisabled(False)
-            self.query_line.setDisabled(False)
-            self.user_line.setDisabled(False)
-            self.taxon_line.setDisabled(False)
-            self.place_line.setDisabled(False)
-            self.year_line.setDisabled(False)
-            self.starts_on.setDisabled(False)
-            self.ends_on.setDisabled(False)
-            self.created_since.setDisabled(False)
-            self.created_until.setDisabled(False)
-            self.max_line.setDisabled(False)
-
     def id_project_edit(self):
         if self.id_project != "":
             self.user_line.setDisabled(True)
-            self.id_obs_line.setDisabled(True)
             self.taxon_line.setDisabled(True)
             self.user = ""
-            self.id_obs = ""
             self.taxon = ""
         else:
             self.user_line.setDisabled(False)
-            self.id_obs_line.setDisabled(False)
             self.taxon_line.setDisabled(False)
 
     def user_edit(self):
         if self.user != "":
-            self.id_obs_line.setDisabled(True)
             self.project_line.setDisabled(True)
-            self.id_obs = ""
             self.id_project = ""
         else:
-            self.id_obs_line.setDisabled(False)
             self.project_line.setDisabled(False)
 
     def commit(self):
         self.infoa.setText(f"Searching...")
         self.infob.setText(f"")
         try:
-            if self.id_obs == "":
-                id_obs = None
-            else:
-                id_obs = int(self.id_obs)
-
             if self.id_project == "":
                 id_project = None
             else:
@@ -434,11 +379,6 @@ class MinkaWidget(OWBaseWidget):
                 taxon = None
             else:
                 taxon = self.taxon
-
-            if self.year == "" or self.year == 0:
-                year = None
-            else:
-                year = int(self.year)
 
             if self.query == "":
                 query = None
@@ -485,13 +425,11 @@ class MinkaWidget(OWBaseWidget):
             progress.advance()
 
             observations = get_obs(
-                id_obs=id_obs,
                 id_project=id_project,
                 query=query,
                 user=user,
                 taxon=taxon,
                 place_id=place_id,
-                year=year,
                 starts_on=starts_on,
                 ends_on=ends_on,
                 created_d1=created_since,
