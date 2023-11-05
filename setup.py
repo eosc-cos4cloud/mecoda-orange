@@ -27,7 +27,7 @@ KEYWORDS = [
 ]
 # PACKAGES = find_packages(include=("mecoda_orange*",))
 setup(
-    name="Mecoda Orange",
+    name="mecoda-orange",
     version=VERSION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
