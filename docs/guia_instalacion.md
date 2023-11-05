@@ -1,5 +1,5 @@
 
-# Installation Guide
+# Guía de instalación
 
 1. Instala Orange Data Mining a través de https://orangedatamining.com/download 
 
