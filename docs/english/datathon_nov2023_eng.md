@@ -6,7 +6,7 @@ Participants in the Datathon must follow the [installation guide](guia_instalaci
 
 The application looks like this:
 
-<img src="images/orange_intro_1.png" alt="orange_intro_1" width="800"/>
+<img src="../images/orange_intro_1.png" alt="orange_intro_1" width="800"/>
 
 1. Column widgets.
 2. Data flow creation area.
@@ -40,7 +40,7 @@ Each widget, each of these available tools, can communicate with other widgets i
 
 Here we see an example:
 
-<img src="images/orange_intro_2.png" alt="orange_intro_2" width="800"/>
+<img src="../images/orange_intro_2.png" alt="orange_intro_2" width="800"/>
 
 In this case, we see that we have selected three widgets from the left menu:
 
@@ -54,7 +54,7 @@ This example is only to explain how the different widgets are connected, necessa
 
 These widgets will be connected like this:
 
-<img src="images/orange_intro_3.png" alt="orange_intro_3" width="600"/>
+<img src="../images/orange_intro_3.png" alt="orange_intro_3" width="600"/>
 
 Here we see that a line is created between the widgets, which communicates information from one to another. If this line is not continuous, it indicates that no information is being transmitted from one to the other, as in this case. Above the line it is indicated what is being transmitted: Data (all the data) or Selected Data (only the data that we have selected in the initial widget).
 
@@ -68,7 +68,7 @@ We select the Minka widget and double click on the widget to display the dialog 
 
 Since that place has more than 10,000 observations and our limit per download is 10,000, we can download all the observations by making two requests, one for the observations created in 2022 and another for those in 2023. Each of the downloads will take a few minutes to process. , because these are requests for a large volume of observations. Be patient. If you see a message that the process is taking too long, simply click "Wait" and let it finish. Finally you will get something like this:
 
-<img src="images/bioprat_1.png" alt="bioprat_1" width="800"/>
+<img src="../images/bioprat_1.png" alt="bioprat_1" width="800"/>
 
 To download the data, double click the Minka widget, in the first one choose the BioPrat place and the filter "Created until:" with the date "2022-12-31". With this we will obtain the observations uploaded to the platform in 2022. When this request ends, open the second Minka widget and select the BioPrat place and now the filter "Created since:" with the date "2023-01-01".
 
@@ -76,53 +76,53 @@ If the download we want to do has less than 10,000 observations, it would be eno
 
 Now we are going to see the data tables that we have obtained with each one. To do this, we drag a line from the Minka widget, in the area where it has the dashed line. So we can "hook" it with the widget that will allow us to see the data, called "Data Table":
 
-<img src="images/bioprat_2.png" alt="bioprat_2" width="800"/>
+<img src="../images/bioprat_2.png" alt="bioprat_2" width="800"/>
 
 Once we have clicked on "Data Table" it will give us the option to load two types of data into that widget: "Observations" and "Photos". This is because our Minka widget has two outputs, a table with all observations and a table with all photos. Each observation can have more than one photo. The first table will allow us to do statistical analysis, the second image analysis:
 
-<img src="images/bioprat_3.png" alt="bioprat_3" width="800"/>
+<img src="../images/bioprat_3.png" alt="bioprat_3" width="800"/>
 
 We select to take the observations (Observations -> Data) and that will load the observations into the Table. We click OK and we will see this by double clicking on "Data Table":
 
-<img src="images/bioprat_4.png" alt="bioprat_4" width="800"/>
+<img src="../images/bioprat_4.png" alt="bioprat_4" width="800"/>
 
 It's our observations data in a table, with all our fields. Now let's do the same with the photos, let's take them to another table. And let's repeat the process with the second MINKA widget where we have the observations for 2023:
 
-<img src="images/bioprat_5.png" alt="bioprat_5" width="400"/>
+<img src="../images/bioprat_5.png" alt="bioprat_5" width="400"/>
 
 We already have all the data extracted. We see that the connection of each of the two lines from Minka to Data Table is different and tells us that in one it is taking "Observations" to the data in the table and in the other case it is taking "Photos" to the data in the table. second table.
 
 Now we are going to join the observation tables into a single table to analyze it. For this we will select the "Concatenate" widget that is in the "Transform" section of the left column. We click on it and it will be placed in our work area.
 
-<img src="images/bioprat_6.png" alt="bioprat_6" width="800"/>
+<img src="../images/bioprat_6.png" alt="bioprat_6" width="800"/>
 
 We are going to pass through that widget our two observation tables. We take a line from the first to "Concatenate". It will create a connection by default, but we are going to edit it by clicking on the line that connects the two widgets:
 
-<img src="images/bioprat_7.png" alt="bioprat_7" width="600"/>
+<img src="../images/bioprat_7.png" alt="bioprat_7" width="600"/>
 
 We will remove the connection from "Selected Data" to "Additional Data" by clicking on the line:
 
-<img src="images/bioprat_8.png" alt="bioprat_8" width="600"/>
+<img src="../images/bioprat_8.png" alt="bioprat_8" width="600"/>
 
 We will communicate "Data" with "Primary Data", because we want it to consider the entire set of our data as the primary data when concatenating it. We will have something like this:
 
-<img src="images/bioprat_9.png" alt="bioprat_9" width="600"/>
+<img src="../images/bioprat_9.png" alt="bioprat_9" width="600"/>
 
 We click on OK.
 
 Now we do the same with the second observations table, we will connect it with Concatenate. In this case we will not edit the connection, because these will be the "Additional Data" that we want to join to the first. We now take out a table with the set of data and we see that the result already has more than 12,300 observations (it is the union of both tables). We can now work with it:
 
-<img src="images/bioprat_10.png" alt="bioprat_10" width="600"/>
+<img src="../images/bioprat_10.png" alt="bioprat_10" width="600"/>
 
 
 ## Selection of research grade observations
 The first thing we will do is keep those observations that have reached the level of research (they have at least 2 identifications and agree on the species and do not lack any data considered mandatory). For that we are going to connect our table with all the observations with the "Select Rows" widget, from the "Transform" block:
 
-<img src="images/bioprat_11.png" alt="bioprat_11" width="800"/>
+<img src="../images/bioprat_11.png" alt="bioprat_11" width="800"/>
 
 With this widget we can select the lines we want simply by indicating the condition or conditions that must be met. In this case we want the observations that have, in the "quality_grade" column, the value "research":
 
-<img src="images/bioprat_12.png" alt="bioprat_12" width="600"/>
+<img src="../images/bioprat_12.png" alt="bioprat_12" width="600"/>
 
 We can add more than one condition simply by clicking on "Add Condition". Once our condition is established we can see at the bottom of the widget what the result of applying it is. Of the 12.3k total observations, it is selecting 10.6k and discarding 1722. That is, in our data set we had 1722 observations that either needed identification or lacked any data considered mandatory to reach the research level (location, photo, etc).
 
@@ -132,7 +132,7 @@ If we draw a table with the observations resulting from "Select Row" we will see
 
 Let's say we want to know how many observations have been recorded each month. For that we will connect our resulting table with the "Distributions" widget, from the "Visualize" section. By double clicking on that widget, after having connected it, we will see something like this:
 
-<img src="images/bioprat_13.png" alt="bioprat_13" width="800"/>
+<img src="../images/bioprat_13.png" alt="bioprat_13" width="800"/>
 
 Here we can play with various parameters. The first is the column we want to analyze. In this case we will select "created_at" (to analyze by the date the observation was uploaded) or "observed_on" (to analyze by the date the observation was taken).
 
@@ -148,11 +148,11 @@ We can also use this widget to see the distribution in other columns, such as "u
 
 Now we will connect our data table with the "Geo Map" widget, from the "Geo" section of the left column:
 
-<img src="images/bioprat_14.png" alt="bioprat_14" width="800"/>
+<img src="../images/bioprat_14.png" alt="bioprat_14" width="800"/>
 
 By double clicking on it we will see what options we have to work with the data at a geographic level:
 
-<img src="images/bioprat_15.png" alt="bioprat_15" width="800"/>
+<img src="../images/bioprat_15.png" alt="bioprat_15" width="800"/>
 
 The first thing we should look at is that the latitude and longitude have been read correctly in our data table. In this case, since we have given those columns the exact name, the widget has known where to find the data. But if we use another data set we might have to manually tell it what those columns are.
 
@@ -176,33 +176,33 @@ Let's say that now we want to analyze how many users have contributed data in th
 The steps to follow are:
 * Connect our data table with "Select column" to only have the column that interests us:
 
-<img src="images/bioprat_16.png" alt="bioprat_16" width="800"/>
+<img src="../images/bioprat_16.png" alt="bioprat_16" width="800"/>
 
 * Connect the selected column with "Group by", which will allow us to group the users and get the number of each one:
 
-<img src="images/bioprat_17.png" alt="bioprat_17" width="800"/>
+<img src="../images/bioprat_17.png" alt="bioprat_17" width="800"/>
 
 * Connect the result of Group by with a table to see what we have:
 
-<img src="images/bioprat_18.png" alt="bioprat_18" width="800"/>
+<img src="../images/bioprat_18.png" alt="bioprat_18" width="800"/>
 
 * Connect the table with Feature Statistics to obtain the statistics (mean, median, mode,...) of our result:
 
-<img src="images/bioprat_18.png" alt="bioprat_18" width="800"/>
+<img src="../images/bioprat_18.png" alt="bioprat_18" width="800"/>
 
 We can do the same process using the "taxon name" column and get the number of observations for each species:
 
-<img src="images/bioprat_19.png" alt="bioprat_19" width="800"/>
+<img src="../images/bioprat_19.png" alt="bioprat_19" width="800"/>
 
 Even know when the first time a species has been reported, indicating that it includes the minimum value data of the "observed_on" column that has the dates:
 
-<img src="images/bioprat_20.png" alt="bioprat_20" width="800"/>
+<img src="../images/bioprat_20.png" alt="bioprat_20" width="800"/>
 
 ## Relationship between variables
 
 If we want to see the relationship between two columns, we can use Pivot Table, which is similar to the pivot table in Excel. It allows us to create a table with the number of observations grouped by two of the columns, for example, between taxonomic groups and users:
 
-<img src="images/bioprat_21.png" alt="bioprat_21" width="800"/>
+<img src="../images/bioprat_21.png" alt="bioprat_21" width="800"/>
 
 Here we can see if different users specialize in a taxonomic group or their observations are diverse.
 
@@ -210,7 +210,7 @@ Here we can see if different users specialize in a taxonomic group or their obse
 
 If you are going to use this data set for any publication or research, you must recognize the contribution of those users who have contributed to it. To make your work easier when citing them, you can use the "Minka Mentions" widget, simply connecting it to our table with the set of data and showing its output in a Data Table:
 
-<img src="images/bioprat_23.png" alt="bioprat_23" width="800"/>
+<img src="../images/bioprat_23.png" alt="bioprat_23" width="800"/>
 
 We obtain a table with the name of the users, the link to their profile, where we have the rest of their user data that they have wanted to make public, and the number of observations with which they have contributed.
 
@@ -218,7 +218,7 @@ We obtain a table with the name of the users, the link to their profile, where w
 
 To save on our computer, set the "Save Data" widget and open it. We uncheck the "Add type annotations to header" option.
 
-<img src="images/bioprat_22.png" alt="bioprat_22" width="800"/>
+<img src="../images/bioprat_22.png" alt="bioprat_22" width="800"/>
 
 Clicking on "Save As" will give us the option to save it in any common table format (xlsx, csv, tab). This way we can save the download with the data updated as of today.
 
@@ -226,11 +226,11 @@ Clicking on "Save As" will give us the option to save it in any common table for
 
 We have been analyzing the data we had in our observations table. But the Minka widget gave us two tables with results: the one with observations and another with the photos. The photo table will look like this:
 
-<img src="images/bioprat_25.png" alt="bioprat_25" width="800"/>
+<img src="../images/bioprat_25.png" alt="bioprat_25" width="800"/>
 
 One of the fields is the url of the image, and that allows us to see them within Orange, connecting that table to the "Image viewer" widget in the "Image Analytics" section and seeing something like this:
 
-<img src="images/bioprat_26.png" alt="bioprat_26" width="800"/>
+<img src="../images/bioprat_26.png" alt="bioprat_26" width="800"/>
 
 Here we can modify the title that appears below each image, for any of the fields that we have in our table, explore the entire set of images. Or also make a selection by connecting the table to "Select Rows" and select only those of a taxonomy (taxon_name column) and see the images of that taxonomy.
 
@@ -240,7 +240,7 @@ Or we can select all those that are not identified, to try to do it at a quick g
 
 The process tree we have created in Orange can be saved in the native Orange format (.ows). This way we can reopen it and reproduce the process. To save a workflow we simply go to the top menu of Orange, within File and click on Save As:
 
-<img src="images/bioprat_24.png" alt="bioprat_24" width="800"/>
+<img src="../images/bioprat_24.png" alt="bioprat_24" width="800"/>
 
 You can find the workflow resulting from this exercise [here] (workflows/datathon_6nov_bioprat.ows) and download it to open it within your Orange.
 
