@@ -28,7 +28,7 @@ def get_user_df(df: pd.DataFrame) -> pd.DataFrame:
 
 class MinkaMentionsWidget(OWBaseWidget):
     name = "Minka Mentions"
-    description = "Get users from Mink from the Minka API"
+    description = "Get users that contribute to a dataset of observations from Minka"
     icon = "icons/minka-users.png"
     priority = 6
     want_main_area = False
