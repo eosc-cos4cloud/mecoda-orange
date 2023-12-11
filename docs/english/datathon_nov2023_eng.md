@@ -1,15 +1,15 @@
 # Start of activity
 
-Participants in the Datathon must follow the [installation guide](guia_instalacion.md) to install both the Orange application and the mecoda-orange package within that platform and the "Geo" and "Image Analytics" add-ons.
+Participants in the Datathon must follow the [installation guide](guia_instalacion.md) to install both the Orange application and the mecoda-orange package within that platform. Also, the "Geo" and "Image Analytics" add-ons are required.
 
-## The Platform [Orange](https://orangedatamining.com/)
+## The [Orange](https://orangedatamining.com/) Platform 
 
 The application looks like this:
 
 <img src="../images/orange_intro_1.png" alt="orange_intro_1" width="800"/>
 
 1. Column widgets.
-2. Data flow creation area.
+2. Dataflow creation area.
 
 In the left column, identified with the number 1, are the widgets grouped by type:
 
