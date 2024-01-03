@@ -8,7 +8,7 @@ To use MECODA package you need to install Orange Data Mining platform through ht
 
 Once Orange is installed, inside the Options menu, it's possible to get the package using "Add-ons" category, clicking on "Add more" and searching by name "mecoda-orange". The last version of the package will be installed into Orange platform.
 
-You can find also a ["Installation Guide" and "Example of Use"](https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/installation_and_user_guide.md).
+You can find also a ["Installation Guide"](https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/english/installation_guide.md), ["Orange Example of Use"](https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/english/orange_example_of_use.md) and ["MECODA example of use"]("https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/english/datathon_nov2023_eng.md").
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-logo.png" alt="minka-logo" width="75"/> Minka widget 
 

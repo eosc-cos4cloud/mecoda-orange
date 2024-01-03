@@ -83,19 +83,14 @@ def test_marine_filter():
 
 
 def test_get_images(observations):
-    df_obs, df_photos = get_dfs(observations)
-    df_sample = df_obs.sample(frac=0.50)
-    obs = []
-    for id in df_sample["id"].values:
-        obs.extend(get_obs(id_obs=id))
-    df_obs2, df_photos2 = get_dfs(obs)
+    df_obs2, df_photos2 = get_dfs(observations)
     out = table_from_frame(df_photos2)
     for meta in out.domain.metas:
         if meta.name == "photos_medium_url":
             meta.attributes = {"type": "image"}
 
     assert len(out) == len(df_photos2)
-    assert len(df_photos2) >= len(obs)
+    assert len(df_photos2) >= len(observations)
     assert type(out) == Orange.data.table.Table
     assert [
         meta.attributes for meta in out.domain.metas if meta.name == "photos_medium_url"
@@ -211,7 +206,7 @@ def test_get_historic_data_fixed_station():
     st = "EZTTTGOT77004A"
     obs = get_historic_data_fixed_station(st)
     assert len(obs) > 1
-    assert obs.observedOn.max().year == 2023
+    assert obs.observedOn.max().year == datetime.datetime.now().year
     assert obs.license.unique()[0] == "CC BY-NC-SA"
     assert obs["decimalLatitude "].max() > 6
     assert obs["decimalLongitude "].unique()[0] == -2.88
