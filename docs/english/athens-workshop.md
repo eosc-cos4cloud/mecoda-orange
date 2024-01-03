@@ -4,24 +4,24 @@ MECODA is a repository created to facilitate analyzing and viewing data from dif
 
 MECODA is constructed on Orange Data Mining, a visual programming toolbox made to simplify analysis and data visualization.
 
-[Orange](orangedatamining.org) supports the construction of data analysis workflows by assembling components for data preprocessing, visualization, and modeling. 
+[Orange](orangedatamining.org) supports the construction of data analysis workflows by assembling components for data preprocessing, visualization, and modelling. 
 
 Let's see what Orange looks like.
 
 
 # Installation Guide
 
-1. Install Orange Data Mining platform through https://orangedatamining.com/download 
+1. Install the Orange Data Mining platform through https://orangedatamining.com/download 
 
 <img src="../images/orange_installation.png" alt="orange_installation" width="800"/> 
 
 Click on “Download Orange” or follow the instructions for your operating system (available for Linux, Windows and macOS). Remember to check if you need additional system packages provided by your distribution (like PyQt or PyQtWebEngine), in addition to Orange3.
 
-2. Open Orange from the menu in your computer, you will see something like this:
+2. Open Orange from the menu on your computer, you will see something like this:
 
 <img src="../images/orange_canvas.png" alt="orange_canvas" width="800"/> 
 
-3. Go to menu “Options” and select “Add-ons”:
+3. Go to the menu “Options” and select “Add-ons”:
 
 <img src="../images/orange_addons.png" alt="orange_addons" width="600"/> 
 
@@ -29,11 +29,11 @@ Click on “Download Orange” or follow the instructions for your operating sys
 
 <img src="../images/orange_add_more2.png" alt="orange_add_more" width="600"/> 
 
-5. ***Mecoda Orange*** will be available in the list of packages for installation. Check the box besides the name and click on OK to install it. Orange will ask you to restart after the process.
+5. ***Mecoda Orange*** will be available in the list of packages for installation. Check the box beside the name and click on OK to install it. Orange will ask you to restart after the process.
 
 <img src="../images/orange_mecoda_package.png" alt="orange_mecoda_package" width="600"/> 
 
-6. We will need other packages for this example, so after the installation of MECODA, we go to "add-ons" again and we check the box of the package called ***Geo*** and ***Image Analytics*** also.
+6. We will need other packages for this example, so after the installation of MECODA, we go to "add-ons" again and check the box of the package called ***Geo*** and ***Image Analytics***.
 
 <img src="../images/orange_other_packages.png" alt="orange_other_packages" width="600"/> 
 
@@ -42,7 +42,7 @@ Orange will show a message because it needs to restart. We click on **OK**.
 
 <img src="../images/orange_reinicio.png" alt="orange_reinicio" width="600"/> 
 
-8. Orange will be restarted and the interface will show our new installed packages on the left side column:
+8. Orange will be restarted and the interface will show our newly installed packages on the left side column:
 
 <img src="../images/orange_interface_installed.png" alt="orange_interface_installed" width="600"/> 
 
@@ -57,7 +57,7 @@ Orange will show a message because it needs to restart. We click on **OK**.
 ## Documentation: 
 * YouTube tutorials: https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g
     * Getting started with Orange: https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy
-* Widget catalog: https://orangedatamining.com/widget-catalog/ 
+* Widget catalogue: https://orangedatamining.com/widget-catalog/ 
 * Workflows of example: https://orangedatamining.com/workflows/
 
 # Example of Use with Minka widget
@@ -78,7 +78,7 @@ We are using for this example the widget `Minka` and the project [`Bio-Datathon 
 
 * **What are the most frequent species of trees in Athens?**
 
-If an observation is well classified, the taxonomic name will be the species. If we cannot reach the species level, we will identify it at the kingdom, phylum, class, order, family, genus level.
+If an observation is well classified, the taxonomic name will be the species. If we cannot reach the species level, we will identify it at the kingdom, phylum, class, order, family, and genus level.
 
 * Using `Distribution` widget:
 
@@ -86,7 +86,7 @@ If an observation is well classified, the taxonomic name will be the species. If
 
 <img src="../images/distributions.png" alt="distribution" width="800"/> 
 
-* Using `Pivot Table` widget:
+* Using the `Pivot Table` widget:
 
 <img src="../images/connection2.png" alt="connection2" width="500"/> 
 
