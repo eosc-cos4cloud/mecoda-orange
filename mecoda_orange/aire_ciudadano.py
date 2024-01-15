@@ -13,20 +13,22 @@ import numpy as np
 
 # constant
 selected_cols = [        
+        "PM25",
+        "PM25raw",
+        "PM251",
+        "PM252",
+        "PM1",
         "CO2",
-        "Humidity",
-        "InOut",
-        "Latitude",
-        "Longitude",
+        "VOC",
         "NOx",
+        "Humidity",
+        "Temperature",
         "Noise",
         "NoisePeak",
-        "PM10",
-        "PM25",
-        "PM252",
-        "PM25raw",
-        "Temperature",
-        "VOC",
+        "RSSI",
+        "Latitude",
+        "Longitude",
+        "InOut",
         ]
 
 # Get data from API
