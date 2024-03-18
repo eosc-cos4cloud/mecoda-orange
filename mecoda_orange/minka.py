@@ -447,7 +447,7 @@ class MinkaWidget(OWBaseWidget):
                 )
                 # error with pd.NA in conversion to table_from_frame
                 self.df_obs["taxon_id"] = self.df_obs["taxon_id"].astype(float)
-                self.df_obs["taxon_id"].replace({pd.NA: 0}, inplace=True)
+                self.df_obs["taxon_id"].fillna(0, inplace=True)
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)

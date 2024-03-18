@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.3.4"
+VERSION = "2.3.5"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -62,7 +62,7 @@ setup(
         "pandas >= 1.4.4",
         "Orange3 >= 3.31.1",
         "pyodcollect >= 1.1.0",
-        "mecoda-minka >= 1.3.1",
+        "mecoda-minka >= 1.5.1",
         "smartcitizen-connector == 0.2.0",
         "pydantic >= 2.4.2",
         "pytest",
