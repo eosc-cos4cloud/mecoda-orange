@@ -69,7 +69,8 @@ setup(
         "pyodourcollect >= 1.0.0",
         "ictiopy >= 1.0.0",
         "mecoda-minka >= 1.0.0",
-        "smartcitizen-connector >= 0.1.2"
+        "smartcitizen-connector == 1.0.3", #Smart Citizen connector should be fixed at a version
+        "nest_asyncio"
     ],
     keywords=KEYWORDS,
     include_package_data=True,
