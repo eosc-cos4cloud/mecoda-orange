@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.3.5"
+VERSION = "2.3.6"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -63,7 +63,7 @@ setup(
         "Orange3 >= 3.31.1",
         "pyodcollect >= 1.1.0",
         "mecoda-minka >= 1.5.1",
-        "smartcitizen-connector == 1.0.4", #Smart Citizen connector should be fixed at a version
+        "smartcitizen-connector == 1.0.4",  # Smart Citizen connector should be fixed at a version
         "nest_asyncio",
         "pydantic >= 2.4.2",
         "pytest",
