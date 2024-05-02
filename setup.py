@@ -63,7 +63,8 @@ setup(
         "Orange3 >= 3.31.1",
         "pyodcollect >= 1.1.0",
         "mecoda-minka >= 1.5.1",
-        "smartcitizen-connector == 0.2.0",
+        "smartcitizen-connector == 1.0.4", #Smart Citizen connector should be fixed at a version
+        "nest_asyncio",
         "pydantic >= 2.4.2",
         "pytest",
         "tabulate",

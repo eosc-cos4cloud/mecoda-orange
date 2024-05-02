@@ -5,8 +5,11 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame
 
-from smartcitizen_connector import ScApiDevice
+from smartcitizen_connector import SCDevice, search_by_query
+from smartcitizen_connector.tools import dict_unpack
 from pandas import DataFrame
+
+unhashable_columns = ['notify', 'data', 'owner', 'kit', 'location', 'hardware_info', 'postprocessing', 'device_token', 'hardware']
 
 # Fixed stations
 class SmartcitizenSearchWidget(OWBaseWidget):
@@ -18,7 +21,7 @@ class SmartcitizenSearchWidget(OWBaseWidget):
     description = "Search environmental devices from the Smart Citizen API"
 
     # An icon resource file path for this widget
-    icon = "icons/smartcitizen.png"
+    icon = "icons/smartcitizen_search.png"
 
     # Priority in the section MECODA
     priority = 13
@@ -35,11 +38,6 @@ class SmartcitizenSearchWidget(OWBaseWidget):
     user = Setting("", schema_only=True)
     tags = Setting("", schema_only=True)
     device_id = Setting("", schema_only=True)
-    kit_id = Setting("", schema_only=True)
-
-    blueprints = ScApiDevice.get_kits()
-    # descriptive_blueprints = ('',) + tuple(blueprints['item_descr'].values,)
-    descriptive_blueprints = blueprints = ('', ) + tuple(sorted("{0:0=2d}".format(kit.id) + ': ' + kit.name for kit in blueprints),)
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Outputs:
@@ -87,23 +85,6 @@ class SmartcitizenSearchWidget(OWBaseWidget):
             # callback=self.device_id_disable,
             )
 
-        self.kit_id_line = gui.comboBox(
-            self.searchBox,
-            self,
-            "kit_id",
-            box=None,
-            label="Kit ID:",
-            # labelWidth=None,
-            items=self.descriptive_blueprints,
-            # callback=self.kit_id_edit,
-            sendSelectedValue=True,
-            emptyString=False,
-            editable=False,
-            contentsLength=None,
-            searchable=True,
-            orientation=1,
-            )
-
         gui.separator(self.controlArea)
 
         self.deviceBox = gui.widgetBox(self.controlArea, "Or directly find device")
@@ -125,18 +106,18 @@ class SmartcitizenSearchWidget(OWBaseWidget):
 
     def device_id_edit(self):
         if self.device_id_line != "":
-            self.kit_id_line.setDisabled(True)
+            # self.kit_id_line.setDisabled(True)
             self.city_line.setDisabled(True)
             self.tags_line.setDisabled(True)
             self.user_line.setDisabled(True)
 
-            self.kit_id = ""
+            # self.kit_id = ""
             self.city = ""
             self.tags = ""
             self.user = ""
 
         else:
-            self.kit_id_line.setDisabled(False)
+            # self.kit_id_line.setDisabled(False)
             self.city_line.setDisabled(False)
             self.tags_line.setDisabled(False)
             self.user_line.setDisabled(False)
@@ -146,7 +127,10 @@ class SmartcitizenSearchWidget(OWBaseWidget):
             t = self.tags.split(",")
             self.tags_tokenized = [x.strip() for x in t]
         else:
-            self.tags_tokenized = [self.tags]
+            if self.tags:
+                self.tags_tokenized = [self.tags]
+            else:
+                self.tags_tokenized = None
 
     def commit(self):
         progress = gui.ProgressBar(self, 3)
@@ -154,23 +138,27 @@ class SmartcitizenSearchWidget(OWBaseWidget):
 
         if self.device_id != "":
 
-            if self.user != "" or self.kit_id != "" or self.city != "":
+            if self.user != "" or self.city != "":
                 self.infoa.setText(f'Ignoring search filters')
             self.infoa.setText(f'Collecting device...')
 
-            d = ScApiDevice.get_device_info(self.device_id)
+            d = SCDevice(self.device_id)
 
             if d is not None:
-                df = DataFrame(list(d.dict().items())).set_index(0).T.set_index('id')
-                df['kit_id'] = df['kit_id'].astype('int')
-                df['owner_id'] = df['owner_id'].astype('float')
-                df['latitude'] = df['latitude'].astype('float')
-                df['longitude'] = df['longitude'].astype('float')
+                df = DataFrame(list(d.json.model_dump().items())).set_index(0).T.set_index('id')
+
+                df['owner_id'] = df.loc[int(self.device_id), 'owner']['id']
+                df['owner_username'] = df.loc[int(self.device_id), 'owner']['username']
+                df['latitude'] = df.loc[int(self.device_id), 'location']['latitude']
+                df['longitude'] = df.loc[int(self.device_id), 'location']['longitude']
+                df['city'] = df.loc[int(self.device_id), 'location']['city']
+                df['country_code'] = df.loc[int(self.device_id), 'location']['country_code']
                 df['device_id'] = int(self.device_id)
 
                 df['system_tags'] = df['system_tags'].astype('str')
                 df['user_tags'] = df['user_tags'].astype('str')
 
+                df.drop(columns = unhashable_columns, errors='ignore', inplace=True)
                 table = table_from_frame(df)
 
                 progress.advance()
@@ -186,28 +174,65 @@ class SmartcitizenSearchWidget(OWBaseWidget):
 
             if self.user == "": owner_username = None
             else: owner_username = self.user
-            if self.kit_id == "": kit_id = None
-            else: kit_id = int(self.kit_id.split(':')[0])
             if self.city == "": city = None
             else: city = self.city
 
             self.infoa.setText(f'Looking for devices...')
             self.infoa.setText(f'')
 
-            devices = ScApiDevice.get_devices(
-                owner_username=owner_username,
-                kit_id = kit_id,
-                city = city,
-                tags = self.tags_tokenized,
-                full = True)
+            # Query list for different devices
+            query_list = []
+            if owner_username is not None:
+                query_list.append({
+                        'key': 'owner_username',
+                        'value': owner_username,
+                        'search_matcher': 'eq'
+                    })
 
-            if len(devices) > 0:
-                df = DataFrame([device.__dict__ for device in devices])
+            if city is not None:
+                    query_list.append({
+                        'key': 'tags_name',
+                        'value': city,
+                        'search_matcher': 'in'
+                    })
 
-                df['system_tags'] = df['system_tags'].astype('str')
-                df['user_tags'] = df['user_tags'].astype('str')
+            if self.tags_tokenized is not None:
+                    query_list.append({
+                        'key': 'tags_name',
+                        'value': self.tags_tokenized,
+                        'search_matcher': 'in'
+                    } )
 
-                table = table_from_frame(df)
+            if len(query_list):
+                devices = search_by_query(
+                    endpoint= 'devices',
+                    search_items= query_list)
+            else:
+                self.infoa.setText(f'At least one field is required.')
+                self.info.set_output_summary(self.info.NoOutput)
+                progress.finish()
+                return
+
+            if devices is None:
+                self.infoa.setText(f'Nothing found.')
+                self.info.set_output_summary(self.info.NoOutput)
+                progress.finish()
+                return
+
+            if len(devices):
+                devices['owner_id'] = devices.apply(dict_unpack, column='owner', key='id', axis=1)
+                devices['owner_username'] = devices.apply(dict_unpack, column='owner', key='username', axis=1)
+                devices['latitude'] = devices.apply(dict_unpack, column='location', key='latitude', axis=1)
+                devices['longitude'] = devices.apply(dict_unpack, column='location', key='longitude', axis=1)
+                devices['city'] = devices.apply(dict_unpack, column='location', key='city', axis=1)
+                devices['country_code'] = devices.apply(dict_unpack, column='location', key='country_code', axis=1)
+
+                devices['system_tags'] = devices['system_tags'].astype('str')
+                devices['user_tags'] = devices['user_tags'].astype('str')
+
+                devices.drop(columns = unhashable_columns, errors='ignore', inplace=True)
+
+                table = table_from_frame(devices)
                 progress.advance()
                 self.infoa.setText(f'{len(devices)} devices gathered')
                 self.info.set_output_summary(len(devices))
@@ -216,12 +241,8 @@ class SmartcitizenSearchWidget(OWBaseWidget):
             else:
                 self.infoa.setText(f'Nothing found.')
                 self.info.set_output_summary(self.info.NoOutput)
-
-        # except ValueError:
-        #     self.infoa.setText(f'Nothing found.')
-
-        # except Exception as error:
-        #     self.infoa.setText(f'ERROR: \n{error}')
+                progress.finish()
+                return
 
         progress.finish()
 
