@@ -21,7 +21,7 @@ taxon_tree = pd.read_csv(taxon_url)
 
 last_id = taxon_tree.taxon_id.max()
 
-for i in range(last_id, last_id + 100):
+for i in range(last_id + 1, last_id + 100):
     print(i)
     url = f"https://minka-sdg.org/taxa/{i}.json"
     result = requests.get(url).json()
