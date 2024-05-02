@@ -7,7 +7,14 @@ from orangewidget.utils.widgetpreview import WidgetPreview
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 
-from smartcitizen_connector import ScApiDevice, rollup_table, localise_date
+from smartcitizen_connector import SCDevice
+from smartcitizen_connector.tools import freq_2_rollup_lut, localise_date
+import nest_asyncio
+import asyncio
+
+loop = asyncio.new_event_loop()
+nest_asyncio.apply(loop)
+asyncio.set_event_loop(loop)
 
 # Fixed stations
 class SmartcitizenDataWidget(OWBaseWidget):
@@ -19,7 +26,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
     description = "Get data from environmental devices from the Smart Citizen API"
 
     # An icon resource file path for this widget
-    icon = "icons/smartcitizend.png"
+    icon = "icons/smartcitizen_data.png"
 
     # Priority in the section MECODA
     priority = 14
@@ -34,7 +41,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
     # Defining settings
     device = Setting("", schema_only=True)
     rollup_number = Setting("10", schema_only=True)
-    rollup_text = Setting("m", schema_only=True)
+    rollup_text = Setting("Min", schema_only=True)
     resample = Setting(True, schema_only=True)
     min_date_text = Setting("", schema_only=True)
     max_date_text = Setting("", schema_only=True)
@@ -76,7 +83,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
             self,
             "rollup_text",
             label="Rollup units:",
-            items=tuple(rollup_table.keys()),
+            items=tuple([item[0] for item in freq_2_rollup_lut]),
             sendSelectedValue=True,
             emptyString=False,
             editable=False,
@@ -85,7 +92,9 @@ class SmartcitizenDataWidget(OWBaseWidget):
             orientation=1
         )
 
-        self.dateBox = gui.widgetBox(self.controlArea, "Filter by date (YYYY-MM-DD)")
+        self.dateBox = gui.widgetBox(self.controlArea,
+            "Filter by date (YYYY-MM-DD)"
+        )
 
         self.date_init_line = gui.lineEdit(
             self.dateBox,
@@ -216,19 +225,22 @@ class SmartcitizenDataWidget(OWBaseWidget):
                 self.info.set_output_summary(self.info.NoOutput)
                 return
 
-            d = ScApiDevice(self.device)
-            timezone = d.get_device_timezone()
+            d = SCDevice(self.device)
+            timezone = d.timezone
             progress = gui.ProgressBar(self, 4)
             progress.advance()
 
-            data = d.get_device_data(
+            # loop = asyncio.get_event_loop()
+            loop.run_until_complete(d.get_data(
                         min_date = localise_date(self.min_date, timezone),
                         max_date = localise_date(self.max_date, timezone),
-                        rollup = self.rollup,
+                        frequency = self.rollup,
                         clean_na = None,
                         resample = self.resample
                     )
+                )
 
+            data = d.data
             progress.advance()
 
             if data is not None:
