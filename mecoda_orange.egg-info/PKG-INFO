@@ -1,0 +1,54 @@
+Metadata-Version: 2.1
+Name: mecoda-orange
+Version: 2.3.6
+Summary: Orange Data Minining Add-on containing MECODA widgets to analyse data from citizen science observatories
+Home-page: https://github.com/eosc-cos4cloud/mecoda-orange
+Author: Ana Alvarez, ICM-CSIC
+Author-email: ana.alvarez@icm.csic.es
+License: BSD
+Keywords: orange3 add-on,orange,data mining
+Classifier: License :: OSI Approved :: European Union Public Licence 1.2 (EUPL 1.2)
+Classifier: Environment :: X11 Applications :: Qt
+Classifier: Environment :: Console
+Classifier: Environment :: Plugins
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Development Status :: 4 - Beta
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Education
+Classifier: Intended Audience :: Science/Research
+Classifier: Intended Audience :: Developers
+Description-Content-Type: text/markdown
+Requires-Dist: mecoda-nat>=0.6.0
+Requires-Dist: pandas>=1.4.4
+Requires-Dist: Orange3>=3.31.1
+Requires-Dist: pyodcollect>=1.1.0
+Requires-Dist: mecoda-minka>=1.5.1
+Requires-Dist: smartcitizen-connector==1.0.4
+Requires-Dist: nest_asyncio
+Requires-Dist: pydantic>=2.4.2
+Requires-Dist: pytest
+Requires-Dist: tabulate
+Requires-Dist: PyQt5
+Requires-Dist: PyQtWebEngine
+
+# Mecoda-Orange
+Mecoda-Orange is an add-on developed on [Orange Data Mining Platform](https://orangedatamining.com/) to analyse data from science citizen observatories. 
+
+See [documentation](https://github.com/eosc-cos4cloud/mecoda-orange).
+
+[MECODA (ModulE for Citizen Observatory Data Analysis)](https://cos4cloud-eosc.eu/services/mecoda-data-analysis-package/) is a repository to facilitate analyzing and viewing all sorts of citizen science data. It allows users to make their own exploratory visual data analysis without the help of specialized analysts. It also enables observers to create their own reproducible visual dataflows and share and reuse them. 	
+
+MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/), a European Horizon 2020 project to boost citizen science technologies.
+
+# Features
+
+* **Minka**: collect observations from Minka API using [mecoda-minka](https://github.com/eosc-cos4cloud/mecoda-minka) library. In addition, there are complementary widgets for various tasks with Minka observations, including retrieving observation images, filtering observations by marine or terrestrial categories, and searching observations by taxon tree.
+* **OdourCollect**: collect observations from OdourCollect API using [pyodcollect](https://pypi.org/project/pyodcollect/) library.
+* **canAIRio**: composed for two widgets, one for [CanAIRio Fixed Stations data](https://canair.io/docs/fixed_stations_api_en.html) and other for [CanAIRio Mobile Stations data](https://canair.io/docs/mobile_api_en.html).
+* **Natusfera**: collect observations from Natusfera API, using [mecoda-nat](https://github.com/eosc-cos4cloud/mecoda-nat) library.
+* **Smart Citizen**: collect observations from the SmartCitizen API, using two widgets, one for collecting information about the kits in the [smartcitizen platform](https://smartcitizen.me/kits) and another one for the actual timeseries data. For making use of the timeseries data, it is necessary to add the orange `timeseries` add-on.
+* **AireCiudadano**: collect observations about air quality using DIY sensors, inside [this project](https://aireciudadano.com/).
+* **Plantnet**: identify images of plants using [Plantnet API](https://identify.plantnet.org/es). 
