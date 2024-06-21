@@ -11,153 +11,6 @@ from orangewidget.settings import Setting
 from orangewidget.utils.widgetpreview import WidgetPreview
 from orangewidget.widget import Output, OWBaseWidget
 
-places = [
-    "",
-    "361: ANERIS - Badia Roses ",
-    "340: ANERIS - Cadaqués",
-    "331: ANERIS - Divers - Platja d'Aro",
-    "346: ANERIS - Escullera Port de Barcelona",
-    "360: ANERIS - Estartit (Opistobrànquis)",
-    "342: ANERIS - Llançà",
-    "363: ANERIS - Parc Natural Cap de Creus",
-    "358: ANERIS - Parc Subaquàtic del Port de Tarragona",
-    "343: ANERIS - Port de Barcelona",
-    "341: ANERIS - Port de la Selva",
-    "344: ANERIS - Sant Adrià del Besòs",
-    "359: ANERIS - Tossa de Mar",
-    "338: ANERIS - UNISUB - Estartit",
-    "345: ANERIS - Vilanova i la Geltrú",
-    "375: Area marina Ametlla de Mar",
-    "312: Àrea Marina de AMB",
-    "251: Area marina de Badalona",
-    "247: Area marina de Barcelona",
-    "252: Area marina de Sant Adrià del Besòs",
-    "373: Area marina Hospitalet Vandellós",
-    "265: Area marina Sant Feliu",
-    "258: Area Sitges prova",
-    "275: Athens city, GR, Greece",
-    "263: Atles barcelonès",
-    "306: Badalona",
-    "301: Badia del Vallès",
-    "300: Barberà del Vallès",
-    "311: Barcelona",
-    "264: Barcelonès",
-    "279: Begues",
-    "259: Biodiversitat Sitges",
-    "248: BioMARató Barcelona",
-    "244: BioMARató Catalunya",
-    "245: BioMARató Girona",
-    "249: BioMARató Tarragona",
-    "246: BioPrat",
-    "329: BM_Águilas",
-    "326: BM_Alcúdia",
-    "327: BM_Manacor",
-    "330: BM_Mazarrón",
-    "367: BM-Port Salvi",
-    "334: BM_S'illot",
-    "328: BM_St.Feliu de Guíxols",
-    "335: BM_St.FeliudeGuíxols2",
-    "325: BM-Blanes",
-    "336: Bogliasco- BioMARató",
-    "289: Castellbisbal",
-    "277: Castelldefels",
-    "374: Catalunya",
-    "299: Cerdanyola del Vallès",
-    "286: Cervelló",
-    "287: Corbera de Llobregat",
-    "297: Cornellà de Llobregat",
-    "276: Costa de Mataró",
-    "273: Costa del Garraf",
-    "267: Desembocadura del Torrent de Sant Joan",
-    "337: Diving Cadaqués - ANERIS",
-    "324: Ecotros - EcoNau",
-    "313: EIN Santes Creus barranc llacunes",
-    "314: EIN Santes Creus sense barranc",
-    "293: El Papiol",
-    "282: El Prat de Llobregat",
-    "274: Escullera Port de Barcelona",
-    "310: Esplugues de Llobregat",
-    "364: Fundació PLEGADIS",
-    "278: Gavà",
-    "298: Hospitalet de Llobregat",
-    "260: Isola di Tremiti",
-    "332: Mare jose-avilez",
-    "294: Molins de Rei",
-    "303: Montcada i Reixac",
-    "307: Montgat",
-    "362: North Red Sea - Egipcian",
-    "290: Pallejà",
-    "285: Palma de Cervelló",
-    "253: Piscinas del Forum FECDAS",
-    "347: Platges Badalona Nord - AMB",
-    "348: Platges Badalona Sud - AMB",
-    "355: Platges Barcelona Nord - AMB",
-    "356: Platges Barcelona Sud - AMB",
-    "349: Platges Castelldefels - AMB",
-    "261: Platges CEM",
-    "354: Platges de Viladecans - AMB",
-    "351: Platges El Prat de Llobregat - AMB",
-    "350: Platges Gavà - AMB",
-    "357: Platges Montgat - AMB",
-    "352: Platges Sant Adrià - AMB",
-    "257: Platja Banys del Forum",
-    "315: Platja de la Barceloneta",
-    "316: Platja de la Mar Bella",
-    "317: Platja de la Nova Mar Bella",
-    "318: Platja de Llevant",
-    "366: Platja de Montgat",
-    "319: Platja de Nova Icaria",
-    "320: Platja de Sant Miquel",
-    "321: Platja de Sant Sebastià",
-    "322: Platja de Somorrostro",
-    "323: Platja del Bogatell",
-    "272: Platja del Castell",
-    "254: Platja Nova Icària",
-    "256: Platja Sant Sebastià",
-    "255: Platja Somorrostro",
-    "268: Posidonia activa 1",
-    "269: Posidonia activa 2",
-    "270: Posidonia activa 3",
-    "369: Posidonia Activa Cubelles",
-    "368: Posidonia Activa Cunit",
-    "353: Praia Angeiras - BIOPOLIS",
-    "339: Praia do Molhe - BIOPOLIS",
-    "333: Praia Vila Cha bioblitz",
-    "271: Quadricules 200x200 Barcelonés",
-    "372: Reserva Marina El Cavet",
-    "302: Ripollet",
-    "305: Sant Adrià del Besòs",
-    "288: Sant Andreu de la Barca",
-    "283: Sant Boi de Llobregat",
-    "280: Sant Climent de Llobregat",
-    "292: Sant Cugat del Vallés",
-    "295: Sant Feliu de Llobregat",
-    "296: Sant Joan Despí",
-    "309: Sant Just Desvern",
-    "266: Sant Vicenç de Montalt mar",
-    "291: Sant Vicenç dels Horts",
-    "284: Santa Coloma de Cervelló",
-    "304: Santa Coloma de Gramenet",
-    "370: Superficie FUNDESPLAI",
-    "308: Tiana",
-    "243: Torrelles de Llobregat",
-    "371: University Of Antananarivo",
-    "250: Vedat de Pesca de Ses Negres",
-    "281: Viladecans",
-]
-
-
-def get_places(places):
-    first = 365
-    for number in range(first, first + 100):
-        path = f"https://minka-sdg.org/places/{number}.json"
-        try:
-            name = requests.get(path).json()["name"]
-            places.append(f"{number}: {name}")
-        except:
-            break
-    return places
-
 
 class MinkaWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
@@ -180,16 +33,17 @@ class MinkaWidget(OWBaseWidget):
     # and restored when saving/loading a workflow.
     # We can achieve this by declaring schema_only=True
     id_project = Setting("", schema_only=True)
-    query = Setting("", schema_only=True)
     user = Setting("", schema_only=True)
     taxon = Setting("", schema_only=True)
-    place_name = Setting("", schema_only=True)
+    id_place = Setting("", schema_only=True)
     introduced = Setting(False, schema_only=True)
+    grade = Setting(False, schema_only=True)
+    id_taxon = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
     created_since = Setting("", schema_only=True)
     created_until = Setting("", schema_only=True)
-    num_max = Setting(10000, schema_only=True)
+    num_max = Setting(0, schema_only=True)
 
     # Widget's outputs
     class Outputs:
@@ -215,7 +69,7 @@ class MinkaWidget(OWBaseWidget):
             self,
             "taxon",
             box=None,
-            label="Taxon:",
+            label="Iconic taxon:",
             items=(
                 "",
                 "Animalia",
@@ -249,7 +103,14 @@ class MinkaWidget(OWBaseWidget):
             searchable=False,
             orientation=1,
         )
-
+        self.taxonid_line = gui.lineEdit(
+            self.searchBox,
+            self,
+            "id_taxon",
+            label="Taxon ID:",
+            orientation=1,
+            controlWidth=150,
+        )
         self.project_line = gui.lineEdit(
             self.searchBox,
             self,
@@ -258,6 +119,20 @@ class MinkaWidget(OWBaseWidget):
             orientation=1,
             callback=self.id_project_edit,
             controlWidth=150,
+        )
+        self.place_line = gui.lineEdit(
+            self.searchBox,
+            self,
+            "id_place",
+            label="Place ID:",
+            orientation=1,
+            controlWidth=150,
+        )
+        self.introduced_line = gui.checkBox(
+            self.searchBox,
+            self,
+            "introduced",
+            label="Non-native species (when place is selected)",
         )
         self.user_line = gui.lineEdit(
             self.searchBox,
@@ -268,30 +143,7 @@ class MinkaWidget(OWBaseWidget):
             controlWidth=150,
             callback=self.user_edit,
         )
-        self.place_line = gui.comboBox(
-            self.searchBox,
-            self,
-            "place_name",
-            label="Place:",
-            items=places,
-            editable=False,
-            sendSelectedValue=True,
-            orientation=1,
-        )
-        self.introduced_line = gui.checkBox(
-            self.searchBox,
-            self,
-            "introduced",
-            label="Non-native species (when place is selected)",
-        )
-        self.query_line = gui.lineEdit(
-            self.searchBox,
-            self,
-            "query",
-            label="Search by words:",
-            orientation=1,
-            controlWidth=150,
-        )
+
         self.obsBox = gui.widgetBox(self.searchBox, "Observation date:")
         self.starts_on_line = gui.lineEdit(
             self.obsBox,
@@ -331,12 +183,19 @@ class MinkaWidget(OWBaseWidget):
 
         self.maxBox = gui.widgetBox(self.controlArea, "", spacing=1)
 
+        self.grade_line = gui.checkBox(
+            self.maxBox,
+            self,
+            "grade",
+            label="Research grade only",
+        )
+
         self.max_line = gui.spin(
             self.maxBox,
             self,
             "num_max",
             minv=0,
-            maxv=10000,
+            maxv=300000,
             step=100,
             label="Max number of results:",
             orientation=1,
@@ -375,31 +234,35 @@ class MinkaWidget(OWBaseWidget):
             else:
                 id_project = self.id_project
 
+            if self.id_taxon == "":
+                id_taxon = None
+            else:
+                id_taxon = self.id_taxon
+
             if self.taxon == "":
                 taxon = None
             else:
                 taxon = self.taxon
-
-            if self.query == "":
-                query = None
-            else:
-                query = self.query
 
             if self.user == "":
                 user = None
             else:
                 user = self.user
 
-            if self.place_name == "":
-                place_id = None
+            if self.id_place == "":
+                id_place = None
                 introduced = None
             else:
-                place_name = self.place_name
-                place_id = place_name.split(":")[0]
+                id_place = self.id_place
+
                 if self.introduced is True:
                     introduced = True
                 else:
                     introduced = None
+            if self.grade is True:
+                grade = "research"
+            else:
+                grade = None
 
             if self.starts_on == "":
                 starts_on = None
@@ -421,21 +284,27 @@ class MinkaWidget(OWBaseWidget):
             else:
                 created_until = self.created_until
 
+            if self.num_max == 0:
+                num_max = None
+            else:
+                num_max = self.num_max
+
             progress = gui.ProgressBar(self, 2)
             progress.advance()
 
             observations = get_obs(
                 id_project=id_project,
-                query=query,
                 user=user,
                 taxon=taxon,
-                place_id=place_id,
+                place_id=id_place,
                 starts_on=starts_on,
                 ends_on=ends_on,
                 created_d1=created_since,
                 created_d2=created_until,
-                num_max=self.num_max,
+                taxon_id=id_taxon,
+                num_max=num_max,
                 introduced=introduced,
+                grade=grade,
             )
 
             if len(observations) > 0:
@@ -447,7 +316,7 @@ class MinkaWidget(OWBaseWidget):
                 )
                 # error with pd.NA in conversion to table_from_frame
                 self.df_obs["taxon_id"] = self.df_obs["taxon_id"].astype(float)
-                self.df_obs["taxon_id"].fillna(0, inplace=True)
+                self.df_obs["taxon_id"] = self.df_obs["taxon_id"].fillna(0)
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)
