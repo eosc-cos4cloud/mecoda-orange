@@ -6,6 +6,7 @@ mecoda_orange/canAIRio_fixed.py
 mecoda_orange/canAIRio_fixed_extra_info.py
 mecoda_orange/canAIRio_mobile.py
 mecoda_orange/canAIRio_mobile_extra_info.py
+mecoda_orange/inaturalist.py
 mecoda_orange/minka.py
 mecoda_orange/minka_get_images.py
 mecoda_orange/minka_marine_filter.py
@@ -49,6 +50,7 @@ mecoda_orange/icons/globe-minka.png
 mecoda_orange/icons/ictio-circular.png
 mecoda_orange/icons/ictio.png
 mecoda_orange/icons/ictio_widget.png
+mecoda_orange/icons/inat-logo.png
 mecoda_orange/icons/kduino.png
 mecoda_orange/icons/leaf-solid-minka.png
 mecoda_orange/icons/logo-aire-ciudadano.png
