@@ -16,14 +16,15 @@ This widget collects observations from Minka API and allows filtering them by:
 
 | Argument | Description | Example |
 | --------- | ----------- | ------- |
-| `Search by words` | Word or phrase found in the data of an observation | `query="quercus quercus"` |
-| `Project name` | Name of a project | `project_name="urbamar"` |
+| `Taxon` | One of the main taxonomies | `taxon=Aves` |
+| `Taxon ID` | Number of a taxon | `taxon_id=1110` |
+| `Project ID` | Number of a project | `project_id=16` |
+| `Place ID` | Name of a place | `place_name="Barcelona"` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
-| `Place` | One of the places created in minka website | `place="246: BioPrat"` |
-| `Taxon` | One of the main taxonomies | `taxon="fungi"` |
-| `Year` | Year of observations | `year=2019` |
-| `Id of observation` | Identification number of a specific observation | `id_obs=425` |
-| `Max. number of results` | The max. number should be under 20.000 (API limit) | `num_max=800` |
+| `Observation date` | Filters for observations date | `starts_on=2024-06-01` |
+| `Creation date` | Filters for upload date | `since=2024-06-01` |
+| `Research grade only` | Checkbox to select just research grade observations  | `research_grade=True` |
+| `Max. number of results` | Queries of less than 10,000 observations are recommended due to time requeriments | `num_max=800` |
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-widget.png" alt="minka-widget" width="350"/><img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/map_filter_workflow2.png" alt="minka-widget2" width="350"/>
 
@@ -149,26 +150,25 @@ This example can be loaded as a workflow (.ows format) directly in Orange Canvas
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/canairio_workflow.png" alt="canairio_fixed_widget" width="800">
 
-## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera_v1.png" alt="natusfera-logo" width="75"/> Natusfera widget 
+## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/inat-logo.png" alt="inaturalist-logo" width="75"/> INaturalist widget 
 
 This widget collects observations from Natusfera API and allows filtering them by:
 
 | Argument | Description | Example |
 | --------- | ----------- | ------- |
-| `Search by words` | Word or phrase found in the data of an observation | `query="quercus quercus"` |
-| `Project name` | Name of a project | `project_name="urbamar"` |
+| `Taxon` | One of the main taxonomies | `taxon=Aves` |
+| `Taxon ID` | Number of a taxon | `taxon_id=14868` |
+| `Project ID` | Number of a project | `project_id=80406` |
+| `Place ID` | Name of a place | `place_name="Barcelona"` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
-| `Place` | Name of a place | `place_name="Barcelona"` |
-| `Taxon` | One of the main taxonomies | `taxon="fungi"` |
-| `Year` | Year of observations | `year=2019` |
-| `Id of observation` | Identification number of a specific observation | `id_obs=425` |
-| `Max. number of results` | The max. number should be under 20.000 (API limit) | `num_max=800` |
+| `Observation date` | Filters for observations date | `starts_on=2024-06-01` |
+| `Creation date` | Filters for upload date | `since=2024-06-01` |
+| `Research grade only` | Checkbox to select just research grade observations  | `research_grade=True` |
+| `Max. number of results` | The max. number should be under 10,000 (API limit) | `num_max=800` |
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera-widget-2.png" alt="natusfera-widget" width="250"/>
 
-The Natusfera widget integrates the Python library `mecoda-nat` into a visual interface. 
-You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
-A single observation can have more than a photo.
+The INaturalist widget integrates the Python library `mecoda-inat` into a visual interface. You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/smartcitizen.png" alt="smartcitizen-logo" width="75"/> SmartCitizen widgets
 
