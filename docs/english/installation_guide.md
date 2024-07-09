@@ -6,7 +6,7 @@
 
 Click on "Download Orange".
 
-2. Once installed (it takes about 15 min and will ask you to also install Miniconda in the process), open Orange from your computer menu or the link on the desktop. You will see something like this:
+2. Once installed (it takes about 15 min and may ask you to also install Miniconda in the process), open Orange from your computer menu or the link on the desktop. You will see something like this:
 
 <img src="../images/orange_canvas.png" alt="orange_canvas" width="800"/>
 
@@ -39,11 +39,11 @@ Click on "Download Orange".
 There are numerous resources to familiarize yourself with this platform. These are some of the most notable ones.
 
 How to use each of the available widgets:
-* Widget catalogue: https://orangedatamining.com/widget-catalog/
+* [Widget catalogue](https://orangedatamining.com/widget-catalog/)
 
 Video tutorials from 0 to advanced machine learning processes:
-* YouTube Tutorials: https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g
-     * Getting started with Orange: https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy
+* [YouTube Tutorials](https://www.youtube.com/channel/UClKKWBe2SCAEyv7ZNGhIe4g)
+     * [Getting started with Orange](https://www.youtube.com/playlist?list=PLmNPvQr9Tf-ZSDLwOzxpvY-HrE0yv-8Fy)
 
 Examples of analyses that you can download and open in Orange to reproduce:
-* Workflows: https://orangedatamining.com/workflows/
+* [Workflows](https://orangedatamining.com/workflows/)

@@ -1,6 +1,6 @@
-# Start of activity
+# Data analysis datathon with biodiversity data from the Minka citizen science observatory
 
-Participants in the Datathon must follow the [installation guide](guia_instalacion.md) to install both the Orange application and the mecoda-orange package within that platform. Also, the "Geo" and "Image Analytics" add-ons are required.
+Participants in the Datathon must follow the [installation guide](https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/english/installation_guide.md) to install both the Orange application and the mecoda-orange package within that platform. Also, the "Geo" and "Image Analytics" add-ons are required.
 
 ## The [Orange](https://orangedatamining.com/) Platform 
 
@@ -60,21 +60,19 @@ Here we see that a line is created between the widgets, which communicates infor
 
 # Analysis of a data set larger than 10,000 biodiversity observations in Minka
 
-## Example with the Prat Town Hall area
+## Example with the El Prat area
 We are going to work with the Minka widget to obtain the biodiversity observations recorded in the El Prat area.
 
-### We select the data to analyze
-We select the Minka widget and double-click on the widget to display the dialogue box. We select the geographical area that includes the location of the Prat town hall, which we can see here in Minka: https://minka-sdg.org/observations?place_id=246
+### **Extract data to analyze**
+We select the Minka widget and double-click on the widget to display the dialogue box. We select the geographical area that includes the location of the Prat town hall, which we can see here in Minka: [https://minka-sdg.org/observations?place_id=246](https://minka-sdg.org/observations?place_id=246)
 
-Since that place has more than 10,000 observations and our limit per download is 10,000, we can download all the observations by making two requests, one for the observations created in 2022 and another for those in 2023. Each of the downloads will take a few minutes to process. , because these are requests for a large volume of observations. Be patient. If you see a message that the process is taking too long, simply click "Wait" and let it finish. Finally, you will get something like this:
+The downloads will take a few minutes to process, because these are requests for a large volume of observations. Be patient. If you see a message that the process is taking too long, simply click "Wait" and let it finish. Finally, you will get something like this:
 
 <img src="../images/bioprat_1.png" alt="bioprat_1" width="800"/>
 
-To download the data, double-click the Minka widget, in the first one choose the BioPrat place and the filter "Created until:" with the date "2022-12-31". With this, we will obtain the observations uploaded to the platform in 2022. When this request ends, open the second Minka widget and select the BioPrat place and now the filter "Created since:" with the date "2023-01-01".
+To download the data, double-click the Minka widget and choose the BioPrat place (ID: 246). 
 
-If the download we want to do has less than 10,000 observations, it would be enough to do a single download with the set of the specified *place*.
-
-Now we are going to see the data tables that we have obtained with each one. To do this, we drag a line from the Minka widget, in the area where it has the dashed line. So we can "hook" it with the widget that will allow us to see the data, called "Data Table":
+After finishing the process, now we are going to see the data tables that we have obtained. To do this, we drag a line from the Minka widget, in the area where it has the dashed line. So we can "hook" it with the widget that will allow us to see the data, called "Data Table":
 
 <img src="../images/bioprat_2.png" alt="bioprat_2" width="800"/>
 
@@ -86,33 +84,11 @@ We select to take the observations (Observations -> Data) and that will load the
 
 <img src="../images/bioprat_4.png" alt="bioprat_4" width="800"/>
 
-It's our observations data in a table, with all our fields. Now let's do the same with the photos, let's take them to another table. And let's repeat the process with the second MINKA widget where we have the observations for 2023:
+It's our observations data in a table, with all our fields. Now let's do the same with the photos, let's take them to another table. 
 
 <img src="../images/bioprat_5.png" alt="bioprat_5" width="400"/>
 
 We already have all the data extracted. We see that the connection of each of the two lines from Minka to the Data Table is different and tells us that in one it is taking "Observations" to the data in the table and in the other case it is taking "Photos" to the data in the table. second table.
-
-Now we are going to join the observation tables into a single table to analyze it. For this, we will select the "Concatenate" widget that is in the "Transform" section of the left column. We click on it and it will be placed in our work area.
-
-<img src="../images/bioprat_6.png" alt="bioprat_6" width="800"/>
-
-We are going to pass through that widget our two observation tables. We take a line from the first to "Concatenate". It will create a connection by default, but we are going to edit it by clicking on the line that connects the two widgets:
-
-<img src="../images/bioprat_7.png" alt="bioprat_7" width="600"/>
-
-We will remove the connection from "Selected Data" to "Additional Data" by clicking on the line:
-
-<img src="../images/bioprat_8.png" alt="bioprat_8" width="600"/>
-
-We will communicate "Data" with "Primary Data" because we want it to consider the entire set of our data as the primary data when concatenating it. We will have something like this:
-
-<img src="../images/bioprat_9.png" alt="bioprat_9" width="600"/>
-
-We click on OK.
-
-Now we do the same with the second observations table, we will connect it with Concatenate. In this case, we will not edit the connection, because these will be the "Additional Data" that we want to join to the first. We now take out a table with the set of data and we see that the result already has more than 12,300 observations (it is the union of both tables). We can now work with it:
-
-<img src="../images/bioprat_10.png" alt="bioprat_10" width="600"/>
 
 
 ## Selection of research-grade observations
@@ -232,7 +208,7 @@ One of the fields is the URL of the image, and that allows us to see them within
 
 <img src="../images/bioprat_26.png" alt="bioprat_26" width="800"/>
 
-Here we can modify the title that appears below each image, for any of the fields that we have in our table, and explore the entire set of images. Or also make a selection by connecting the table to "Select Rows" and select only those of a taxonomy (taxon_name column) and see the images of that taxonomy.
+Be sure that the column in the field Image Filename Attribute is "photos_medium_url". This column includes the link to the photos and has to be selected to see the images in the Image Viewer widget. Here we can modify the title that appears below each image, for any of the fields that we have in our table, and explore the entire set of images. Or also make a selection by connecting the table to "Select Rows" and select only those of a taxonomy (taxon_name column) and see the images of that taxonomy.
 
 Or we can select all those that are not identified, to try to do it at a glance, using "Select Rows" and the condition *"taxon_name" is not defined*. This way we can see if we can identify any of the images. We simply select it, extract a table, and have the URL of the observation in Minka to access it and identify it.
 
@@ -242,7 +218,7 @@ The process tree we have created in Orange can be saved in the native Orange for
 
 <img src="../images/bioprat_24.png" alt="bioprat_24" width="800"/>
 
-You can find the workflow resulting from this exercise [here] (workflows/datathon_6nov_bioprat.ows) and download it to open it within your Orange.
+You can find the workflow resulting from this exercise [here](workflows/datathon_6nov_bioprat.ows) and download it to open it within your Orange.
 
-Other examples of workflows:
+Other examples of workflows (remember to open it using Orange):
 * [Cap de Creus Natural Park](workflows/datathon_6nov_cap_creus.ows)
