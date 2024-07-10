@@ -1,5 +1,3 @@
-from difflib import SequenceMatcher, get_close_matches
-
 import Orange.data
 import pandas as pd
 import requests
@@ -288,7 +286,6 @@ class TaxonWidget(OWBaseWidget):
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)
                 self.df_obs.genus = pd.Categorical(self.df_obs.genus)
-                print(self.df_obs.head())
 
                 self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
                 self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
@@ -298,7 +295,9 @@ class TaxonWidget(OWBaseWidget):
                     f"{len(self.df_obs):,} observations | {len(self.df_photos):,} photos"
                 )
 
-                self.Outputs.observations.send(table_from_frame(self.df_obs))
+                self.Outputs.observations.send(
+                    table_from_frame(self.df_obs, force_nominal=True)
+                )
 
                 table_photos = table_from_frame(self.df_photos)
                 for meta in table_photos.domain.metas:

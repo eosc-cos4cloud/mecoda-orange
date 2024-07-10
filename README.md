@@ -1,8 +1,8 @@
 # <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/share.png" alt="mecoda-logo" width="100"/> Mecoda-Orange 
 
-This repository includes different Orange Data Mining widgets to access data from [Minka](https://minka-sdg.org/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/), [Ictio](https://ictio.org/), [Natusfera](https://natusfera.gbif.es/) or [Smart Citizen](https://smartcitizen.me).
+This repository includes different Orange Data Mining widgets to access data from [Minka](https://minka-sdg.org/), [Odour Collect](https://odourcollect.eu/), [canAIRio](https://canair.io/), [Aire Ciudadano](https://aireciudadano.com/), [INaturalist](https://www.inaturalist.org/) or [Smart Citizen](https://smartcitizen.me).
 
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/cos4cloud.png" alt="cos4cloud-logo" width="75"/> MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/)), a European Horizon 2020 project to boost citizen science technologies.
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/cos4cloud.png" alt="cos4cloud-logo" width="75"/> MECODA is part of [Cos4Cloud](https://cos4cloud-eosc.eu/), a European Horizon 2020 project to boost citizen science technologies.
 
 To use MECODA package you need to install Orange Data Mining platform through https://orangedatamining.com/download
 
@@ -19,7 +19,7 @@ This widget collects observations from Minka API and allows filtering them by:
 | `Taxon` | One of the main taxonomies | `taxon=Aves` |
 | `Taxon ID` | Number of a taxon | `taxon_id=1110` |
 | `Project ID` | Number of a project | `project_id=16` |
-| `Place ID` | Name of a place | `place_name="Barcelona"` |
+| `Place ID` | Name of a place | `place_id=247` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
 | `Observation date` | Filters for observations date | `starts_on=2024-06-01` |
 | `Creation date` | Filters for upload date | `since=2024-06-01` |
@@ -152,21 +152,21 @@ This example can be loaded as a workflow (.ows format) directly in Orange Canvas
 
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/inat-logo.png" alt="inaturalist-logo" width="75"/> INaturalist widget 
 
-This widget collects observations from Natusfera API and allows filtering them by:
+This widget collects observations from INaturalist API and allows filtering them by:
 
 | Argument | Description | Example |
 | --------- | ----------- | ------- |
 | `Taxon` | One of the main taxonomies | `taxon=Aves` |
 | `Taxon ID` | Number of a taxon | `taxon_id=14868` |
 | `Project ID` | Number of a project | `project_id=80406` |
-| `Place ID` | Name of a place | `place_name="Barcelona"` |
+| `Place ID` | Name of a place | `place_id=200` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
 | `Observation date` | Filters for observations date | `starts_on=2024-06-01` |
 | `Creation date` | Filters for upload date | `since=2024-06-01` |
 | `Research grade only` | Checkbox to select just research grade observations  | `research_grade=True` |
 | `Max. number of results` | The max. number should be under 10,000 (API limit) | `num_max=800` |
 
-<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/natusfera-widget-2.png" alt="natusfera-widget" width="250"/>
+<img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/inaturalist_filter.png" alt="inaturalist-widget" width="250"/>
 
 The INaturalist widget integrates the Python library `mecoda-inat` into a visual interface. You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
 

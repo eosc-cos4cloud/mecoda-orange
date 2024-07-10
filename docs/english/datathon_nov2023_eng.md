@@ -1,4 +1,4 @@
-# Data analysis datathon with biodiversity data from the Minka citizen science observatory
+# DATATHON: Data analysis with biodiversity data from the Minka citizen science observatory
 
 Participants in the Datathon must follow the [installation guide](https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/docs/english/installation_guide.md) to install both the Orange application and the mecoda-orange package within that platform. Also, the "Geo" and "Image Analytics" add-ons are required.
 
