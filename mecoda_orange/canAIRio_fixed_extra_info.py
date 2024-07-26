@@ -1,28 +1,36 @@
-from orangewidget.widget import OWBaseWidget, Output, Input
-from orangewidget.settings import Setting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
-import Orange.data
-from Orange.data.pandas_compat import table_from_frame, table_to_frame
-import requests
-import pandas as pd
 from datetime import datetime
+
+import Orange.data
+import pandas as pd
+import requests
+from Orange.data.pandas_compat import table_from_frame, table_to_frame
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Input, Output, OWBaseWidget
 
 
 def get_historic_data_fixed_station(st) -> pd.DataFrame:
     url = f"http://api.canair.io:8080/dwc/stations/{st}"
     response = requests.get(url).json()
     data = pd.DataFrame(response)
-    data = data.explode('measurements').reset_index(drop=True)
-    for col in ['measurementID', 'measurementType', 'measurementUnit', 'measurementDeterminedDate ', 'measurementDeterminedBy', 'measurementValue']:
-        data[col] = data['measurements'].str.get(col)
-    data = data.drop(columns='measurements')
+    data = data.explode("measurements").reset_index(drop=True)
+    for col in [
+        "measurementID",
+        "measurementType",
+        "measurementUnit",
+        "measurementDeterminedDate ",
+        "measurementDeterminedBy",
+        "measurementValue",
+    ]:
+        data[col] = data["measurements"].str.get(col)
+    data = data.drop(columns="measurements")
 
-    data.rename(columns={
-        'measurementDeterminedDate ': 'measurementDeterminedDate'}, inplace=True)
-    cols = [
-        'measurementDeterminedDate',
-        'observedOn', 'measurementID']
+    data.rename(
+        columns={"measurementDeterminedDate ": "measurementDeterminedDate"},
+        inplace=True,
+    )
+    cols = ["measurementDeterminedDate", "observedOn", "measurementID"]
     data[cols] = data[cols].apply(pd.to_datetime)
     return data
 
@@ -63,32 +71,31 @@ class ExtraInfoWidget(OWBaseWidget):
         # info area
         info = gui.widgetBox(self.controlArea, "Info")
 
-        self.infoa = gui.widgetLabel(info, 'No observations fetched yet.')
-        self.infob = gui.widgetLabel(info, '')
+        self.infoa = gui.widgetLabel(info, "No observations fetched yet.")
+        self.infob = gui.widgetLabel(info, "")
 
         gui.separator(self.controlArea)
 
     def info_searching(self):
-        self.infoa.setText('Searching...')
+        self.infoa.setText("Searching...")
 
     @Inputs.data
     def set_data(self, dataset):
         if dataset is not None:
             self.dataset = dataset
-            self.infoa.setText('%d instances in input dataset' % len(dataset))
+            self.infoa.setText("%d instances in input dataset" % len(dataset))
 
         else:
             self.dataset = None
-            self.infoa.setText(
-                'No data on input yet, waiting to get something.')
-            self.infob.setText('')
+            self.infoa.setText("No data on input yet, waiting to get something.")
+            self.infob.setText("")
         self.commit()
 
     def selection(self):
         if self.dataset is None:
             return
         df = table_to_frame(self.dataset)
-        ids = df['station_name'].to_list()
+        ids = df["station_name"].to_list()
         progress = gui.ProgressBar(self, len(df))
 
         observations = pd.DataFrame()
@@ -99,9 +106,10 @@ class ExtraInfoWidget(OWBaseWidget):
 
         progress.finish()
 
-        if len(df['measurementType'].unique()) == 1:
-            observations = observations[observations['measurementType']
-                                        == df['measurementType'].unique()]
+        if len(df["measurementType"].unique()) == 1:
+            observations = observations[
+                observations["measurementType"] == df["measurementType"].unique()
+            ]
 
         self.obs_table = table_from_frame(observations)
 
@@ -110,7 +118,7 @@ class ExtraInfoWidget(OWBaseWidget):
 
             df = table_to_frame(self.dataset)
 
-            ids = df['station_name'].to_list()
+            ids = df["station_name"].to_list()
             progress = gui.ProgressBar(self, len(df))
             observations = pd.DataFrame()
             for id_num in ids:
@@ -119,24 +127,20 @@ class ExtraInfoWidget(OWBaseWidget):
                 progress.advance()
             progress.finish()
 
-            types = df['measurementType'].unique()
+            types = df["measurementType"].unique()
             for t in types:
-                observations = observations[observations['measurementType'] == t]
+                observations = observations[observations["measurementType"] == t]
 
-            observations.measurementValue = observations.measurementValue.astype(
-                float)
+            observations.measurementValue = observations.measurementValue.astype(float)
             self.obs_table = table_from_frame(observations)
 
-            self.infoa.setText(
-                f'{len(self.dataset)} instances in input dataset')
-            self.infob.setText(
-                f"{len(self.obs_table)} instances in output dataset")
+            self.infoa.setText(f"{len(self.dataset)} instances in input dataset")
+            self.infob.setText(f"{len(self.obs_table)} instances in output dataset")
             self.info.set_output_summary(len(observations))
 
         else:
-            self.infoa.setText(
-                'No data on input yet, waiting to get something.')
-            self.infob.setText('')
+            self.infoa.setText("No data on input yet, waiting to get something.")
+            self.infob.setText("")
             self.info.set_output_summary(self.info.NoOutput)
 
         self.Outputs.extra_data.send(self.obs_table)

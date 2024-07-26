@@ -3,7 +3,6 @@ import traceback
 import Orange.data
 import pandas as pd
 import requests
-from AnyQt.QtGui import QIntValidator
 from mecoda_minka import get_dfs, get_obs
 from Orange.data.pandas_compat import table_from_frame
 from orangewidget import gui
@@ -32,13 +31,13 @@ class MinkaWidget(OWBaseWidget):
     # We don't want the current number entered by the user to be saved
     # and restored when saving/loading a workflow.
     # We can achieve this by declaring schema_only=True
-    id_project = Setting("", schema_only=True)
+    url_project = Setting("", schema_only=True)
     user = Setting("", schema_only=True)
     taxon = Setting("", schema_only=True)
-    id_place = Setting("", schema_only=True)
+    url_place = Setting("", schema_only=True)
     introduced = Setting(False, schema_only=True)
     grade = Setting(False, schema_only=True)
-    id_taxon = Setting("", schema_only=True)
+    url_taxon = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
     created_since = Setting("", schema_only=True)
@@ -49,6 +48,7 @@ class MinkaWidget(OWBaseWidget):
     class Outputs:
         observations = Output("Observations", Orange.data.Table, auto_summary=False)
         photos = Output("Photos", Orange.data.Table, auto_summary=False)
+        users = Output("Users", Orange.data.Table, auto_summary=False)
 
     def __init__(self):
         # Calls the init method of the parent class OWBaseWidget
@@ -106,27 +106,27 @@ class MinkaWidget(OWBaseWidget):
         self.taxonid_line = gui.lineEdit(
             self.searchBox,
             self,
-            "id_taxon",
-            label="Taxon ID:",
+            "url_taxon",
+            label="Taxon URL:",
             orientation=1,
-            controlWidth=150,
+            controlWidth=200,
         )
         self.project_line = gui.lineEdit(
             self.searchBox,
             self,
-            "id_project",
-            label="Project ID:",
+            "url_project",
+            label="Project URL:",
             orientation=1,
             callback=self.id_project_edit,
-            controlWidth=150,
+            controlWidth=200,
         )
         self.place_line = gui.lineEdit(
             self.searchBox,
             self,
-            "id_place",
-            label="Place ID:",
+            "url_place",
+            label="Place URL:",
             orientation=1,
-            controlWidth=150,
+            controlWidth=200,
         )
         self.introduced_line = gui.checkBox(
             self.searchBox,
@@ -221,7 +221,7 @@ class MinkaWidget(OWBaseWidget):
     def user_edit(self):
         if self.user != "":
             self.project_line.setDisabled(True)
-            self.id_project = ""
+            self.url_project = ""
         else:
             self.project_line.setDisabled(False)
 
@@ -229,15 +229,15 @@ class MinkaWidget(OWBaseWidget):
         self.infoa.setText(f"Searching...")
         self.infob.setText(f"")
         try:
-            if self.id_project == "":
+            if self.url_project == "":
                 id_project = None
             else:
-                id_project = self.id_project
+                id_project = requests.get(f"{self.url_project}.json").json()["id"]
 
-            if self.id_taxon == "":
+            if self.url_taxon == "":
                 id_taxon = None
             else:
-                id_taxon = self.id_taxon
+                id_taxon = requests.get(f"{self.url_taxon}.json").json()["id"]
 
             if self.taxon == "":
                 taxon = None
@@ -249,11 +249,11 @@ class MinkaWidget(OWBaseWidget):
             else:
                 user = self.user
 
-            if self.id_place == "":
+            if self.url_place == "":
                 id_place = None
                 introduced = None
             else:
-                id_place = self.id_place
+                id_place = requests.get(f"{self.url_place}.json").json()["id"]
 
                 if self.introduced is True:
                     introduced = True
@@ -317,6 +317,7 @@ class MinkaWidget(OWBaseWidget):
                 # error with pd.NA in conversion to table_from_frame
                 self.df_obs["taxon_id"] = self.df_obs["taxon_id"].astype(float)
                 self.df_obs["taxon_id"] = self.df_obs["taxon_id"].fillna(0)
+                self.df_obs.user_login = pd.Categorical(self.df_obs.user_login)
                 self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
                 self.df_obs.order = pd.Categorical(self.df_obs.order)
                 self.df_obs.family = pd.Categorical(self.df_obs.family)
@@ -333,6 +334,31 @@ class MinkaWidget(OWBaseWidget):
                         meta.attributes = {"type": "image"}
 
                 self.Outputs.photos.send(table_photos)
+
+                # users table
+                unique_observers = list(self.df_obs.user_login.unique())
+                self.df_obs.identifiers = self.df_obs["identifiers"].str.split(", ")
+                all_identifiers = self.df_obs["identifiers"].explode().tolist()
+                unique_identifiers = list(set(all_identifiers))
+                total_observers = list(set(unique_identifiers + unique_observers))
+
+                df_users = pd.DataFrame(
+                    {
+                        "field": ["observers", "identifiers", "total_participants"],
+                        "list_users": [
+                            ", ".join(unique_observers),
+                            ", ".join(unique_identifiers),
+                            ", ".join(total_observers),
+                        ],
+                        "num_users": [
+                            len(unique_observers),
+                            len(unique_identifiers),
+                            len(total_observers),
+                        ],
+                    }
+                )
+                self.Outputs.users.send(table_from_frame(df_users))
+
                 self.info.set_output_summary(len(observations))
 
             else:

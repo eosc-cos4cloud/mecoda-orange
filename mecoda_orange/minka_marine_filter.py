@@ -3,7 +3,6 @@ import pandas as pd
 import requests
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from orangewidget import gui
-from orangewidget.settings import Setting
 from orangewidget.utils.widgetpreview import WidgetPreview
 from orangewidget.widget import Input, Output, OWBaseWidget
 
@@ -32,7 +31,7 @@ class MarineWidget(OWBaseWidget):
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
     icon = "icons/fish-minka.png"
-    priority = 5
+    priority = 2
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout

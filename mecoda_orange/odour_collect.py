@@ -1,13 +1,14 @@
-from orangewidget.widget import OWBaseWidget, Output
-from orangewidget.settings import Setting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
-import Orange.data
-from Orange.data.pandas_compat import table_from_frame
-import pandas as pd
-import pyodcollect.ocmodels as ocmodels
-import pyodcollect.occore as occore
 import datetime
+
+import Orange.data
+import pandas as pd
+import pyodcollect.occore as occore
+import pyodcollect.ocmodels as ocmodels
+from Orange.data.pandas_compat import table_from_frame
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Output, OWBaseWidget
 from pyodcollect.ochelpers import TYPE_LIST
 from pyodcollect.ocmodels import GPScoords
 
@@ -64,7 +65,7 @@ class OdourCollectWidget(OWBaseWidget):
     icon = "icons/odourcollect-logo.png"
 
     # Priority in the section MECODA
-    priority = 6
+    priority = 5
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout
@@ -302,9 +303,9 @@ class OdourCollectWidget(OWBaseWidget):
                 ["longitude", "latitude"]
             ].astype(float)
             observations.user = pd.Categorical(observations.user)
-            observations[
-                ["time_hour", "time_min", "time_sec"]
-            ] = observations.time.astype(str).str.split(":", expand=True)
+            observations[["time_hour", "time_min", "time_sec"]] = (
+                observations.time.astype(str).str.split(":", expand=True)
+            )
 
             if len(observations) > 0:
                 table_oc = table_from_frame(observations)

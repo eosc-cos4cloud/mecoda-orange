@@ -1,20 +1,19 @@
-from orangewidget.widget import OWBaseWidget, Output, Input
-from AnyQt.QtWidgets import QCheckBox
-from orangewidget.settings import Setting
-from Orange.widgets.settings import DomainContextHandler, ContextSetting
-from orangewidget import gui
-from orangewidget.utils.widgetpreview import WidgetPreview
+import asyncio
+
+import nest_asyncio
 import Orange.data
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
-
+from orangewidget import gui
+from orangewidget.settings import Setting
+from orangewidget.utils.widgetpreview import WidgetPreview
+from orangewidget.widget import Input, Output, OWBaseWidget
 from smartcitizen_connector import SCDevice
 from smartcitizen_connector.tools import freq_2_rollup_lut, localise_date
-import nest_asyncio
-import asyncio
 
 loop = asyncio.new_event_loop()
 nest_asyncio.apply(loop)
 asyncio.set_event_loop(loop)
+
 
 # Fixed stations
 class SmartcitizenDataWidget(OWBaseWidget):
@@ -48,12 +47,13 @@ class SmartcitizenDataWidget(OWBaseWidget):
 
     # Widget's outputs; here, a single output named "Observations", of type Table
     class Inputs:
-        devices = Input("Devices", Orange.data.Table, auto_summary = False)
+        devices = Input("Devices", Orange.data.Table, auto_summary=False)
 
     class Outputs:
-        readings = Output("readings", Orange.data.Table, auto_summary = False)
+        readings = Output("readings", Orange.data.Table, auto_summary=False)
 
     metadata = None
+
     def __init__(self):
         # use the init method from the class OWBaseWidget
         super().__init__()
@@ -62,11 +62,13 @@ class SmartcitizenDataWidget(OWBaseWidget):
         info = gui.widgetBox(self.controlArea, "Info")
 
         # Info banners
-        self.infoa = gui.widgetLabel(info, 'No data fetched yet.')
+        self.infoa = gui.widgetLabel(info, "No data fetched yet.")
 
         gui.separator(self.controlArea)
 
-        self.rollupBox = gui.widgetBox(self.controlArea,  "Get data at a specific frequency")
+        self.rollupBox = gui.widgetBox(
+            self.controlArea, "Get data at a specific frequency"
+        )
 
         self.rollup_number_line = gui.lineEdit(
             self.rollupBox,
@@ -75,7 +77,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
             label="Rollup:",
             orientation=1,
             controlWidth=140,
-            callback=self.rollup_check
+            callback=self.rollup_check,
         )
 
         self.rollup_text_line = gui.comboBox(
@@ -89,12 +91,10 @@ class SmartcitizenDataWidget(OWBaseWidget):
             editable=False,
             contentsLength=None,
             searchable=True,
-            orientation=1
+            orientation=1,
         )
 
-        self.dateBox = gui.widgetBox(self.controlArea,
-            "Filter by date (YYYY-MM-DD)"
-        )
+        self.dateBox = gui.widgetBox(self.controlArea, "Filter by date (YYYY-MM-DD)")
 
         self.date_init_line = gui.lineEdit(
             self.dateBox,
@@ -103,7 +103,7 @@ class SmartcitizenDataWidget(OWBaseWidget):
             label="Initial Date:",
             orientation=1,
             controlWidth=140,
-            callback=self.date_check
+            callback=self.date_check,
         )
 
         self.date_end_line = gui.lineEdit(
@@ -113,15 +113,12 @@ class SmartcitizenDataWidget(OWBaseWidget):
             label="End Date:",
             orientation=1,
             controlWidth=140,
-            callback=self.date_check
+            callback=self.date_check,
         )
 
         self.resampleBox = gui.checkBox(
-            self.controlArea,
-            self,
-            "resample",
-            label="Resample data"
-            )
+            self.controlArea, self, "resample", label="Resample data"
+        )
 
         gui.separator(self.controlArea)
 
@@ -136,36 +133,37 @@ class SmartcitizenDataWidget(OWBaseWidget):
 
         if dataset is not None:
 
-            self.metadata = table_to_frame(dataset, include_metas = True)
+            self.metadata = table_to_frame(dataset, include_metas=True)
 
-            if (self.metadata.shape[0] > 1):
+            if self.metadata.shape[0] > 1:
 
                 self.infoa.setText("Select one device first!")
                 return
             else:
 
-                if 'device_id' in self.metadata.columns:
-                    col = 'device_id'
-                elif 'id' in self.metadata.columns:
-                    col = 'id'
+                if "device_id" in self.metadata.columns:
+                    col = "device_id"
+                elif "id" in self.metadata.columns:
+                    col = "id"
                 else:
-                    self.infoa.setText('Error with input data')
+                    self.infoa.setText("Error with input data")
                     return
 
                 self.device = self.metadata[col].values[0]
 
-                name = self.metadata['name'].values[0]
-                city = self.metadata['city'].values[0]
-                country = self.metadata['country_code'].values[0]
-                owner = self.metadata['owner_username'].values[0]
+                name = self.metadata["name"].values[0]
+                city = self.metadata["city"].values[0]
+                country = self.metadata["country_code"].values[0]
+                owner = self.metadata["owner_username"].values[0]
 
-                self.infoa.setText(f"Device: {self.device}"+ \
-                    f"\nName: {name}" + \
-                    f"\nCity: {city} ({country})" + \
-                    f"\nBy: {owner}"
+                self.infoa.setText(
+                    f"Device: {self.device}"
+                    + f"\nName: {name}"
+                    + f"\nCity: {city} ({country})"
+                    + f"\nBy: {owner}"
                 )
             # Info banners
-            self.infosettings = gui.widgetLabel(self.rollupBox, '')
+            self.infosettings = gui.widgetLabel(self.rollupBox, "")
 
             self.rollup_check()
             self.date_check()
@@ -178,16 +176,19 @@ class SmartcitizenDataWidget(OWBaseWidget):
 
     def device_id_edit(self):
         if self.device != "":
-            index = self.metadata.loc[self.metadata['id'] == int(self.device)].index.tolist()[0]
-            name = self.metadata.loc[index, 'name']
-            city = self.metadata.loc[index, 'city']
-            country = self.metadata.loc[index, 'country_code']
-            owner = self.metadata.loc[index, 'owner_username']
+            index = self.metadata.loc[
+                self.metadata["id"] == int(self.device)
+            ].index.tolist()[0]
+            name = self.metadata.loc[index, "name"]
+            city = self.metadata.loc[index, "city"]
+            country = self.metadata.loc[index, "country_code"]
+            owner = self.metadata.loc[index, "owner_username"]
 
-            self.infoa.setText(f"Device: {self.device}"+ \
-                f"\nName: {name}" + \
-                f"\nCity: {city} ({country})" + \
-                f"\nBy: {owner}"
+            self.infoa.setText(
+                f"Device: {self.device}"
+                + f"\nName: {name}"
+                + f"\nCity: {city} ({country})"
+                + f"\nBy: {owner}"
             )
 
         else:
@@ -215,13 +216,13 @@ class SmartcitizenDataWidget(OWBaseWidget):
 
         if self.device is not None:
 
-            if (self.metadata.shape[0] > 1):
-                self.infoa.setText(f'Select a device first.')
+            if self.metadata.shape[0] > 1:
+                self.infoa.setText(f"Select a device first.")
                 self.info.set_output_summary(self.info.NoOutput)
                 return
 
             if self.rollup is None:
-                self.infoa.setText(f'Input a valid rollup.')
+                self.infoa.setText(f"Input a valid rollup.")
                 self.info.set_output_summary(self.info.NoOutput)
                 return
 
@@ -231,14 +232,15 @@ class SmartcitizenDataWidget(OWBaseWidget):
             progress.advance()
 
             # loop = asyncio.get_event_loop()
-            loop.run_until_complete(d.get_data(
-                        min_date = localise_date(self.min_date, timezone),
-                        max_date = localise_date(self.max_date, timezone),
-                        frequency = self.rollup,
-                        clean_na = None,
-                        resample = self.resample
-                    )
+            loop.run_until_complete(
+                d.get_data(
+                    min_date=localise_date(self.min_date, timezone),
+                    max_date=localise_date(self.max_date, timezone),
+                    frequency=self.rollup,
+                    clean_na=None,
+                    resample=self.resample,
                 )
+            )
 
             data = d.data
             progress.advance()
@@ -248,20 +250,21 @@ class SmartcitizenDataWidget(OWBaseWidget):
                 progress.advance()
                 self.Outputs.readings.send(table)
                 progress.advance()
-                self.infoa.setText(f'Device {self.device} data downloaded!')
+                self.infoa.setText(f"Device {self.device} data downloaded!")
                 self.info.set_output_summary(1)
 
             else:
-                self.infoa.setText(f'Nothing found.')
+                self.infoa.setText(f"Nothing found.")
                 self.info.set_output_summary(self.info.NoOutput)
 
             progress.finish()
 
         else:
-            self.infoa.setText(f'Select a device first.')
+            self.infoa.setText(f"Select a device first.")
             self.info.set_output_summary(self.info.NoOutput)
 
         return
+
 
 # For developer purpose, allow running the widget directly with python
 if __name__ == "__main__":

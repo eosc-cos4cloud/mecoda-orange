@@ -2,7 +2,6 @@ import traceback
 
 import Orange.data
 import pandas as pd
-from AnyQt.QtGui import QIntValidator
 from mecoda_inat import get_dfs, get_obs
 from Orange.data.pandas_compat import table_from_frame
 from orangewidget import gui
@@ -20,7 +19,7 @@ class InatWidget(OWBaseWidget):
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
     icon = "icons/inat-logo.png"
-    priority = 30
+    priority = 8
 
     # Basic (convenience) GUI definition:
     #   a simple 'single column' GUI layout

@@ -17,22 +17,21 @@ This widget collects observations from Minka API and allows filtering them by:
 | Argument | Description | Example |
 | --------- | ----------- | ------- |
 | `Taxon` | One of the main taxonomies | `taxon=Aves` |
-| `Taxon ID` | Number of a taxon | `taxon_id=1110` |
-| `Project ID` | Number of a project | `project_id=16` |
-| `Place ID` | Name of a place | `place_id=247` |
+| `Taxon URL` | Link to a taxon page | `https://minka-sdg.org/taxa/254168-Danaus-chrysippus` |
+| `Project URL` | Link to a project on the Minka website | `https://minka-sdg.org/projects/biomarato-2024-catalunya` |
+| `Place URL` | Link to a place on the Minka website | `https://minka-sdg.org/places/barcelona` |
+| `Non-native species` | Checkbox to select just introduced species | `introduced=True` |
 | `User name` | Name of user who has uploaded the observations | `user="zolople"` |
-| `Observation date` | Filters for observations date | `starts_on=2024-06-01` |
+| `Observation date` | Filters for observation date | `starts_on=2024-06-01` |
 | `Creation date` | Filters for upload date | `since=2024-06-01` |
-| `Research grade only` | Checkbox to select just research grade observations  | `research_grade=True` |
-| `Max. number of results` | Queries of less than 10,000 observations are recommended due to time requeriments | `num_max=800` |
+| `Research grade only` | Checkbox to select just research-grade observations  | `research_grade=True` |
+| `Max. number of results` | Queries of less than 10,000 observations are recommended due to time requirements. Keep the number in 0 to not limit the download. | `num_max=800` |
 
 <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka-widget.png" alt="minka-widget" width="350"/><img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/map_filter_workflow2.png" alt="minka-widget2" width="350"/>
 
-The Minka widget integrates the Python library `mecoda-minka` into a visual interface. 
-You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. 
-A single observation can have more than a photo. 
+The Minka widget integrates the Python library `mecoda-minka` into a visual interface. You can make any query and download two outputs, a dataframe with one observation per row and a dataframe with one photo per row. A single observation can have more than a photo. 
 
-The observations output gets a Table with the following fields:
+The Observations output gets a Table with the following fields:
 * **id**: observation id
 * **captive**: True or False
 * **created_at**: date field.
@@ -40,14 +39,17 @@ The observations output gets a Table with the following fields:
 * **observed_on**: date field.
 * **description**: open text field.
 * **latitude / longitude**: geo location fields.
-* **quality_grade**: needs_id / research.
+* **obscured**: are the geographical coordinates obscured to protect the place where has been seen? False = 0 / True = 1.
+* **quality_grade**: needs_id / research / casual.
 * **user_login**: user login name.
-* **num_identification_agreements / num_identification_disagreements**
+* **num_identification_agreements / num_identification_disagreements**: number of identifications that agree and not agree with the taxonomy.
 * **identifications_count**: number of identifications for an observation.
+* **identifiers**: list of Minka users who contributed to the identification.
 * **iconic_taxon**: one of the big taxonomic groups available in Minka.
 * **taxon_id**: species taxon id.
-* **taxon_name**: species name of observation.
-* **taxon fields**:
+* **taxon_name**: species name of the observation.
+* **taxon_rank**: taxonomic rank the identifications has achieved.
+* **taxon fields**: parent taxonomic ranks the species belongs.
   * kingdom
   * class
   * order
@@ -55,7 +57,7 @@ The observations output gets a Table with the following fields:
   * family
   * genus
 
-The `observations` table allows to make statistical analysis. The photos table allows image analysis.
+The `observations` table allows statistical analysis. The `photos` table allows image analysis.
 
 The widget is complemented with other widgets that can take input from it or directly from Minka API:
 

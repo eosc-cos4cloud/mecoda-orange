@@ -53,7 +53,7 @@ def test_minka_widget(observations):
         for meta in table_photos.domain.metas
         if meta.name == "photos_medium_url"
     ] == [{"type": "image"}]
-    assert len(df_obs.columns) == 26
+    assert len(df_obs.columns) == 27
     assert len(table_obs) == 20
 
 
@@ -65,7 +65,7 @@ def test_marine_filter():
         num_max=40,
         year=2021,
     )
-    df_obs, df_photos = get_dfs(observations)
+    df_obs, __ = get_dfs(observations)
     df_obs["taxon_name"] = df_obs["taxon_name"].str.lower()
     df_obs = df_obs[df_obs.taxon_id.notnull()].reset_index(drop=True)
     df_obs["taxon_id"] = df_obs.taxon_id.astype(int)

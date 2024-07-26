@@ -1,9 +1,7 @@
 import Orange.data
 import pandas as pd
-from mecoda_minka import get_dfs, get_obs
 from Orange.data.pandas_compat import table_from_frame, table_to_frame
 from orangewidget import gui
-from orangewidget.settings import Setting
 from orangewidget.utils.widgetpreview import WidgetPreview
 from orangewidget.widget import Input, Output, OWBaseWidget
 
@@ -27,10 +25,10 @@ def get_user_df(df: pd.DataFrame) -> pd.DataFrame:
 
 
 class MinkaMentionsWidget(OWBaseWidget):
-    name = "Minka Mentions"
+    name = "Minka Contributions"
     description = "Get users that contribute to a dataset of observations from Minka"
     icon = "icons/minka-users.png"
-    priority = 6
+    priority = 4
     want_main_area = False
     resizing_enabled = False
 
