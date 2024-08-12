@@ -64,7 +64,7 @@ Here we see that a line is created between the widgets, which communicates infor
 We are going to work with the Minka widget to obtain the biodiversity observations recorded in the El Prat area.
 
 ### **Extract data to analyze**
-We select the Minka widget and double-click on the widget to display the dialogue box. We select the geographical area that includes the location of the Prat town hall, which we can see here in Minka: [https://minka-sdg.org/observations?place_id=246](https://minka-sdg.org/observations?place_id=246)
+We select the Minka widget and double-click on the widget to display the dialogue box. We select the geographical area that includes the location of El Prat city, which we can see here in Minka: [https://minka-sdg.org/places/bioprat](https://minka-sdg.org/places/bioprat)
 
 The downloads will take a few minutes to process, because these are requests for a large volume of observations. Be patient. If you see a message that the process is taking too long, simply click "Wait" and let it finish. Finally, you will get something like this:
 
@@ -88,7 +88,7 @@ It's our observations data in a table, with all our fields. Now let's do the sam
 
 <img src="../images/bioprat_5.png" alt="bioprat_5" width="400"/>
 
-We already have all the data extracted. We see that the connection of each of the two lines from Minka to the Data Table is different and tells us that in one it is taking "Observations" to the data in the table and in the other case it is taking "Photos" to the data in the table. second table.
+We already have all the data extracted. We see that the connection of each of the three lines from Minka to the Data Table is different and tells us that in one it is taking "Observations" to the data in the table, in the other case it is taking "Photos" to the data in the table. a second table and the other taking “Users” to the data in the table, a third table.
 
 
 ## Selection of research-grade observations

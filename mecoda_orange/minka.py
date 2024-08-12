@@ -339,6 +339,7 @@ class MinkaWidget(OWBaseWidget):
                 unique_observers = list(self.df_obs.user_login.unique())
                 self.df_obs.identifiers = self.df_obs["identifiers"].str.split(", ")
                 all_identifiers = self.df_obs["identifiers"].explode().tolist()
+                all_identifiers = [i for i in all_identifiers if i is not None]
                 unique_identifiers = list(set(all_identifiers))
                 total_observers = list(set(unique_identifiers + unique_observers))
 

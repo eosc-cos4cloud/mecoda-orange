@@ -86,6 +86,14 @@ The widget splits the Table of observations into two dataframes: one for marine 
 
 ### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/marine_filter_widget.png" alt="marine-filter-widget" width="600"/> 
 
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/icons/minka-users.png" alt="fish-minka.png" width="50"/> Contributions
+
+When you process the observations table, selecting some rows or filtering in some way, you may want to get the contribution of every user to this new dataset of observations. Just connect the `Minka Contributions` widget and get the observations every user is contributing to the dataset.
+
+### <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/minka_contributions_workflow.png" alt="minka_contributions_workflow" width="600"/> 
+
+
+
 ## <img src="https://github.com/eosc-cos4cloud/mecoda-orange/blob/master/mecoda_orange/icons/odourcollect-logo.png" alt="odourcollect-logo" width="75"/> OdourCollect widget 
 
 The Odour Collect widget allows the user to get observations from the Odour Collect API. The widget looks like this:

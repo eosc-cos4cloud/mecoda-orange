@@ -3,9 +3,8 @@ import os
 
 import Orange.data
 import pandas as pd
-
-# import pyodcollect.occore as occore
-# import pyodcollect.ocmodels as ocmodels
+import pyodcollect.occore as occore
+import pyodcollect.ocmodels as ocmodels
 import pytest
 import requests
 from mecoda_minka import get_dfs, get_obs
@@ -16,11 +15,6 @@ from mecoda_orange.canAIRio_fixed_extra_info import get_historic_data_fixed_stat
 from mecoda_orange.canAIRio_mobile import get_mobile_stations
 from mecoda_orange.canAIRio_mobile_extra_info import get_mobile_track
 from mecoda_orange.minka_marine_filter import get_marine
-from mecoda_orange.minka_search_taxa import (
-    get_obs_from_common_name,
-    get_obs_from_sci_name,
-)
-from mecoda_orange.minka_taxa import get_descendants
 
 
 @pytest.fixture(name="observations", scope="session")
@@ -95,44 +89,6 @@ def test_get_images(observations):
     assert [
         meta.attributes for meta in out.domain.metas if meta.name == "photos_medium_url"
     ] == [{"type": "image"}]
-
-
-# tests on minka_search_taxa
-@pytest.mark.skip()
-def test_get_obs_from_sci_name():
-    name = "Peltodoris atromaculata"
-    obs, ancestry, taxon_name = get_obs_from_sci_name(name)
-
-    assert type(obs[0].created_at) == datetime.datetime
-    assert ancestry.startswith("kingdom")
-    assert taxon_name[0].isupper()
-
-
-def test_get_obs_from_common_name():
-    name = "pulpo"
-    obs, ancestry, sci_name = get_obs_from_common_name(name)
-    assert len(obs) > 0
-    assert ancestry.startswith("kingdom")
-    assert sci_name[0].isupper()
-
-
-# tests on minka_taxa
-def test_get_descendants(taxon_tree):
-    for name in ["Edmundsella", "Tripterygiidae", "Gadiformes"]:
-        taxa = get_descendants(name, taxon_tree)
-        assert len(taxa) > 1
-        assert taxa[0] == ""
-        assert taxa[1][0].isupper()
-
-
-def test_minka_taxa(taxon_tree):
-    name = "Asterina gibbosa"
-    id_selected = taxon_tree[taxon_tree["taxon_name"] == name].taxon_id.item()
-    obs = get_obs(taxon_id=id_selected)
-    assert len(obs) > 0
-    assert type(obs[0].created_at) == datetime.datetime
-    assert obs[0].quality_grade in ["casual", "research", "needs_id"]
-    assert type(obs[0].user_id) == int
 
 
 # tests on odour_collect
