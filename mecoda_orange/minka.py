@@ -209,7 +209,7 @@ class MinkaWidget(OWBaseWidget):
         self.infob.setText("Be patient, this could take a while.")
 
     def id_project_edit(self):
-        if self.id_project != "":
+        if self.url_project != "":
             self.user_line.setDisabled(True)
             self.taxon_line.setDisabled(True)
             self.user = ""
@@ -291,7 +291,7 @@ class MinkaWidget(OWBaseWidget):
 
             progress = gui.ProgressBar(self, 2)
             progress.advance()
-
+            print(num_max)
             observations = get_obs(
                 id_project=id_project,
                 user=user,

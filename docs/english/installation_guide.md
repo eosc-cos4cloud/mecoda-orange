@@ -18,7 +18,7 @@ Click on "Download Orange".
 
 <img src="../images/orange_add_more2.png" alt="orange_add_more" width="600"/>
 
-5. ***Mecoda Orange*** will appear available in the list of installation packages, last. Check the box next to the name and click OK to install it. If the process is successful, Orange will ask you to restart it when it is finished.
+5. ***Mecoda Orange*** will appear available in the list of installation packages, last. Check the   box next to the name and click OK to install it. If the process is successful, Orange will ask you to restart it when it is finished.
 
 <img src="../images/orange_mecoda_package.png" alt="orange_mecoda_package" width="600"/>
 

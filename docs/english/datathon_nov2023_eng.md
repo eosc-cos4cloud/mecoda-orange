@@ -162,10 +162,6 @@ The steps to follow are:
 
 <img src="../images/bioprat_18.png" alt="bioprat_18" width="800"/>
 
-* Connect the table with Feature Statistics to obtain the statistics (mean, median, mode,...) of our result:
-
-<img src="../images/bioprat_18.png" alt="bioprat_18" width="800"/>
-
 We can do the same process using the "taxon name" column and get the number of observations for each species:
 
 <img src="../images/bioprat_19.png" alt="bioprat_19" width="800"/>
