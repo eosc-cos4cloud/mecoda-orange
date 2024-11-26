@@ -12,14 +12,13 @@ unhashable_columns = [
     "notify",
     "data",
     "owner",
-    "kit",
     "location",
     "hardware_info",
     "postprocessing",
     "device_token",
     "hardware",
+    "data_policy"
 ]
-
 
 # Fixed stations
 class SmartcitizenSearchWidget(OWBaseWidget):
