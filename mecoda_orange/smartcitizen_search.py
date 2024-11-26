@@ -165,9 +165,7 @@ class SmartcitizenSearchWidget(OWBaseWidget):
                 df["latitude"] = df.loc[int(self.device_id), "location"]["latitude"]
                 df["longitude"] = df.loc[int(self.device_id), "location"]["longitude"]
                 df["city"] = df.loc[int(self.device_id), "location"]["city"]
-                df["country_code"] = df.loc[int(self.device_id), "location"][
-                    "country_code"
-                ]
+                df["country_code"] = df.loc[int(self.device_id), "location"]["country_code"]
                 df["device_id"] = int(self.device_id)
 
                 df["system_tags"] = df["system_tags"].astype("str")
@@ -187,14 +185,10 @@ class SmartcitizenSearchWidget(OWBaseWidget):
 
         else:
 
-            if self.user == "":
-                owner_username = None
-            else:
-                owner_username = self.user
-            if self.city == "":
-                city = None
-            else:
-                city = self.city
+            if self.user == "": owner_username = None
+            else: owner_username = self.user
+            if self.city == "": city = None
+            else: city = self.city
 
             self.infoa.setText(f"Looking for devices...")
             self.infoa.setText(f"")
@@ -211,18 +205,18 @@ class SmartcitizenSearchWidget(OWBaseWidget):
                 )
 
             if city is not None:
-                query_list.append(
-                    {"key": "tags_name", "value": city, "search_matcher": "in"}
-                )
+                query_list.append({
+                    "key": "tags_name",
+                    "value": city,
+                    "search_matcher": "in"
+                })
 
             if self.tags_tokenized is not None:
-                query_list.append(
-                    {
+                query_list.append({
                         "key": "tags_name",
                         "value": self.tags_tokenized,
                         "search_matcher": "in",
-                    }
-                )
+                })
 
             if len(query_list):
                 devices = search_by_query(endpoint="devices", search_items=query_list)
