@@ -62,7 +62,7 @@ setup(
         "pyodcollect >= 1.1.0",
         "mecoda-minka >= 1.7.9",
         "mecoda-inat >= 1.0.2",
-        "smartcitizen-connector == 1.0.4",  # Smart Citizen connector should be fixed at a version
+        "smartcitizen-connector == 1.2.0",  # Smart Citizen connector should be fixed at a version
         "nest_asyncio",
         "pydantic >= 2.4.2",
         "tabulate",
