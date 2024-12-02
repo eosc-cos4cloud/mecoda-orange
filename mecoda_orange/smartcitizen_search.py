@@ -17,7 +17,8 @@ unhashable_columns = [
     "postprocessing",
     "device_token",
     "hardware",
-    "data_policy"
+    "data_policy",
+    "experiment_ids"
 ]
 
 # Fixed stations
@@ -70,7 +71,7 @@ class SmartcitizenSearchWidget(OWBaseWidget):
             self.searchBox,
             self,
             "city",
-            label="City:",
+            label="City (case sensitive):",
             orientation=1,
             # callback=self.device_id_disable,
             controlWidth=200,
