@@ -117,7 +117,7 @@ class MinkaWidget(OWBaseWidget):
             "url_project",
             label="Project URL:",
             orientation=1,
-            callback=self.id_project_edit,
+            # callback=self.id_project_edit,
             controlWidth=200,
         )
         self.place_line = gui.lineEdit(
@@ -141,7 +141,7 @@ class MinkaWidget(OWBaseWidget):
             label="User name:",
             orientation=1,
             controlWidth=150,
-            callback=self.user_edit,
+            # callback=self.user_edit,
         )
 
         self.obsBox = gui.widgetBox(self.searchBox, "Observation date:")
@@ -207,23 +207,6 @@ class MinkaWidget(OWBaseWidget):
     def info_searching(self):
         self.infoa.setText("Searching...")
         self.infob.setText("Be patient, this could take a while.")
-
-    def id_project_edit(self):
-        if self.url_project != "":
-            self.user_line.setDisabled(True)
-            self.taxon_line.setDisabled(True)
-            self.user = ""
-            self.taxon = ""
-        else:
-            self.user_line.setDisabled(False)
-            self.taxon_line.setDisabled(False)
-
-    def user_edit(self):
-        if self.user != "":
-            self.project_line.setDisabled(True)
-            self.url_project = ""
-        else:
-            self.project_line.setDisabled(False)
 
     def commit(self):
         self.infoa.setText(f"Searching...")
