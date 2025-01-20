@@ -5,9 +5,9 @@
 
 <img src="../images/orange_installation.png" alt="orange_installation" width="800"/> 
 
-Haz click en "Download Orange".
+Descarga la versión adecuada para tu sistema operativo (Windows o macOS). Si tienes alguna distribución de Linux, sigue los pasos para instalar Orange utilizando [Anaconda](https://www.anaconda.com/download) o pip (si lo tienes instalado).
 
-2. Una vez instalado (tarda unos 15 min y te pedirá que también instales Miniconda en el proceso), abre Orange desde el menú de tu ordenador o desde el enlace en el escritorio. Verás algo como esto:
+2. Una vez instalado (tarda unos 15 min y puede que te pida que también instales Miniconda en el proceso), abre Orange desde el menú de tu ordenador o desde el enlace en el escritorio. Verás algo como esto:
 
 <img src="../images/orange_canvas.png" alt="orange_canvas" width="800"/> 
 
