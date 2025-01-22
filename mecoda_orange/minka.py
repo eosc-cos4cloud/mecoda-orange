@@ -10,6 +10,19 @@ from orangewidget.settings import Setting
 from orangewidget.utils.widgetpreview import WidgetPreview
 from orangewidget.widget import Output, OWBaseWidget
 
+session = requests.Session()
+
+
+def _get_id_from_name(taxon_name, session):
+    taxon_name = taxon_name.replace(" ", "%20")
+    taxon_name = taxon_name.capitalize()
+    url = f"https://minka-sdg.org/taxon_names.json?name={taxon_name}"
+    try:
+        taxon_id = session.get(url).json()[0]["taxon_id"]
+    except IndexError:
+        taxon_id = 0
+    return taxon_id
+
 
 class MinkaWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
@@ -37,7 +50,7 @@ class MinkaWidget(OWBaseWidget):
     url_place = Setting("", schema_only=True)
     introduced = Setting(False, schema_only=True)
     grade = Setting(False, schema_only=True)
-    url_taxon = Setting("", schema_only=True)
+    taxon_name = Setting("", schema_only=True)
     starts_on = Setting("", schema_only=True)
     ends_on = Setting("", schema_only=True)
     created_since = Setting("", schema_only=True)
@@ -106,8 +119,8 @@ class MinkaWidget(OWBaseWidget):
         self.taxonid_line = gui.lineEdit(
             self.searchBox,
             self,
-            "url_taxon",
-            label="Taxon URL:",
+            "taxon_name",
+            label="Taxon Name:",
             orientation=1,
             controlWidth=200,
         )
@@ -211,16 +224,21 @@ class MinkaWidget(OWBaseWidget):
     def commit(self):
         self.infoa.setText(f"Searching...")
         self.infob.setText(f"")
+
         try:
             if self.url_project == "":
                 id_project = None
             else:
-                id_project = requests.get(f"{self.url_project}.json").json()["id"]
+                id_project = session.get(f"{self.url_project}.json").json()["id"]
 
-            if self.url_taxon == "":
+            if self.taxon_name == "":
                 id_taxon = None
             else:
-                id_taxon = requests.get(f"{self.url_taxon}.json").json()["id"]
+                id_taxon = _get_id_from_name(self.taxon_name, session)
+                if id_taxon == 0:
+                    self.infoa.setText(f"Invalid taxon name.")
+                    self.infob.setText("")
+                    return
 
             if self.taxon == "":
                 taxon = None
@@ -236,7 +254,7 @@ class MinkaWidget(OWBaseWidget):
                 id_place = None
                 introduced = None
             else:
-                id_place = requests.get(f"{self.url_place}.json").json()["id"]
+                id_place = session.get(f"{self.url_place}.json").json()["id"]
 
                 if self.introduced is True:
                     introduced = True
