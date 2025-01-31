@@ -1,7 +1,7 @@
 # Inicio de la actividad
 
 Las personas participantes en la Datathon deben seguir la [guía de instalación](guia_instalacion.md) para instalar tanto la aplicación Orange como el paquete mecoda-orange dentro de esa plataforma y los add-ons "Geo" e "Image Analytics".
-
+git 
 ## La Plataforma de Programación Visual [Orange](https://orangedatamining.com/)
 
 El aspecto de la aplicación es este:
@@ -208,7 +208,7 @@ Obtenemos una tabla con el nombre de los usuarios, el enlace a su perfil, donde 
 
 Para guardar en nuestro ordenador el conjunto el widget "Save Data" y lo abrimos. Desmarcamos la opción "Add type annotations to header". 
 
-<img src="../images/bioprat_22.png" alt="bioprat_22" width="800"/>
+<img src="../images/save_data.png" alt="save_data" width="800"/>
 
 Al pinchar en "Save As" nos dará la opción de guardarlo en cualquier formato de tabla habitual (xlsx, csv, tab). Así podremos guardarnos la descarga con los datos actualizados a fecha de hoy.
 
