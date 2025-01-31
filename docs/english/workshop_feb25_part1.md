@@ -238,3 +238,7 @@ Video tutorials, from 0 to advanced machine learning processes:
 
 Examples of analysis that you can download and open in Orange to reproduce:
 * Workflows: https://orangedatamining.com/workflows/
+
+# Acknowledgement
+
+<img src="../logos/ICM-SO-CSIC.png" alt="ecs_project" width="400"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/ecs_logo.png" alt="ecs_project" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/EN_FundedbytheEU_RGB_POS.png" alt="ecs_project" width="200"/>

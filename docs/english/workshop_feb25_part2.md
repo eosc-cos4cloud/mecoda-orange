@@ -96,3 +96,7 @@ In the "Merge data" widget we must indicate the option "Append columns from Extr
 ## Resulting workflow
 
 You can find the resulting workflow for this exercise [here](workflows/datathon_feb25_biomarato_part2.ows) and download it to open it within your Orange.
+
+# Acknowledgement
+
+<img src="../logos/ICM-SO-CSIC.png" alt="ecs_project" width="400"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/ecs_logo.png" alt="ecs_project" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/EN_FundedbytheEU_RGB_POS.png" alt="ecs_project" width="200"/>
