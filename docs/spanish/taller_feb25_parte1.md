@@ -247,4 +247,3 @@ Ejemplos de análisis que puedes descargar y abrir en Orange para reproducir:
 # 
 
 <img src="../logos/ICM-SO-CSIC.png" alt="ecs_project" width="400"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/ecs_logo.png" alt="ecs_project" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="../logos/ES_FundedbytheEU_RGB_POS.png" alt="ecs_project" width="200"/>
-
