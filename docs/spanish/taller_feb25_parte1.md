@@ -228,7 +228,7 @@ Para guardar un workflow simplemente nos vamos al menú superior de Orange, dent
 
 <img src="../images/save_workflow_biomarato.png" alt="save_workflow_biomarato" width="800"/>
 
-El workflow resultante de este ejercicio lo podéis encontrar [aquí](workflows/datathon_feb25_biomarato_part1.ows) y descargarlo para abrirlo dentro de vuestro Orange.
+El workflow resultante de este ejercicio lo podéis encontrar [aquí](../workflows/datathon_feb2025_biomarato_part1.ows) y descargarlo para abrirlo dentro de vuestro Orange.
 
 ## Documentación oficial de Orange: 
 

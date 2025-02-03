@@ -95,7 +95,7 @@ In the "Merge data" widget we must indicate the option "Append columns from Extr
 
 ## Resulting workflow
 
-You can find the resulting workflow for this exercise [here](workflows/datathon_feb25_biomarato_part2.ows) and download it to open it within your Orange.
+You can find the resulting workflow for this exercise [here](../workflows/datathon_feb2025_biomarato_part2.ows) and download it to open it within your Orange.
 
 # Acknowledgement
 

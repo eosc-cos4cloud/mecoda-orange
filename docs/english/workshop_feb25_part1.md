@@ -223,7 +223,7 @@ To save a workflow we simply go to the top menu of Orange, within File and click
 
 <img src="../images/save_workflow.png" alt="save_workflow" width="800"/>
 
-The workflow resulting from this exercise can be found [here](workflows/datathon_feb25_biomarato_part1.ows) and downloaded to open it within your Orange.
+The workflow resulting from this exercise can be found [here](../workflows/datathon_feb2025_biomarato_part1.ows) and downloaded to open it within your Orange.
 
 ## Official Orange documentation:
 
