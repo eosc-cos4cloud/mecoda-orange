@@ -223,8 +223,9 @@ class MinkaWidget(OWBaseWidget):
 
     def commit(self):
         self.infoa.setText(f"Searching...")
-        self.infob.setText(f"")
-
+        self.infob.setText(f"Be patient, this could take a while.")
+        progress = gui.ProgressBar(self, 3)
+        
         try:
             if self.url_project == "":
                 id_project = None
@@ -290,7 +291,6 @@ class MinkaWidget(OWBaseWidget):
             else:
                 num_max = self.num_max
 
-            progress = gui.ProgressBar(self, 2)
             progress.advance()
             print(num_max)
             observations = get_obs(
@@ -307,22 +307,27 @@ class MinkaWidget(OWBaseWidget):
                 introduced=introduced,
                 grade=grade,
             )
+            
 
             if len(observations) > 0:
+                self.infoa.setText(f"Processing {len(observations)} observations...")
+                progress.advance()
                 self.df_obs, self.df_photos = get_dfs(observations)
-                self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
-                self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
-                self.df_photos["obs_url"] = self.df_photos["id"].apply(
-                    lambda x: f"https://minka-sdg.org/observations/{x}"
-                )
-                # error with pd.NA in conversion to table_from_frame
-                self.df_obs["taxon_id"] = self.df_obs["taxon_id"].astype(float)
-                self.df_obs["taxon_id"] = self.df_obs["taxon_id"].fillna(0)
-                self.df_obs.user_login = pd.Categorical(self.df_obs.user_login)
-                self.df_obs.taxon_name = pd.Categorical(self.df_obs.taxon_name)
-                self.df_obs.order = pd.Categorical(self.df_obs.order)
-                self.df_obs.family = pd.Categorical(self.df_obs.family)
-                self.df_obs.genus = pd.Categorical(self.df_obs.genus)
+                # Optimize string operations with vectorized approach
+                if not self.df_obs.empty:
+                    self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
+                if not self.df_photos.empty:
+                    self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
+                # Vectorized URL generation (much faster than apply)
+                self.df_photos["obs_url"] = "https://minka-sdg.org/observations/" + self.df_photos["id"].astype(str)
+                # Optimize data type conversions
+                self.df_obs["taxon_id"] = pd.to_numeric(self.df_obs["taxon_id"], errors='coerce').fillna(0)
+                
+                # Batch convert to categorical (more efficient)
+                categorical_cols = ["user_login", "taxon_name", "order", "family", "genus"]
+                for col in categorical_cols:
+                    if col in self.df_obs.columns:
+                        self.df_obs[col] = pd.Categorical(self.df_obs[col])
 
                 self.infoa.setText(f"{len(self.df_obs)} observations gathered")
                 self.infob.setText(f"{len(self.df_photos)} photos gathered")
@@ -336,13 +341,22 @@ class MinkaWidget(OWBaseWidget):
 
                 self.Outputs.photos.send(table_photos)
 
-                # users table
-                unique_observers = list(self.df_obs.user_login.unique())
-                self.df_obs.identifiers = self.df_obs["identifiers"].str.split(", ")
-                all_identifiers = self.df_obs["identifiers"].explode().tolist()
-                all_identifiers = [i for i in all_identifiers if i is not None]
-                unique_identifiers = list(set(all_identifiers))
+                # Optimize users table processing
+                unique_observers = self.df_obs.user_login.unique().tolist()
+                
+                # More efficient identifier processing
+                identifiers_series = self.df_obs["identifiers"].dropna()
+                if not identifiers_series.empty:
+                    all_identifiers_flat = identifiers_series.str.split(", ").explode()
+                    unique_identifiers = all_identifiers_flat.dropna().unique().tolist()
+                    # Clean up temporary data
+                    del all_identifiers_flat
+                else:
+                    unique_identifiers = []
+                
                 total_observers = list(set(unique_identifiers + unique_observers))
+                # Clean up temporary data
+                del identifiers_series
 
                 df_users = pd.DataFrame(
                     {
