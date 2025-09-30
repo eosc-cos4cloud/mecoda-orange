@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.6.1"
+VERSION = "2.6.3"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -26,7 +26,7 @@ KEYWORDS = [
     "data mining",
 ]
 setup(
-    name="mecoda-orange",
+    name="mecoda_orange",
     version=VERSION,
     author=AUTHOR,
     author_email=AUTHOR_EMAIL,
@@ -60,7 +60,7 @@ setup(
         "pandas >= 1.4.4",
         "Orange3 >= 3.31.1",
         "pyodcollect >= 1.1.0",
-        "mecoda-minka >= 1.9.0",
+        "mecoda-minka >= 1.9.3",
         "mecoda-inat >= 1.0.2",
         "smartcitizen-connector == 1.2.0",  # Smart Citizen connector should be fixed at a version
         "nest_asyncio",
