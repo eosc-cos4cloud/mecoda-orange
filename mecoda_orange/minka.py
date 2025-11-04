@@ -344,7 +344,7 @@ class MinkaWidget(OWBaseWidget):
                 self.infoa.setText(f"{len(self.df_obs)} observations gathered")
                 self.infob.setText(f"{len(self.df_photos)} photos gathered")
 
-                self.Outputs.observations.send(table_from_frame(self.df_obs))
+                self.Outputs.observations.send(table_from_frame(self.df_obs.reset_index(drop=True)))
 
                 table_photos = table_from_frame(self.df_photos)
                 for meta in table_photos.domain.metas:
