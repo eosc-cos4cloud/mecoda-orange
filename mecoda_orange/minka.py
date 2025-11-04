@@ -26,9 +26,9 @@ def _get_id_from_name(taxon_name, session):
 
 class MinkaWidget(OWBaseWidget):
     # Widget's name as displayed in the canvas
-    name = "Minka Obs."
+    name = "MINKA Obs."
     # Short widget description
-    description = "Get observations from the Minka API"
+    description = "Get observations from the MINKA API"
 
     # An icon resource file path for this widget
     # (a path relative to the module where this widget is defined)
@@ -225,7 +225,7 @@ class MinkaWidget(OWBaseWidget):
         self.infoa.setText(f"Searching...")
         self.infob.setText(f"Be patient, this could take a while.")
         progress = gui.ProgressBar(self, 3)
-        
+
         try:
             if self.url_project == "":
                 id_project = None
@@ -307,7 +307,6 @@ class MinkaWidget(OWBaseWidget):
                 introduced=introduced,
                 grade=grade,
             )
-            
 
             if len(observations) > 0:
                 self.infoa.setText(f"Processing {len(observations)} observations...")
@@ -317,14 +316,27 @@ class MinkaWidget(OWBaseWidget):
                 if not self.df_obs.empty:
                     self.df_obs["taxon_name"] = self.df_obs["taxon_name"].str.lower()
                 if not self.df_photos.empty:
-                    self.df_photos["taxon_name"] = self.df_photos["taxon_name"].str.lower()
+                    self.df_photos["taxon_name"] = self.df_photos[
+                        "taxon_name"
+                    ].str.lower()
                 # Vectorized URL generation (much faster than apply)
-                self.df_photos["obs_url"] = "https://minka-sdg.org/observations/" + self.df_photos["id"].astype(str)
+                self.df_photos["obs_url"] = (
+                    "https://minka-sdg.org/observations/"
+                    + self.df_photos["id"].astype(str)
+                )
                 # Optimize data type conversions
-                self.df_obs["taxon_id"] = pd.to_numeric(self.df_obs["taxon_id"], errors='coerce').fillna(0)
-                
+                self.df_obs["taxon_id"] = pd.to_numeric(
+                    self.df_obs["taxon_id"], errors="coerce"
+                ).fillna(0)
+
                 # Batch convert to categorical (more efficient)
-                categorical_cols = ["user_login", "taxon_name", "order", "family", "genus"]
+                categorical_cols = [
+                    "user_login",
+                    "taxon_name",
+                    "order",
+                    "family",
+                    "genus",
+                ]
                 for col in categorical_cols:
                     if col in self.df_obs.columns:
                         self.df_obs[col] = pd.Categorical(self.df_obs[col])
@@ -343,7 +355,7 @@ class MinkaWidget(OWBaseWidget):
 
                 # Optimize users table processing
                 unique_observers = self.df_obs.user_login.unique().tolist()
-                
+
                 # More efficient identifier processing
                 identifiers_series = self.df_obs["identifiers"].dropna()
                 if not identifiers_series.empty:
@@ -353,7 +365,7 @@ class MinkaWidget(OWBaseWidget):
                     del all_identifiers_flat
                 else:
                     unique_identifiers = []
-                
+
                 total_observers = list(set(unique_identifiers + unique_observers))
                 # Clean up temporary data
                 del identifiers_series
