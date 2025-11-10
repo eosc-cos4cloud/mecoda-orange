@@ -112,7 +112,7 @@ Y podemos hacer lo mismo con las imágenes, seleccionando una de ellas de Image 
 
 <img src="../images/cc_congress_24.png" alt="save_images" width="600"/>
 
-# Comparación con los datos de iNaturalist de esa especie
+## Comparación con los datos de iNaturalist de esa especie
 
 El paquete MECODA incluye también un widget para acceder a los datos de iNaturalist. Vamos a buscar las observaciones de esta especie en Catalunya. Seleccionamos el widget iNat. Asparagopsis taxiformis tiene el id 208548 en iNat y Catalunya tiene el id 61614. Descargamos los datos así:
 
@@ -124,4 +124,12 @@ El resultado son 23 observaciones:
 
 Podemos explorarlos de la misma forma que hicimos con las observaciones de MINKA:
 
-<img src="../images/cc_congress_27.png" alt="inaturalist_map" width="400"/>
+<img src="../images/cc_congress_27.png" alt="inaturalist_map" width="600"/>
+
+## Workflow resultante
+
+El resultado de este workflow se puede guardar y se puede reproducir con otra especie, simplemente cambiando los datos seleccionados en el primer widget de MINKA Obs.
+
+<img src="../images/cc_congress_28.png" alt="inaturalist_map" width="600"/>
+
+Para guardarlo solo tenemos que pinchar en el menú superior izquierdo en File > Save as y elegir la localización para guardarlo. El archivo guardado tendrá el formato .ows, propio de Orange. Se podrá abrir en Orange únicamente utilizando File > Open.
