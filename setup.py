@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.6.6"
+VERSION = "2.6.7"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -67,7 +67,7 @@ setup(
         "nest_asyncio",
         "pydantic >= 2.4.2",
         "tabulate",
-        "timezonefinder >= 6.5.0",
+        "timezonefinder < 5.0.0",
     ],
     keywords=KEYWORDS,
     include_package_data=True,
