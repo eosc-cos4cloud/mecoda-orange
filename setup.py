@@ -7,7 +7,7 @@ from setuptools import find_packages, setup
 NAME = "Orange3-MECODA"
 DOCUMENTATION_NAME = "Orange MECODA"
 
-VERSION = "2.6.5"
+VERSION = "2.6.6"
 
 AUTHOR = "Ana Alvarez, ICM-CSIC"
 AUTHOR_EMAIL = "ana.alvarez@icm.csic.es"
@@ -25,6 +25,7 @@ KEYWORDS = [
     "orange",
     "data mining",
 ]
+
 setup(
     name="mecoda_orange",
     version=VERSION,
@@ -62,10 +63,11 @@ setup(
         "pyodcollect >= 1.1.0",
         "mecoda-minka >= 1.9.5",
         "mecoda-inat >= 1.0.2",
-        "smartcitizen-connector == 1.2.0",
+        "smartcitizen-connector >= 1.2.0",
         "nest_asyncio",
         "pydantic >= 2.4.2",
         "tabulate",
+        "timezonefinder >= 6.5.0",
     ],
     keywords=KEYWORDS,
     include_package_data=True,
