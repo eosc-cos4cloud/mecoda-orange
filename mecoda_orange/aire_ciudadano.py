@@ -17,17 +17,10 @@ selected_cols = [
     "PM251",
     "PM252",
     "PM1",
-    "CO2",
     "VOC",
     "NOx",
     "Humidity",
     "Temperature",
-    "Noise",
-    "NoisePeak",
-    "RSSI",
-    "Latitude",
-    "Longitude",
-    "InOut",
 ]
 
 
@@ -76,9 +69,8 @@ def get_data(url, selected_cols):
 
     # set format and replace zero values in lat-lon columns
     for col in selected_cols:
-        df_result[col] = df_result[col].astype(float)
-    df_result["Latitude"].replace(0, np.nan, inplace=True)
-    df_result["Longitude"].replace(0, np.nan, inplace=True)
+        if col in df_result.columns:
+            df_result[col] = df_result[col].astype(float)
 
     return df_result
 
@@ -88,6 +80,10 @@ def _wide_table(df, selected_cols):
     df_result = pd.pivot(
         df, index=["station", "date", "time"], columns="metric_name", values="value"
     ).reset_index()
+
+    for col in selected_cols:
+        if col not in df_result.columns:
+            df_result[col] = np.nan 
 
     df_result = df_result[["station", "date", "time"] + selected_cols].reset_index(
         drop=True
